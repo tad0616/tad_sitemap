@@ -18,7 +18,7 @@
                 <{assign var="j" value=$j+1}>
                 <div>
                   <span class="label label-info"><{$i}>-<{$j}></span>
-                  <a href="<{$sub.url}>"><{$sub.name}></a>
+                  <a href="<{$xoops_url}>/modules/<{$map.dirname}>/<{$sub.url}>"><{$sub.name}></a>
                   <{if $sub.description}>  : <{$sub.description}><{/if}>
                 </div>
               <{/if}>
