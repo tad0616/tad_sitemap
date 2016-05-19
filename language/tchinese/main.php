@@ -1,20 +1,11 @@
 <?php
-//  ------------------------------------------------------------------------ //
-// ¥»¼Ò²Õ¥Ñ tad »s§@
-// »s§@¤é´Á¡G2015-05-04
-// $Id:$
-// ------------------------------------------------------------------------- //
-
-//»Ý¥[¤J¼Ò²Õ»y¨t
-define('_TAD_NEED_TADTOOLS','»Ý­n tadtools ¼Ò²Õ¡A¥i¦Ü<a href="http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1" target="_blank">XOOPS»´ÃP¬[</a>¤U¸ü¡C');
-
+//éœ€åŠ å…¥æ¨¡çµ„èªžç³»
+define('_TAD_NEED_TADTOOLS', 'éœ€è¦ tadtools æ¨¡çµ„ï¼Œå¯è‡³<a href="http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1" target="_blank">XOOPSè¼•é¬†æž¶</a>ä¸‹è¼‰ã€‚');
 
 //tad_sitemap-list
-define("_MD_TADSITEMA_URL","³sµ²¦ì¸m");
-define("_MD_TADSITEMA_DESCRIPTION","¬ÛÃö»¡©ú");
-define("_MD_TADSITEMA_LAST_UPDATE","³Ì«á§ó·s");
-define("_MD_TADSITEMA_SHOW_MID_FILES","");
-define("_MD_TADSITEMA_NAME","¶µ¥Ø¦WºÙ");
-define("_MD_TADSITEMA_SMNAME1", "ºô¯¸¦a¹Ï");
-
-?>
+define("_MD_TADSITEMA_URL", "é€£çµä½ç½®");
+define("_MD_TADSITEMA_DESCRIPTION", "ç›¸é—œèªªæ˜Ž");
+define("_MD_TADSITEMA_LAST_UPDATE", "æœ€å¾Œæ›´æ–°");
+define("_MD_TADSITEMA_SHOW_MID_FILES", "");
+define("_MD_TADSITEMA_NAME", "é …ç›®åç¨±");
+define("_MD_TADSITEMA_SMNAME1", "ç¶²ç«™åœ°åœ–");

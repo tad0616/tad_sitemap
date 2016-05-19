@@ -1,9 +1,4 @@
 <?php
-//  ------------------------------------------------------------------------ //
-// 本模組由 tad 製作
-// 製作日期：2015-05-04
-// $Id:$
-// ------------------------------------------------------------------------- //
 include_once XOOPS_ROOT_PATH . '/modules/tadtools/language/' . $xoopsConfig['language'] . '/modinfo_common.php';
 
 define('_MI_TADSITEMA_NAME', '網站地圖');

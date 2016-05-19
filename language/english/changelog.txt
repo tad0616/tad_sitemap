@@ -1,3 +1,10 @@
+tad_sitemap 1.1 version released 2016-05-18
+ =================================================
+1. Support PHP7
+2. Remove BootStrap2
+3. Fixed sitemap link
+4. Fixed PHP syntax specification to conform PSR2
+
 tad_sitemap 1.0 version released 2015-05-05
 =================================================
 1. The official release (to be with the latest version tadtools 2.67)
