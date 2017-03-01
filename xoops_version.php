@@ -9,7 +9,7 @@ $modversion = array();
 
 //---模組基本資訊---//
 $modversion['name']        = _MI_TADSITEMA_NAME;
-$modversion['version']     = '1.1';
+$modversion['version']     = '1.2';
 $modversion['description'] = _MI_TADSITEMA_DESC;
 $modversion['author']      = _MI_TADSITEMA_AUTHOR;
 $modversion['credits']     = _MI_TADSITEMA_CREDITS;
@@ -19,8 +19,7 @@ $modversion['image']       = "images/logo_{$xoopsConfig['language']}.png";
 $modversion['dirname']     = basename(dirname(__FILE__));
 
 //---模組狀態資訊---//
-$modversion['status_version']      = '1.1';
-$modversion['release_date']        = '2016-05-18';
+$modversion['release_date']        = '2017-01-08';
 $modversion['module_website_url']  = 'http://tad0616.net';
 $modversion['module_website_name'] = _MI_TADSITEMA_AUTHOR_WEB;
 $modversion['module_status']       = 'release';
@@ -59,12 +58,12 @@ $i                     = 0;
 
 //---樣板設定---//
 $i                                          = 0;
-$modversion['templates'][$i]['file']        = 'tad_sitemap_adm_main_b3.html';
-$modversion['templates'][$i]['description'] = 'tad_sitemap_adm_main_b3.html for bootstrap3';
+$modversion['templates'][$i]['file']        = 'tad_sitemap_adm_main.tpl';
+$modversion['templates'][$i]['description'] = 'tad_sitemap_adm_main.tpl for bootstrap3';
 
 $i++;
-$modversion['templates'][$i]['file']        = 'tad_sitemap_index_b3.html';
-$modversion['templates'][$i]['description'] = 'tad_sitemap_index_b3.html';
+$modversion['templates'][$i]['file']        = 'tad_sitemap_index.tpl';
+$modversion['templates'][$i]['description'] = 'tad_sitemap_index.tpl';
 
 //---偏好設定---//
 $i++;

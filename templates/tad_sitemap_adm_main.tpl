@@ -36,13 +36,13 @@
               <{foreach from=$map.item item=sub}>
                 <{assign var="j" value=$j+1}>
                 <div class="row">
-                  <div class="col-md-3">
+                  <div class="col-sm-3">
                     <input type="text" name="name[<{$sub.mid}>][<{$sub.sort}>]" value="<{$sub.name}>" class="form-control" placeholder="<{$smarty.const._MA_TADSITEMA_CLEAN}>" >
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-sm-6">
                     <input type="text" name="description[<{$sub.mid}>][<{$sub.sort}>]" value="<{$sub.description}>" class="form-control" placeholder="<{$smarty.const._MA_TADSITEMA_INPUT_DESC}>">
                   </div>
-                  <div class="col-md-3">
+                  <div class="col-sm-3">
                     <{$sub.url}>
                   </div>
                 </div>
