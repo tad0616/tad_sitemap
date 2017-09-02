@@ -62,7 +62,7 @@ function list_tad_sitemap()
 
 /*-----------執行動作判斷區----------*/
 $op      = empty($_REQUEST['op']) ? "" : $_REQUEST['op'];
-$midname = empty($_REQUEST['midname']) ? "" : intval($_REQUEST['midname']);
+$midname = empty($_REQUEST['midname']) ? "" : (int)$_REQUEST['midname'];
 
 switch ($op) {
     /*---判斷動作請貼在下方---*/
