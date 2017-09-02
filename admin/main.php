@@ -11,7 +11,7 @@ include_once "../function.php";
 function tad_sitemap_max_sort()
 {
     global $xoopsDB;
-    $sql        = "select max(`sort`) from `" . $xoopsDB->prefix("tad_sitemap") . "`";
+    $sql = "SELECT max(`sort`) FROM `" . $xoopsDB->prefix("tad_sitemap") . "`";
     $result     = $xoopsDB->query($sql) or web_error($sql);
     list($sort) = $xoopsDB->fetchRow($result);
     return ++$sort;
@@ -45,7 +45,7 @@ function insert_tad_sitemap()
         redirect_header($_SERVER['PHP_SELF'], 3, $error);
     }
 
-    $myts                 = &MyTextSanitizer::getInstance();
+    $myts                 = MyTextSanitizer::getInstance();
     $_POST['name']        = $myts->addSlashes($_POST['name']);
     $_POST['url']         = $myts->addSlashes($_POST['url']);
     $_POST['description'] = $myts->addSlashes($_POST['description']);
@@ -70,7 +70,7 @@ function update_tad_sitemap($mid_name = "")
         redirect_header($_SERVER['PHP_SELF'], 3, _TAD_PERMISSION_DENIED);
     }
 
-    $myts = &MyTextSanitizer::getInstance();
+    $myts = MyTextSanitizer::getInstance();
     foreach ($_POST['name'] as $mid => $item) {
         foreach ($item as $sort => $name) {
             $name        = $myts->addSlashes($name);
@@ -109,9 +109,9 @@ function list_tad_sitemap()
 {
     global $xoopsDB, $xoopsTpl, $isAdmin;
 
-    $myts = &MyTextSanitizer::getInstance();
+    $myts = MyTextSanitizer::getInstance();
 
-    $sql    = "select * from " . $xoopsDB->prefix("modules") . " where isactive='1' and hasmain='1' and weight!='0' order by weight,last_update";
+    $sql = "SELECT * FROM " . $xoopsDB->prefix("modules") . " WHERE isactive='1' AND hasmain='1' AND weight!='0' ORDER BY weight,last_update";
     $result = $xoopsDB->query($sql) or web_error($sql);
 
     $all_content = "";
@@ -184,7 +184,7 @@ function update_tad_sitemap_sort()
 function auto_sitemap()
 {
     global $xoopsDB, $xoopsTpl;
-    $sql    = "select * from " . $xoopsDB->prefix("modules") . " where isactive='1' and hasmain='1' and weight!='0' order by weight,last_update";
+    $sql = "SELECT * FROM " . $xoopsDB->prefix("modules") . " WHERE isactive='1' AND hasmain='1' AND weight!='0' ORDER BY weight,last_update";
     $result = $xoopsDB->query($sql) or web_error($sql);
 
     $sitemap = "";
@@ -199,7 +199,7 @@ function get_submenu($dirname = "", $mid = "")
 {
     global $xoopsDB;
 
-    $myts        = &MyTextSanitizer::getInstance();
+    $myts        = MyTextSanitizer::getInstance();
     $modhandler  = &xoops_gethandler('module');
     $xoopsModule = &$modhandler->getByDirname($dirname);
     //$mod_id=$xoopsModule->getVar('mid');
@@ -225,7 +225,7 @@ function get_tadmenu($dirname = "", $mid = "", $i = 0, $mod_name = "")
     global $xoopsDB, $xoopsModule, $xoopsUser;
     $filename = XOOPS_ROOT_PATH . "/uploads/menu_{$dirname}.txt";
 
-    $myts = &MyTextSanitizer::getInstance();
+    $myts = MyTextSanitizer::getInstance();
     if (!file_exists($filename)) {
         file(XOOPS_URL . "/modules/{$dirname}/index.php");
     }

@@ -12,9 +12,9 @@ function list_tad_sitemap()
 {
     global $xoopsDB, $xoopsTpl, $isAdmin, $xoopsModuleConfig;
 
-    $myts = &MyTextSanitizer::getInstance();
+    $myts = MyTextSanitizer::getInstance();
 
-    $sql    = "select * from " . $xoopsDB->prefix("modules") . " where isactive='1' and hasmain='1' and weight!='0' order by weight,last_update";
+    $sql = "SELECT * FROM " . $xoopsDB->prefix("modules") . " WHERE isactive='1' AND hasmain='1' AND weight!='0' ORDER BY weight,last_update";
     $result = $xoopsDB->query($sql) or web_error($sql);
 
     $all_content = "";
