@@ -200,8 +200,8 @@ function get_submenu($dirname = "", $mid = "")
     global $xoopsDB;
 
     $myts        = MyTextSanitizer::getInstance();
-    $modhandler  = &xoops_gethandler('module');
-    $xoopsModule = &$modhandler->getByDirname($dirname);
+    $modhandler  = xoops_getHandler('module');
+    $xoopsModule = $modhandler->getByDirname($dirname);
     //$mod_id=$xoopsModule->getVar('mid');
     $interface_menu = $xoopsModule->subLink();
     $now            = date("Y-m-d H:i:s");
