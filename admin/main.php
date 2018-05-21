@@ -11,7 +11,7 @@ include_once "../function.php";
 function tad_sitemap_max_sort()
 {
     global $xoopsDB;
-    $sql = "SELECT max(`sort`) FROM `" . $xoopsDB->prefix("tad_sitemap") . "`";
+    $sql        = "SELECT max(`sort`) FROM `" . $xoopsDB->prefix("tad_sitemap") . "`";
     $result     = $xoopsDB->query($sql) or web_error($sql);
     list($sort) = $xoopsDB->fetchRow($result);
     return ++$sort;
@@ -111,10 +111,10 @@ function list_tad_sitemap()
 
     $myts = MyTextSanitizer::getInstance();
 
-    $sql = "SELECT * FROM " . $xoopsDB->prefix("modules") . " WHERE isactive='1' AND hasmain='1' AND weight!='0' ORDER BY weight,last_update";
+    $sql    = "SELECT * FROM " . $xoopsDB->prefix("modules") . " WHERE isactive='1' AND hasmain='1' AND weight!='0' ORDER BY weight,last_update";
     $result = $xoopsDB->query($sql) or web_error($sql);
 
-    $all_content = "";
+    $all_content = array();
     $i           = 0;
     while ($all = $xoopsDB->fetchArray($result)) {
 
@@ -122,7 +122,7 @@ function list_tad_sitemap()
         $result2 = $xoopsDB->query($sql2) or web_error($sql);
 
         $j    = 0;
-        $item = "";
+        $item = array();
         while ($all2 = $xoopsDB->fetchArray($result2)) {
             foreach ($all2 as $k => $v) {
                 $$k = $v;
@@ -184,10 +184,9 @@ function update_tad_sitemap_sort()
 function auto_sitemap()
 {
     global $xoopsDB, $xoopsTpl;
-    $sql = "SELECT * FROM " . $xoopsDB->prefix("modules") . " WHERE isactive='1' AND hasmain='1' AND weight!='0' ORDER BY weight,last_update";
+    $sql    = "SELECT * FROM " . $xoopsDB->prefix("modules") . " WHERE isactive='1' AND hasmain='1' AND weight!='0' ORDER BY weight,last_update";
     $result = $xoopsDB->query($sql) or web_error($sql);
 
-    $sitemap = "";
     while ($all = $xoopsDB->fetchArray($result)) {
         $i = get_submenu($all['dirname'], $all['mid']);
         get_tadmenu($all['dirname'], $all['mid'], $i, $all['name']);
@@ -249,7 +248,7 @@ function get_tadmenu($dirname = "", $mid = "", $i = 0, $mod_name = "")
 
 /*-----------執行動作判斷區----------*/
 $op      = empty($_REQUEST['op']) ? "" : $_REQUEST['op'];
-$midname = empty($_REQUEST['midname']) ? "" : (int)$_REQUEST['midname'];
+$midname = empty($_REQUEST['midname']) ? "" : (int) $_REQUEST['midname'];
 
 switch ($op) {
     /*---判斷動作請貼在下方---*/

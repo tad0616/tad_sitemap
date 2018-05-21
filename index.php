@@ -14,10 +14,10 @@ function list_tad_sitemap()
 
     $myts = MyTextSanitizer::getInstance();
 
-    $sql = "SELECT * FROM " . $xoopsDB->prefix("modules") . " WHERE isactive='1' AND hasmain='1' AND weight!='0' ORDER BY weight,last_update";
+    $sql    = "SELECT * FROM " . $xoopsDB->prefix("modules") . " WHERE isactive='1' AND hasmain='1' AND weight!='0' ORDER BY weight,last_update";
     $result = $xoopsDB->query($sql) or web_error($sql);
 
-    $all_content = "";
+    $all_content = array();
     $i           = 0;
     while ($all = $xoopsDB->fetchArray($result)) {
 
@@ -25,7 +25,7 @@ function list_tad_sitemap()
         $result2 = $xoopsDB->query($sql2) or web_error($sql);
 
         $j    = 0;
-        $item = "";
+        $item = array();
         while ($all2 = $xoopsDB->fetchArray($result2)) {
             foreach ($all2 as $k => $v) {
                 $$k = $v;
@@ -62,7 +62,7 @@ function list_tad_sitemap()
 
 /*-----------執行動作判斷區----------*/
 $op      = empty($_REQUEST['op']) ? "" : $_REQUEST['op'];
-$midname = empty($_REQUEST['midname']) ? "" : (int)$_REQUEST['midname'];
+$midname = empty($_REQUEST['midname']) ? "" : (int) $_REQUEST['midname'];
 
 switch ($op) {
     /*---判斷動作請貼在下方---*/
