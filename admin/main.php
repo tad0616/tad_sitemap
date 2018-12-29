@@ -12,7 +12,7 @@ function tad_sitemap_max_sort()
 {
     global $xoopsDB;
     $sql        = "SELECT max(`sort`) FROM `" . $xoopsDB->prefix("tad_sitemap") . "`";
-    $result     = $xoopsDB->query($sql) or web_error($sql);
+    $result     = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
     list($sort) = $xoopsDB->fetchRow($result);
     return ++$sort;
 }
@@ -26,7 +26,7 @@ function get_tad_sitemap($mid_name = "")
     }
 
     $sql    = "select * from `" . $xoopsDB->prefix("tad_sitemap") . "` where `mid_name` = '{$mid_name}'";
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
     $data   = $xoopsDB->fetchArray($result);
     return $data;
 }
@@ -53,7 +53,7 @@ function insert_tad_sitemap()
     $sql = "insert into `" . $xoopsDB->prefix("tad_sitemap") . "`
   (`mid` , `name` , `url` , `description` , `last_update` , `sort`)
   values('{$_POST['mid']}' , '{$_POST['name']}' , '{$_POST['url']}' , '{$_POST['description']}' , '" . date("Y-m-d H:i:s", xoops_getUserTimestamp(time())) . "' , '{$_POST['sort']}')";
-    $xoopsDB->query($sql) or web_error($sql);
+    $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
 
     //取得最後新增資料的流水編號
     $mid_name = $xoopsDB->getInsertId();
@@ -81,7 +81,7 @@ function update_tad_sitemap($mid_name = "")
        `description` = '{$description}' ,
        `last_update` = '" . date("Y-m-d H:i:s", xoops_getUserTimestamp(time())) . "'
       where `mid` = '$mid' and `sort` = '$sort'";
-            $xoopsDB->queryF($sql) or web_error($sql);
+            $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
         }
     }
 
@@ -100,7 +100,7 @@ function delete_tad_sitemap($mid_name = "")
     }
 
     $sql = "delete from `" . $xoopsDB->prefix("tad_sitemap") . "` where `mid_name` = '{$mid_name}'";
-    $xoopsDB->queryF($sql) or web_error($sql);
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
 
 }
 
@@ -112,14 +112,14 @@ function list_tad_sitemap()
     $myts = MyTextSanitizer::getInstance();
 
     $sql    = "SELECT * FROM " . $xoopsDB->prefix("modules") . " WHERE isactive='1' AND hasmain='1' AND weight!='0' ORDER BY weight,last_update";
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
 
     $all_content = array();
     $i           = 0;
     while ($all = $xoopsDB->fetchArray($result)) {
 
         $sql2    = "select * from " . $xoopsDB->prefix("tad_sitemap") . " where mid='{$all['mid']}' order by `sort`";
-        $result2 = $xoopsDB->query($sql2) or web_error($sql);
+        $result2 = $xoopsDB->query($sql2) or web_error($sql, __FILE__, _LINE__);
 
         $j    = 0;
         $item = array();
@@ -185,7 +185,7 @@ function auto_sitemap()
 {
     global $xoopsDB, $xoopsTpl;
     $sql    = "SELECT * FROM " . $xoopsDB->prefix("modules") . " WHERE isactive='1' AND hasmain='1' AND weight!='0' ORDER BY weight,last_update";
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
 
     while ($all = $xoopsDB->fetchArray($result)) {
         $i = get_submenu($all['dirname'], $all['mid']);
@@ -213,7 +213,7 @@ function get_submenu($dirname = "", $mid = "")
         $url  = $myts->addSlashes($url);
 
         $sql = "replace into `" . $xoopsDB->prefix("tad_sitemap") . "`  (`mid`, `name` , `url` , `description` , `last_update` , `sort`)  values('{$mid}' , '{$name}' , '{$url}' , '' , '{$now}', '{$i}')";
-        $xoopsDB->queryF($sql) or web_error($sql);
+        $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
         $i++;
     }
     return $i;
@@ -240,7 +240,7 @@ function get_tadmenu($dirname = "", $mid = "", $i = 0, $mod_name = "")
             $name = $myts->addSlashes($name);
             $url  = $myts->addSlashes($url);
             $sql  = "replace into `" . $xoopsDB->prefix("tad_sitemap") . "`  (`mid`, `name` , `url` , `description` , `last_update` , `sort`)  values('{$mid}' , '{$name}' , '{$url}' , '' , '{$now}', '{$i}')";
-            $xoopsDB->queryF($sql) or web_error($sql);
+            $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
             $i++;
         }
     }

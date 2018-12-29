@@ -15,14 +15,14 @@ function list_tad_sitemap()
     $myts = MyTextSanitizer::getInstance();
 
     $sql    = "SELECT * FROM " . $xoopsDB->prefix("modules") . " WHERE isactive='1' AND hasmain='1' AND weight!='0' ORDER BY weight,last_update";
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
 
     $all_content = array();
     $i           = 0;
     while ($all = $xoopsDB->fetchArray($result)) {
 
         $sql2    = "select * from " . $xoopsDB->prefix("tad_sitemap") . " where mid='{$all['mid']}' order by `sort`";
-        $result2 = $xoopsDB->query($sql2) or web_error($sql);
+        $result2 = $xoopsDB->query($sql2) or web_error($sql, __FILE__, _LINE__);
 
         $j    = 0;
         $item = array();
