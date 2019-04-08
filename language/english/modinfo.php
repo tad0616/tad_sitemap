@@ -13,7 +13,7 @@ define('_MI_TADSITEMA_ABOUT_SITE_DESC', 'Site Map Description');
 define('_MI_TADSITEMA_ABOUT_SITE_DEFAULT', '<p>Alt+L : Left Zone<br>Alt+C : Content and Center Zone.<br>Alt+R : Right Zone<br>Alt+U : Nav Bar<br></p>');
 
 define('_MI_TADSITEMA_DIRNAME', basename(dirname(dirname(__DIR__))));
-define('_MI_TADSITEMA_HELP_HEADER', __DIR__ . '/help/helpheader.html');
+define('_MI_TADSITEMA_HELP_HEADER', __DIR__ . '/help/helpheader.tpl');
 define('_MI_TADSITEMA_BACK_2_ADMIN', 'Back to Administration of ');
 
 //help
