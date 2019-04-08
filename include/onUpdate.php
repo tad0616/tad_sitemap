@@ -1,94 +1,116 @@
 <?php
 /*
-function xoops_module_update_¼Ò²Õ¥Ø¿ý(&$module, $old_version) {
-GLOBAL $xoopsDB;
+function xoops_module_update_æ¨¡çµ„ç›®éŒ„(&$module, $old_version) {
+    GLOBAL $xoopsDB;
 
-//if(!chk_chk1()) go_update1();
+    //if(!chk_chk1()) go_update1();
 
-return true;
+    return true;
 }
 
-//ÀË¬d¬YÄæ¦ì¬O§_¦s¦b
+//æª¢æŸ¥æŸæ¬„ä½æ˜¯å¦å­˜åœ¨
 function chk_chk1(){
-global $xoopsDB;
-$sql="select count(`Äæ¦ì`) from ".$xoopsDB->prefix("¸ê®Æªí");
-$result=$xoopsDB->query($sql);
-if(empty($result)) return false;
-return true;
+  global $xoopsDB;
+  $sql="select count(`æ¬„ä½`) from ".$xoopsDB->prefix("è³‡æ–™è¡¨");
+  $result=$xoopsDB->query($sql);
+  if(empty($result)) return false;
+  return true;
 }
 
-//°õ¦æ§ó·s
+//åŸ·è¡Œæ›´æ–°
 function go_update1(){
-global $xoopsDB;
-$sql="ALTER TABLE ".$xoopsDB->prefix("¸ê®Æªí")." ADD `Äæ¦ì` smallint(5) NOT NULL";
-$xoopsDB->queryF($sql) or redirect_header(XOOPS_URL,3,  $xoopsDB->error());
+  global $xoopsDB;
+  $sql="ALTER TABLE ".$xoopsDB->prefix("è³‡æ–™è¡¨")." ADD `æ¬„ä½` smallint(5) NOT NULL";
+  $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL,3,  mysql_error());
 
-return true;
-}
-
-//«Ø¥ß¥Ø¿ý
-function mk_dir($dir=""){
-//­YµL¥Ø¿ý¦WºÙ¨q¥XÄµ§i°T®§
-if(empty($dir))return;
-//­Y¥Ø¿ý¤£¦s¦bªº¸Ü«Ø¥ß¥Ø¿ý
-if (!is_dir($dir)) {
-umask(000);
-//­Y«Ø¥ß¥¢±Ñ¨q¥XÄµ§i°T®§
-mkdir($dir, 0777);
-}
+  return true;
 }
 
-//«þ¨©¥Ø¿ý
-function full_copy( $source="", $target=""){
-if ( is_dir( $source ) ){
-@mkdir( $target );
-$d = dir( $source );
-while ( FALSE !== ( $entry = $d->read() ) ){
-if ( $entry == '.' || $entry == '..' ){
-continue;
+
+
+//å»ºç«‹ç›®éŒ„
+if (!function_exists('mk_dir')) {
+    function mk_dir($dir = "")
+    {
+        //è‹¥ç„¡ç›®éŒ„åç¨±ç§€å‡ºè­¦å‘Šè¨Šæ¯
+        if (empty($dir)) {
+            return;
+        }
+
+        //è‹¥ç›®éŒ„ä¸å­˜åœ¨çš„è©±å»ºç«‹ç›®éŒ„
+        if (!is_dir($dir)) {
+            umask(000);
+            //è‹¥å»ºç«‹å¤±æ•—ç§€å‡ºè­¦å‘Šè¨Šæ¯
+            mkdir($dir, 0777);
+        }
+    }
 }
 
-$Entry = $source . '/' . $entry;
-if ( is_dir( $Entry ) ) {
-full_copy( $Entry, $target . '/' . $entry );
-continue;
-}
-copy( $Entry, $target . '/' . $entry );
-}
-$d->close();
-}else{
-copy( $source, $target );
-}
+//æ‹·è²ç›®éŒ„
+if (!function_exists('full_copy')) {
+    function full_copy($source = "", $target = "")
+    {
+        if (is_dir($source)) {
+            @mkdir($target);
+            $d = dir($source);
+            while (false !== ($entry = $d->read())) {
+                if ($entry == '.' || $entry == '..') {
+                    continue;
+                }
+
+                $Entry = $source . '/' . $entry;
+                if (is_dir($Entry)) {
+                    full_copy($Entry, $target . '/' . $entry);
+                    continue;
+                }
+                copy($Entry, $target . '/' . $entry);
+            }
+            $d->close();
+        } else {
+            copy($source, $target);
+        }
+    }
 }
 
-function rename_win($oldfile,$newfile) {
-if (!rename($oldfile,$newfile)) {
-if (copy ($oldfile,$newfile)) {
-unlink($oldfile);
-return TRUE;
-}
-return FALSE;
-}
-return TRUE;
-}
-
-function delete_directory($dirname) {
-if (is_dir($dirname))
-$dir_handle = opendir($dirname);
-if (!$dir_handle)
-return false;
-while($file = readdir($dir_handle)) {
-if ($file != "." && $file != "..") {
-if (!is_dir($dirname."/".$file))
-unlink($dirname."/".$file);
-else
-delete_directory($dirname.'/'.$file);
-}
-}
-closedir($dir_handle);
-rmdir($dirname);
-return true;
+if (!function_exists('rename_win')) {
+    function rename_win($oldfile, $newfile)
+    {
+        if (!rename($oldfile, $newfile)) {
+            if (copy($oldfile, $newfile)) {
+                unlink($oldfile);
+                return true;
+            }
+            return false;
+        }
+        return true;
+    }
 }
 
- */
-?>
+if (!function_exists('delete_directory')) {
+    function delete_directory($dirname)
+    {
+        if (is_dir($dirname)) {
+            $dir_handle = opendir($dirname);
+        }
+
+        if (!$dir_handle) {
+            return false;
+        }
+
+        while ($file = readdir($dir_handle)) {
+            if ($file != "." && $file != "..") {
+                if (!is_dir($dirname . "/" . $file)) {
+                    unlink($dirname . "/" . $file);
+                } else {
+                    delete_directory($dirname . '/' . $file);
+                }
+            }
+        }
+        closedir($dir_handle);
+        rmdir($dirname);
+        return true;
+    }
+}
+
+
+*/

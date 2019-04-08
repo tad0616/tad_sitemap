@@ -9,7 +9,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * @copyright  The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright  XOOPS Project (https://xoops.org)
  * @license    http://www.fsf.org/copyleft/gpl.html GNU public license
  * @package    TadSiteMap
  * @since      2.5.0
@@ -29,11 +29,6 @@ if (!@include_once XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->getVar("dirname
 if (!isset($xoopsTpl) || !is_object($xoopsTpl)) {
     include_once XOOPS_ROOT_PATH . '/class/template.php';
     $xoopsTpl = new XoopsTpl();
-}
-
-if (file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/include/beforeheader.php")) {
-    include_once XOOPS_ROOT_PATH . "/modules/tadtools/include/beforeheader.php";
-    $xoopsOption['template_main'] = set_bootstrap();
 }
 
 xoops_cp_header();

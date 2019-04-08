@@ -1,32 +1,25 @@
 <?php
-//  ------------------------------------------------------------------------ //
-// 本模組由 tad 製作
-// 製作日期：2015-05-04
-// $Id:$
-// ------------------------------------------------------------------------- //
-
 $modversion = array();
 
 //---模組基本資訊---//
 $modversion['name']        = _MI_TADSITEMA_NAME;
-$modversion['version']     = '1.1';
+$modversion['version']     = '1.4';
 $modversion['description'] = _MI_TADSITEMA_DESC;
 $modversion['author']      = _MI_TADSITEMA_AUTHOR;
 $modversion['credits']     = _MI_TADSITEMA_CREDITS;
 $modversion['help']        = 'page=help';
 $modversion['license']     = 'GPL see LICENSE';
 $modversion['image']       = "images/logo_{$xoopsConfig['language']}.png";
-$modversion['dirname']     = basename(dirname(__FILE__));
+$modversion['dirname']     = basename(__DIR__);
 
 //---模組狀態資訊---//
-$modversion['status_version']      = '1.1';
-$modversion['release_date']        = '2016-05-18';
-$modversion['module_website_url']  = 'http://tad0616.net';
+$modversion['release_date']        = '2019-01-01';
+$modversion['module_website_url']  = 'https://tad0616.net';
 $modversion['module_website_name'] = _MI_TADSITEMA_AUTHOR_WEB;
 $modversion['module_status']       = 'release';
-$modversion['author_website_url']  = 'http://tad0616.net';
+$modversion['author_website_url']  = 'https://tad0616.net';
 $modversion['author_website_name'] = _MI_TADSITEMA_AUTHOR_WEB;
-$modversion['min_php']             = 5.3;
+$modversion['min_php']             = 5.4;
 $modversion['min_xoops']           = '2.5';
 
 //---paypal資訊---//
@@ -59,12 +52,12 @@ $i                     = 0;
 
 //---樣板設定---//
 $i                                          = 0;
-$modversion['templates'][$i]['file']        = 'tad_sitemap_adm_main_b3.html';
-$modversion['templates'][$i]['description'] = 'tad_sitemap_adm_main_b3.html for bootstrap3';
+$modversion['templates'][$i]['file']        = 'tad_sitemap_adm_main.tpl';
+$modversion['templates'][$i]['description'] = 'tad_sitemap_adm_main.tpl for bootstrap3';
 
 $i++;
-$modversion['templates'][$i]['file']        = 'tad_sitemap_index_b3.html';
-$modversion['templates'][$i]['description'] = 'tad_sitemap_index_b3.html';
+$modversion['templates'][$i]['file']        = 'tad_sitemap_index.tpl';
+$modversion['templates'][$i]['description'] = 'tad_sitemap_index.tpl';
 
 //---偏好設定---//
 $i++;

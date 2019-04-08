@@ -2,7 +2,7 @@
 
 /*-----------引入檔案區--------------*/
 include "header.php";
-$xoopsOption['template_main'] = set_bootstrap('tad_sitemap_index.html');
+$xoopsOption['template_main'] = 'tad_sitemap_index.tpl';
 include_once XOOPS_ROOT_PATH . "/header.php";
 
 /*-----------功能函數區--------------*/
@@ -12,20 +12,20 @@ function list_tad_sitemap()
 {
     global $xoopsDB, $xoopsTpl, $isAdmin, $xoopsModuleConfig;
 
-    $myts = &MyTextSanitizer::getInstance();
+    $myts = MyTextSanitizer::getInstance();
 
-    $sql    = "select * from " . $xoopsDB->prefix("modules") . " where isactive='1' and hasmain='1' and weight!='0' order by weight,last_update";
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $sql    = "SELECT * FROM " . $xoopsDB->prefix("modules") . " WHERE isactive='1' AND hasmain='1' AND weight!='0' ORDER BY weight,last_update";
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
-    $all_content = "";
+    $all_content = array();
     $i           = 0;
     while ($all = $xoopsDB->fetchArray($result)) {
 
         $sql2    = "select * from " . $xoopsDB->prefix("tad_sitemap") . " where mid='{$all['mid']}' order by `sort`";
-        $result2 = $xoopsDB->query($sql2) or web_error($sql);
+        $result2 = $xoopsDB->query($sql2) or web_error($sql, __FILE__, __LINE__);
 
         $j    = 0;
-        $item = "";
+        $item = array();
         while ($all2 = $xoopsDB->fetchArray($result2)) {
             foreach ($all2 as $k => $v) {
                 $$k = $v;
@@ -62,7 +62,7 @@ function list_tad_sitemap()
 
 /*-----------執行動作判斷區----------*/
 $op      = empty($_REQUEST['op']) ? "" : $_REQUEST['op'];
-$midname = empty($_REQUEST['midname']) ? "" : intval($_REQUEST['midname']);
+$midname = empty($_REQUEST['midname']) ? "" : (int) $_REQUEST['midname'];
 
 switch ($op) {
     /*---判斷動作請貼在下方---*/
