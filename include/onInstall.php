@@ -1,5 +1,8 @@
 <?php
 /*
+
+use XoopsModules\Tad_sitemap\Utility;
+
 function xoops_module_install_模組目錄(&$module) {
 
   mk_dir(XOOPS_ROOT_PATH."/uploads/模組目錄");

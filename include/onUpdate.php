@@ -1,9 +1,12 @@
 <?php
 /*
+
+use XoopsModules\Tad_sitemap\Utility;
+
 function xoops_module_update_模組目錄(&$module, $old_version) {
     GLOBAL $xoopsDB;
 
-    //if(!chk_chk1()) go_update1();
+    //if(!tad_sitemap_chk_chk1()) tad_sitemap_go_update1();
 
     return true;
 }
@@ -102,7 +105,7 @@ if (!function_exists('delete_directory')) {
                 if (!is_dir($dirname . "/" . $file)) {
                     unlink($dirname . "/" . $file);
                 } else {
-                    delete_directory($dirname . '/' . $file);
+                    tad_sitemap_delete_directory($dirname . '/' . $file);
                 }
             }
         }
