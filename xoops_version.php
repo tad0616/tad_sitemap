@@ -1,5 +1,5 @@
 <?php
-$modversion = array();
+$modversion = [];
 
 //---模組基本資訊---//
 $modversion['name']        = _MI_TADSITEMA_NAME;
@@ -23,7 +23,7 @@ $modversion['min_php']             = 5.4;
 $modversion['min_xoops']           = '2.5';
 
 //---paypal資訊---//
-$modversion['paypal']                  = array();
+$modversion['paypal']                  = [];
 $modversion['paypal']['business']      = 'tad0616@gmail.com';
 $modversion['paypal']['item_name']     = 'Donation :' . _MI_TADSITEMA_AUTHOR;
 $modversion['paypal']['amount']        = 0;

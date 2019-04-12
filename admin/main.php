@@ -114,7 +114,7 @@ function list_tad_sitemap()
     $sql    = "SELECT * FROM " . $xoopsDB->prefix("modules") . " WHERE isactive='1' AND hasmain='1' AND weight!='0' ORDER BY weight,last_update";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
-    $all_content = array();
+    $all_content = [];
     $i           = 0;
     while ($all = $xoopsDB->fetchArray($result)) {
 
@@ -122,7 +122,7 @@ function list_tad_sitemap()
         $result2 = $xoopsDB->query($sql2) or web_error($sql, __FILE__, __LINE__);
 
         $j    = 0;
-        $item = array();
+        $item = [];
         while ($all2 = $xoopsDB->fetchArray($result2)) {
             foreach ($all2 as $k => $v) {
                 $$k = $v;
