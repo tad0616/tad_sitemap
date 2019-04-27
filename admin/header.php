@@ -25,7 +25,7 @@ $moduleDirName = basename(dirname(__DIR__));
 xoops_loadLanguage('main', $moduleDirName);
 
 if (!isset($xoopsTpl) || !is_object($xoopsTpl)) {
-    include_once XOOPS_ROOT_PATH . '/class/template.php';
+    require_once XOOPS_ROOT_PATH . '/class/template.php';
     $xoopsTpl = new \XoopsTpl();
 }
 

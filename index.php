@@ -1,9 +1,9 @@
 <?php
 
 /*-----------引入檔案區--------------*/
-include 'header.php';
-$xoopsOption['template_main'] = 'tad_sitemap_index.tpl';
-include_once XOOPS_ROOT_PATH . '/header.php';
+$GLOBALS['xoopsOption']['template_main'] = 'tad_sitemap_index.tpl';
+require __DIR__ . '/header.php';
+require_once XOOPS_ROOT_PATH . '/header.php';
 
 /*-----------功能函數區--------------*/
 
@@ -19,13 +19,13 @@ function list_tad_sitemap()
 
     $all_content = [];
     $i = 0;
-    while ($all = $xoopsDB->fetchArray($result)) {
+    while (false !== ($all = $xoopsDB->fetchArray($result))) {
         $sql2 = 'select * from ' . $xoopsDB->prefix('tad_sitemap') . " where mid='{$all['mid']}' order by `sort`";
         $result2 = $xoopsDB->query($sql2) or web_error($sql, __FILE__, __LINE__);
 
         $j = 0;
         $item = [];
-        while ($all2 = $xoopsDB->fetchArray($result2)) {
+        while (false !== ($all2 = $xoopsDB->fetchArray($result2))) {
             foreach ($all2 as $k => $v) {
                 $$k = $v;
             }
@@ -73,4 +73,4 @@ switch ($op) {
 /*-----------秀出結果區--------------*/
 $xoopsTpl->assign('toolbar', toolbar_bootstrap($interface_menu));
 $xoopsTpl->assign('isAdmin', $isAdmin);
-include_once XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';
