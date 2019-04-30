@@ -5,7 +5,6 @@
 <{if $now_op=="list_tad_sitemap"}>
   <{if $all_content}>
     <{if $isAdmin}>
-      <{$delete_tad_sitemap_func}>
 
       <{$tad_sitemap_jquery_ui}>
       <script type="text/javascript">

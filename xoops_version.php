@@ -30,9 +30,9 @@ $modversion['paypal']['amount'] = 0;
 $modversion['paypal']['currency_code'] = 'USD';
 
 //---安裝設定---//
-$modversion['onInstall'] = 'include/onInstall.php';
-$modversion['onUpdate'] = 'include/onUpdate.php';
-$modversion['onUninstall'] = 'include/onUninstall.php';
+// $modversion['onInstall'] = 'include/onInstall.php';
+// $modversion['onUpdate'] = 'include/onUpdate.php';
+// $modversion['onUninstall'] = 'include/onUninstall.php';
 
 //---啟動後台管理界面選單---//
 $modversion['system_menu'] = 1;
