@@ -111,6 +111,10 @@ function list_tad_sitemap()
     $myts = MyTextSanitizer::getInstance();
 
     $sql = 'SELECT * FROM ' . $xoopsDB->prefix('modules') . " WHERE isactive='1' AND hasmain='1' AND weight!='0' ORDER BY weight,last_update";
+
+
+
+
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
     $all_content = [];
@@ -148,7 +152,7 @@ function list_tad_sitemap()
 
     //刪除確認的JS
 
-    $xoopsTpl->assign('bar', $bar);
+//    $xoopsTpl->assign('bar', $bar);
     $xoopsTpl->assign('action', $_SERVER['PHP_SELF']);
     $xoopsTpl->assign('isAdmin', $isAdmin);
     $xoopsTpl->assign('all_content', $all_content);
