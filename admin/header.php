@@ -1,7 +1,5 @@
 <?php
 /**
- * Tad SiteMap module
- *
  * You may not change or alter any portion of this comment or credits
  * of supporting developers from this source code or any supporting source code
  * which is considered copyrighted (c) material of the original comment or credit authors.
@@ -11,18 +9,16 @@
  *
  * @copyright  XOOPS Project (https://xoops.org)
  * @license    http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package    TadSiteMap
+ * @package
  * @since      2.5.0
- * @author     Tad
+ * @author
  * @version    $Id $
  **/
-
 include dirname(__DIR__) . '/preloads/autoloader.php';
 
-require  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 
-$moduleDirName = basename(dirname(__DIR__));
-xoops_loadLanguage('main', $moduleDirName);
+xoops_loadLanguage('main', $xoopsModule->getVar('dirname'));
 
 if (!isset($xoopsTpl) || !is_object($xoopsTpl)) {
     require_once XOOPS_ROOT_PATH . '/class/template.php';
