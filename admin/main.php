@@ -154,7 +154,6 @@ function list_tad_sitemap()
     $xoopsTpl->assign('action', $_SERVER['PHP_SELF']);
     $xoopsTpl->assign('isAdmin', $isAdmin);
     $xoopsTpl->assign('all_content', $all_content);
-    $xoopsTpl->assign('now_op', 'list_tad_sitemap');
 
     $SweetAlert = new SweetAlert();
     $SweetAlert->render('delete_tad_sitemap_func', "{$_SERVER['PHP_SELF']}?op=delete_tad_sitemap&mid_name=", 'mid_name');
@@ -243,8 +242,9 @@ function get_tadmenu($dirname = '', $mid = '', $i = 0, $mod_name = '')
 }
 
 /*-----------執行動作判斷區----------*/
-$op = empty($_REQUEST['op']) ? '' : $_REQUEST['op'];
-$midname = empty($_REQUEST['midname']) ? '' : (int) $_REQUEST['midname'];
+require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+$op = system_CleanVars($_REQUEST, 'op', '', 'string');
+$midname = system_CleanVars($_REQUEST, 'midname', 0, 'int');
 
 switch ($op) {
     /*---判斷動作請貼在下方---*/
@@ -254,36 +254,38 @@ switch ($op) {
         auto_sitemap();
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
-        break;
+
     //新增資料
     case 'insert_tad_sitemap':
         $mid_name = insert_tad_sitemap();
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
-        break;
+
     //更新資料
     case 'update_tad_sitemap':
         update_tad_sitemap($mid_name);
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
-        break;
+
     case 'delete_tad_sitemap':
         delete_tad_sitemap($mid_name);
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
-        break;
+
     //更新排序
     case 'update_tad_sitemap_sort':
         $msg = update_tad_sitemap_sort();
         die($msg);
-        break;
+
     default:
         list_tad_sitemap();
+        $op = 'list_tad_sitemap';
         break;
         /*---判斷動作請貼在上方---*/
 }
 
 /*-----------秀出結果區--------------*/
 $xoopsTpl->assign('isAdmin', true);
+$xoopsTpl->assign('now_op', $op);
 $xoTheme->addStylesheet(XOOPS_URL . '/modules/tadtools/css/xoops_adm.css');
 require_once __DIR__ . '/footer.php';

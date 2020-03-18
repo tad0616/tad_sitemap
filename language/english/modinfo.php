@@ -7,6 +7,8 @@ define('_MI_TADSITEMA_DESC', 'Site Map');
 define('_MI_TADSITEMA_AUTHOR_WEB', 'Tad Textbook Network');
 define('_MI_TADSITEMA_ADMENU1', 'Admin');
 define('_MI_TADSITEMA_ADMENU1_DESC', 'Admin');
+define('_MI_TADSITEMA_ADMENU2', 'Accessibility correction');
+define('_MI_TADSITEMA_ADMENU2_DESC', 'Accessibility correction');
 define('_MI_TADSITEMA_ABOUT_SITE', 'Site Map');
 define('_MI_TADSITEMA_ABOUT_SITE_DESC', 'Site Map Description');
 define('_MI_TADSITEMA_ABOUT_SITE_DEFAULT', '<p>Alt+L : Left Zone<br>Alt+C : Content and Center Zone.<br>Alt+R : Right Zone<br>Alt+U : Nav Bar<br></p>');
