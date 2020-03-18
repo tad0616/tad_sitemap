@@ -30,10 +30,10 @@
                     <{assign var="j" value=$j+1}>
                     <div class="row">
                     <div class="col-sm-3">
-                        <input type="text" name="name[<{$sub.mid}>][<{$sub.sort}>]" value="<{$sub.name}>" class="form-control" placeholder="<{$smarty.const._MA_TADSITEMA_CLEAN}>" >
+                        <input type="text" name="name[<{$sub.mid}>][<{$sub.sort}>]" value="<{$sub.name}>" class="form-control" placeholder="<{$smarty.const._MA_TADSITEMAP_CLEAN}>" >
                     </div>
                     <div class="col-sm-6">
-                        <input type="text" name="description[<{$sub.mid}>][<{$sub.sort}>]" value="<{$sub.description}>" class="form-control" placeholder="<{$smarty.const._MA_TADSITEMA_INPUT_DESC}>">
+                        <input type="text" name="description[<{$sub.mid}>][<{$sub.sort}>]" value="<{$sub.description}>" class="form-control" placeholder="<{$smarty.const._MA_TADSITEMAP_INPUT_DESC}>">
                     </div>
                     <div class="col-sm-3">
                         <{$sub.url}>
@@ -53,7 +53,7 @@
 
     <{if $isAdmin}>
         <div class="text-right">
-            <a href="<{$xoops_url}>/modules/tad_sitemap/admin/main.php?op=auto_sitemap" class="btn btn-info"><{$smarty.const._MA_TADSITEMA_AUTO_IMPORT}></a>
+            <a href="<{$xoops_url}>/modules/tad_sitemap/admin/main.php?op=auto_sitemap" class="btn btn-info"><{$smarty.const._MA_TADSITEMAP_AUTO_IMPORT}></a>
         </div>
     <{/if}>
 
@@ -61,7 +61,7 @@
 <{else}>
     <{if $isAdmin}>
     <div class="jumbotron text-center">
-        <a href="<{$xoops_url}>/modules/tad_sitemap/admin/main.php?op=auto_sitemap" class="btn btn-info"><{$smarty.const._MA_TADSITEMA_AUTO_IMPORT}></a>
+        <a href="<{$xoops_url}>/modules/tad_sitemap/admin/main.php?op=auto_sitemap" class="btn btn-info"><{$smarty.const._MA_TADSITEMAP_AUTO_IMPORT}></a>
     </div>
     <{/if}>
 <{/if}>

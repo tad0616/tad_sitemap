@@ -230,7 +230,7 @@ function get_tadmenu($dirname = '', $mid = '', $i = 0, $mod_name = '')
         $interface_menu = json_decode($json, true);
         foreach ($interface_menu as $name => $url) {
             if (_TAD_TO_MOD == $name) {
-                $name = $mod_name . _MA_TADSITEMA_HOMEPAGE;
+                $name = $mod_name . _MA_TADSITEMAP_HOMEPAGE;
             }
             $name = $myts->addSlashes($name);
             $url = $myts->addSlashes($url);
