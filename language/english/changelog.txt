@@ -1,3 +1,7 @@
+Tad Sitemap 1.7 (2020-04-11 released)
+====================================================
+1. New <img> Testing Tools
+
 Tad Sitemap 1.6 (2020-03-18 released)
 ====================================================
 1. Correction for accessibility 2.0 AA standard

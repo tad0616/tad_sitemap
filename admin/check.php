@@ -1,7 +1,7 @@
 <?php
 use XoopsModules\Tadtools\Utility;
 /*-----------引入檔案區--------------*/
-$isAdmin = true;
+$isAdmin                      = true;
 $xoopsOption['template_main'] = 'tad_sitemap_adm_main.tpl';
 require_once __DIR__ . '/header.php';
 require_once dirname(__DIR__) . '/function.php';
@@ -12,13 +12,16 @@ require_once dirname(__DIR__) . '/function.php';
 function start_check($mode = '')
 {
     global $xoopsDB, $xoopsTpl;
-    $keys['fontsize'] = 'font-size:';
+    $keys['fontsize']    = 'font-size:';
     $regular['fontsize'] = "/font-size:\s?(\d*)(px|pt)/U";
 
-    $keys['iframe'] = '<iframe';
+    $keys['iframe']    = '<iframe';
     $regular['iframe'] = "/<iframe (.*)><\/iframe>/U";
 
-    $keys['blockquote'] = '<blockquote';
+    $keys['img']    = '<img';
+    $regular['img'] = "/<img (.*)>/U";
+
+    $keys['blockquote']    = '<blockquote';
     $regular['blockquote'] = "/<blockquote(.*)<\/blockquote>/U";
 
     // $keys['colspan'] = 'colspan';
@@ -26,19 +29,19 @@ function start_check($mode = '')
 
     $data = $need_data = [];
 
-    $sql = 'show tables';
+    $sql    = 'show tables';
     $result = $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     while (list($table) = $xoopsDB->fetchRow($result)) {
         if ($table) {
-            $sql2 = "SHOW COLUMNS FROM `$table`";
+            $sql2    = "SHOW COLUMNS FROM `$table`";
             $result2 = $xoopsDB->queryF($sql2) or Utility::web_error($sql2, __FILE__, __LINE__);
             $col_arr = $sql_arr = $text_col = $pri_col = [];
             while ($field = $xoopsDB->fetchArray($result2)) {
                 foreach ($keys as $kind => $key) {
                     if (stripos($field['Type'], "VARCHAR") !== false || stripos($field['Type'], "TEXT") !== false) {
                         $text_col[$key][] = $field['Field'];
-                        $col_arr[$key][] = "`{$field['Field']}`";
-                        $sql_arr[$key][] = "`{$field['Field']}` like '%{$key}%'";
+                        $col_arr[$key][]  = "`{$field['Field']}`";
+                        $sql_arr[$key][]  = "`{$field['Field']}` like '%{$key}%'";
                     } elseif ($field['Extra'] == 'auto_increment' || $field['Key'] == 'PRI' || $field['Key'] == 'MUL') {
                         $col_arr[$key][] = "`{$field['Field']}`";
                         $pri_col[$key][] = $field['Field'];
@@ -50,9 +53,9 @@ function start_check($mode = '')
                 $search_key = implode(' or ', $sql_arr[$key]);
 
                 if ($search_key) {
-                    $sql3 = "select $search_col from $table where $search_key";
+                    $sql3    = "select $search_col from $table where $search_key";
                     $result3 = $xoopsDB->queryF($sql3) or Utility::web_error($sql3, __FILE__, __LINE__);
-                    $i = 0;
+                    $i       = 0;
                     while ($all = $xoopsDB->fetchArray($result3)) {
                         $pri = [];
                         foreach ($all as $k => $v) {
@@ -61,7 +64,7 @@ function start_check($mode = '')
                                 if (!empty($num)) {
                                     $fix_result = call_user_func($kind, $v, $matches, $table);
                                     if ($fix_result) {
-                                        $data[$table][$i]['col'][$k] = $fix_result;
+                                        $data[$table][$i]['col'][$k]              = $fix_result;
                                         $need_data[$table][$i]['col'][$k]['save'] = $data[$table][$i]['col'][$k]['save'];
                                     }
                                 }
@@ -90,9 +93,9 @@ function start_check($mode = '')
 
 function fontsize($v, $matches, $table)
 {
-    $myts = \MyTextSanitizer::getInstance();
+    $myts   = \MyTextSanitizer::getInstance();
     $html_v = $fix_v = htmlspecialchars($v);
-    $data = [];
+    $data   = [];
     foreach ($matches[0] as $sk => $s) {
         $html_v = str_replace($s, "<span style='color:red;'>$s</span>", $html_v);
         if ($matches[2][$sk] == 'px') {
@@ -100,31 +103,50 @@ function fontsize($v, $matches, $table)
         } elseif ($matches[2][$sk] == 'pt') {
             $new_val = round($matches[1][$sk] / 12, 2);
         }
-        $v = str_replace($s, "font-size: {$new_val}em", $v);
+        $v     = str_replace($s, "font-size: {$new_val}em", $v);
         $fix_v = str_replace($s, "<span style='color:blue;'>font-size: {$new_val}em</span>", $fix_v);
     }
     $data['html_v'] = $html_v;
-    $data['fix_v'] = $fix_v;
-    $data['save'] = $myts->addSlashes($v);
-    $data_line = round(strlen($v) / 60, 0);
-    $data['line'] = $data_line > 12 ? 12 : $data_line < 6 ? 6 : $data_line;
+    $data['fix_v']  = $fix_v;
+    $data['save']   = $myts->addSlashes($v);
+    $data_line      = round(strlen($v) / 60, 0);
+    $data['line']   = $data_line > 12 ? 12 : $data_line < 6 ? 6 : $data_line;
     return $data;
 }
 
 function iframe($v, $matches, $table)
 {
-    $myts = \MyTextSanitizer::getInstance();
+    $myts   = \MyTextSanitizer::getInstance();
     $html_v = $fix_v = htmlspecialchars($v);
-    $data = [];
+    $data   = [];
     if (strpos($v, ' title') === false) {
-        $v = str_replace('iframe ', "iframe title=\"iframe\" ", $v);
-        $html_v = str_replace('&lt;iframe', "&lt;<span style='color:red;'>iframe</span>", $html_v);
-        $fix_v = str_replace('&lt;iframe ', "&lt;<span style='color:blue;'>iframe title=\"iframe\"</span> ", $fix_v);
+        $v              = str_replace('iframe ', "iframe title=\"iframe\" ", $v);
+        $html_v         = str_replace('&lt;iframe', "&lt;<span style='color:red;'>iframe</span>", $html_v);
+        $fix_v          = str_replace('&lt;iframe ', "&lt;<span style='color:blue;'>iframe title=\"iframe\"</span> ", $fix_v);
         $data['html_v'] = $html_v;
-        $data['fix_v'] = $fix_v;
-        $data['save'] = $myts->addSlashes($v);
-        $data_line = round(strlen($v) / 60, 0);
-        $data['line'] = $data_line > 12 ? 12 : $data_line < 6 ? 6 : $data_line;
+        $data['fix_v']  = $fix_v;
+        $data['save']   = $myts->addSlashes($v);
+        $data_line      = round(strlen($v) / 60, 0);
+        $data['line']   = $data_line > 12 ? 12 : $data_line < 6 ? 6 : $data_line;
+    }
+
+    return $data;
+}
+
+function img($v, $matches, $table)
+{
+    $myts   = \MyTextSanitizer::getInstance();
+    $html_v = $fix_v = htmlspecialchars($v);
+    $data   = [];
+    if (strpos($v, ' alt') === false) {
+        $v              = str_replace('img ', "img alt=\"img\" ", $v);
+        $html_v         = str_replace('&lt;img', "&lt;<span style='color:red;'>img</span>", $html_v);
+        $fix_v          = str_replace('&lt;img ', "&lt;<span style='color:blue;'>img alt=\"img\"</span> ", $fix_v);
+        $data['html_v'] = $html_v;
+        $data['fix_v']  = $fix_v;
+        $data['save']   = $myts->addSlashes($v);
+        $data_line      = round(strlen($v) / 60, 0);
+        $data['line']   = $data_line > 12 ? 12 : $data_line < 6 ? 6 : $data_line;
     }
 
     return $data;
@@ -132,18 +154,18 @@ function iframe($v, $matches, $table)
 
 function blockquote($v, $matches, $table)
 {
-    $myts = \MyTextSanitizer::getInstance();
+    $myts   = \MyTextSanitizer::getInstance();
     $html_v = $fix_v = htmlspecialchars($v);
-    $data = [];
+    $data   = [];
     if (strpos($v, ' xml:lang') === false) {
-        $v = str_replace('<blockquote', "<blockquote xml:lang=\"zh\"", $v);
-        $html_v = str_replace('&lt;blockquote', "&lt;<span style='color:red;'>blockquote</span>", $html_v);
-        $fix_v = str_replace('&lt;blockquote', "&lt;<span style='color:blue;'>blockquote xml:lang=\"zh\"</span>", $fix_v);
+        $v              = str_replace('<blockquote', "<blockquote xml:lang=\"zh\"", $v);
+        $html_v         = str_replace('&lt;blockquote', "&lt;<span style='color:red;'>blockquote</span>", $html_v);
+        $fix_v          = str_replace('&lt;blockquote', "&lt;<span style='color:blue;'>blockquote xml:lang=\"zh\"</span>", $fix_v);
         $data['html_v'] = $html_v;
-        $data['fix_v'] = $fix_v;
-        $data['save'] = $myts->addSlashes($v);
-        $data_line = round(strlen($v) / 60, 0);
-        $data['line'] = $data_line > 12 ? 12 : $data_line < 6 ? 6 : $data_line;
+        $data['fix_v']  = $fix_v;
+        $data['save']   = $myts->addSlashes($v);
+        $data_line      = round(strlen($v) / 60, 0);
+        $data['line']   = $data_line > 12 ? 12 : $data_line < 6 ? 6 : $data_line;
     }
     return $data;
 }
@@ -188,18 +210,18 @@ function auto_fix()
 function check_form()
 {
     global $xoopsTpl, $xoopsDB;
-    $sql = 'select conf_value from `' . $xoopsDB->prefix('config') . "` where `conf_name` = 'allow_register'";
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql                  = 'select conf_value from `' . $xoopsDB->prefix('config') . "` where `conf_name` = 'allow_register'";
+    $result               = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     list($allow_register) = $xoopsDB->fetchRow($result);
     $xoopsTpl->assign('allow_register', $allow_register);
 
-    $sql = 'select menuid, status, of_level from `' . $xoopsDB->prefix('tad_themes_menu') . "` where `itemurl` like '%/modules/tad_sitemap%'";
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql                              = 'select menuid, status, of_level from `' . $xoopsDB->prefix('tad_themes_menu') . "` where `itemurl` like '%/modules/tad_sitemap%'";
+    $result                           = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     list($menuid, $status, $of_level) = $xoopsDB->fetchRow($result);
 
     if ($status == 1 and $of_level != 0) {
-        $sql = 'select status, of_level from `' . $xoopsDB->prefix('tad_themes_menu') . "` where `menuid`='$of_level'";
-        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        $sql          = 'select status, of_level from `' . $xoopsDB->prefix('tad_themes_menu') . "` where `menuid`='$of_level'";
+        $result       = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         list($status) = $xoopsDB->fetchRow($result);
     }
 
@@ -234,9 +256,9 @@ function enable4nav($menuid)
 
 /*-----------執行動作判斷區----------*/
 require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op = system_CleanVars($_REQUEST, 'op', '', 'string');
+$op      = system_CleanVars($_REQUEST, 'op', '', 'string');
 $midname = system_CleanVars($_REQUEST, 'midname', 0, 'int');
-$menuid = system_CleanVars($_REQUEST, 'menuid', 0, 'int');
+$menuid  = system_CleanVars($_REQUEST, 'menuid', 0, 'int');
 
 switch ($op) {
     /*---判斷動作請貼在下方---*/
