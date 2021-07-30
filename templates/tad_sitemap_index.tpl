@@ -30,10 +30,10 @@
         </table>
 
     <{else}>
-        <{if $isAdmin}>
-        <div class="jumbotron text-center">
-            <a href="<{$xoops_url}>/modules/tad_sitemap/admin/main.php" class="btn btn-info"><{$smarty.const._TAD_ADD}></a>
-        </div>
+        <{if $smarty.session.tad_sitemap_adm}>
+            <div class="jumbotron text-center">
+                <a href="<{$xoops_url}>/modules/tad_sitemap/admin/main.php" class="btn btn-info"><{$smarty.const._TAD_ADD}></a>
+            </div>
         <{/if}>
     <{/if}>
 <{/if}>

@@ -1,5 +1,5 @@
 <{if $all_content}>
-    <{if $isAdmin}>
+    <{if $smarty.session.tad_sitemap_adm}>
         <{$tad_sitemap_jquery_ui}>
         <script type="text/javascript">
             $(document).ready(function(){
@@ -51,7 +51,7 @@
         </div>
     </form>
 
-    <{if $isAdmin}>
+    <{if $smarty.session.tad_sitemap_adm}>
         <div class="text-right">
             <a href="<{$xoops_url}>/modules/tad_sitemap/admin/main.php?op=auto_sitemap" class="btn btn-info"><{$smarty.const._MA_TADSITEMAP_AUTO_IMPORT}></a>
         </div>
@@ -59,7 +59,7 @@
 
     <{$bar}>
 <{else}>
-    <{if $isAdmin}>
+    <{if $smarty.session.tad_sitemap_adm}>
     <div class="jumbotron text-center">
         <a href="<{$xoops_url}>/modules/tad_sitemap/admin/main.php?op=auto_sitemap" class="btn btn-info"><{$smarty.const._MA_TADSITEMAP_AUTO_IMPORT}></a>
     </div>

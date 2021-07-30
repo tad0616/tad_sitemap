@@ -31,7 +31,7 @@ define('_MA_TADSITEMAP_AUTO_FIX', 'Direct automatic correction');
 define('_MA_TADSITEMAP_DL_FREEGO', '<a href="https://www.handicap-free.nat.gov.tw/Download/Detail/1375?Category=52" target="_blank"> Download FreeGo 2.0 </a> and detect "' . XOOPS_URL . '" with the AA standard');
 define('_MA_TADSITEMAP_STATEMENT', 'This program only helps to pass the machine check when not logged in to the website. It cannot guarantee that the manual check can pass.');
 
-define('_MA_TADSITEMAP_TABLE', 'Table');
+define('_MA_TADSITEMAP_TABLE_COL', 'Column');
 define('_MA_TADSITEMAP_NEED_FIX', 'Field (%s) needs to be modified:');
 define('_MA_TADSITEMAP_FIX_NOW', 'Fix now');
 define('_MA_TADSITEMAP_THATS_ALL', 'All the correction programs can be done, please correct the rest.');

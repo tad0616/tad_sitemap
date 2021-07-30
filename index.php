@@ -1,4 +1,5 @@
 <?php
+use Xmf\Request;
 use XoopsModules\Tadtools\Utility;
 /*-----------引入檔案區--------------*/
 $GLOBALS['xoopsOption']['template_main'] = 'tad_sitemap_index.tpl';
@@ -10,7 +11,7 @@ require_once XOOPS_ROOT_PATH . '/header.php';
 //列出所有tad_sitemap資料
 function list_tad_sitemap()
 {
-    global $xoopsDB, $xoopsTpl, $isAdmin, $xoopsModuleConfig;
+    global $xoopsDB, $xoopsTpl, $xoopsModuleConfig;
 
     $myts = \MyTextSanitizer::getInstance();
 
@@ -52,15 +53,13 @@ function list_tad_sitemap()
 
     //刪除確認的JS
     $xoopsTpl->assign('action', $_SERVER['PHP_SELF']);
-    $xoopsTpl->assign('isAdmin', $isAdmin);
     $xoopsTpl->assign('all_content', $all_content);
     $xoopsTpl->assign('now_op', 'list_tad_sitemap');
     $xoopsTpl->assign('about_site', $xoopsModuleConfig['about_site']);
 }
 
 /*-----------執行動作判斷區----------*/
-$op = empty($_REQUEST['op']) ? '' : $_REQUEST['op'];
-$midname = empty($_REQUEST['midname']) ? '' : (int) $_REQUEST['midname'];
+$op = Request::getString('op');
 
 switch ($op) {
     /*---判斷動作請貼在下方---*/
@@ -72,5 +71,4 @@ switch ($op) {
 
 /*-----------秀出結果區--------------*/
 $xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
-$xoopsTpl->assign('isAdmin', $isAdmin);
 require_once XOOPS_ROOT_PATH . '/footer.php';

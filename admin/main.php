@@ -1,8 +1,8 @@
 <?php
+use Xmf\Request;
 use XoopsModules\Tadtools\SweetAlert;
 use XoopsModules\Tadtools\Utility;
 /*-----------引入檔案區--------------*/
-$isAdmin = true;
 $xoopsOption['template_main'] = 'tad_sitemap_adm_main.tpl';
 require_once __DIR__ . '/header.php';
 require_once dirname(__DIR__) . '/function.php';
@@ -38,8 +38,8 @@ function get_tad_sitemap($mid_name = '')
 //新增資料到tad_sitemap中
 function insert_tad_sitemap()
 {
-    global $xoopsDB, $xoopsUser, $isAdmin;
-    if (!$isAdmin) {
+    global $xoopsDB, $xoopsUser;
+    if (!$_SESSION['tad_sitemap_adm']) {
         redirect_header($_SERVER['PHP_SELF'], 3, _TAD_PERMISSION_DENIED);
     }
 
@@ -68,8 +68,8 @@ function insert_tad_sitemap()
 //更新tad_sitemap某一筆資料
 function update_tad_sitemap($mid_name = '')
 {
-    global $xoopsDB, $xoopsUser, $isAdmin;
-    if (!$isAdmin) {
+    global $xoopsDB, $xoopsUser;
+    if (!$_SESSION['tad_sitemap_adm']) {
         redirect_header($_SERVER['PHP_SELF'], 3, _TAD_PERMISSION_DENIED);
     }
 
@@ -92,8 +92,8 @@ function update_tad_sitemap($mid_name = '')
 //刪除tad_sitemap某筆資料資料
 function delete_tad_sitemap($mid_name = '')
 {
-    global $xoopsDB, $isAdmin;
-    if (!$isAdmin) {
+    global $xoopsDB;
+    if (!$_SESSION['tad_sitemap_adm']) {
         redirect_header($_SERVER['PHP_SELF'], 3, _TAD_PERMISSION_DENIED);
     }
 
@@ -108,7 +108,7 @@ function delete_tad_sitemap($mid_name = '')
 //列出所有tad_sitemap資料
 function list_tad_sitemap()
 {
-    global $xoopsDB, $xoopsTpl, $isAdmin;
+    global $xoopsDB, $xoopsTpl;
 
     $myts = \MyTextSanitizer::getInstance();
 
@@ -152,7 +152,6 @@ function list_tad_sitemap()
 
 //    $xoopsTpl->assign('bar', $bar);
     $xoopsTpl->assign('action', $_SERVER['PHP_SELF']);
-    $xoopsTpl->assign('isAdmin', $isAdmin);
     $xoopsTpl->assign('all_content', $all_content);
 
     $SweetAlert = new SweetAlert();
@@ -242,9 +241,7 @@ function get_tadmenu($dirname = '', $mid = '', $i = 0, $mod_name = '')
 }
 
 /*-----------執行動作判斷區----------*/
-require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op = system_CleanVars($_REQUEST, 'op', '', 'string');
-$midname = system_CleanVars($_REQUEST, 'midname', 0, 'int');
+$op = Request::getString('op');
 
 switch ($op) {
     /*---判斷動作請貼在下方---*/
@@ -285,7 +282,6 @@ switch ($op) {
 }
 
 /*-----------秀出結果區--------------*/
-$xoopsTpl->assign('isAdmin', true);
 $xoopsTpl->assign('now_op', $op);
 $xoTheme->addStylesheet(XOOPS_URL . '/modules/tadtools/css/xoops_adm.css');
 require_once __DIR__ . '/footer.php';

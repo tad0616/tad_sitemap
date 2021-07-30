@@ -1,3 +1,8 @@
+Tad Sitemap 1.8 (Released on 2021-07-30)
+================================================
+1. Support XOOPS 2.5.11
+2. Solve the problem that auto-correction tool may change the wrong data
+
 Tad Sitemap 1.7 (2020-04-11 released)
 ====================================================
 1. New <img> Testing Tools

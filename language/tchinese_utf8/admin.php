@@ -29,7 +29,7 @@ define('_MA_TADSITEMAP_AUTO_FIX', '直接自動修正');
 define('_MA_TADSITEMAP_DL_FREEGO', '最後請 <a href="https://www.handicap-free.nat.gov.tw/Download/Detail/1375?Category=52" target="_blank">下載FreeGo 2.0</a>，並以 AA標準檢測「' . XOOPS_URL . '」');
 define('_MA_TADSITEMAP_STATEMENT', '本程式僅盡量協助通過未登入網站狀態下的機器檢查，無法保證人工查核可以通過。');
 
-define('_MA_TADSITEMAP_TABLE', '資料表');
+define('_MA_TADSITEMAP_TABLE_COL', '欄位');
 define('_MA_TADSITEMAP_NEED_FIX', '欄位（%s）需修改部份：');
 define('_MA_TADSITEMAP_FIX_NOW', '立即修正');
 define('_MA_TADSITEMAP_THATS_ALL', '修正程式能做的都做了，剩下的就請自行處理。');
