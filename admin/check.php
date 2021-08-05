@@ -13,7 +13,7 @@ function start_check($mode = '')
 {
     global $xoopsDB, $xoopsTpl;
     $check_items['fontsize'] = 'font-size:';
-    $regular['fontsize'] = "/font-size:\s?(\d*)(px|pt)/U";
+    $regular['fontsize'] = "/font-size:\s?(\d*|\d*\.\d*)(px|pt)/U";
 
     $check_items['iframe'] = '<iframe';
     $regular['iframe'] = "/<iframe (.*)><\/iframe>/U";
@@ -163,10 +163,10 @@ function fontsize($v, $matches, $table)
     $data = [];
     foreach ($matches[0] as $sk => $s) {
         $html_v = str_replace($s, "<span style='color:red;'>$s</span>", $html_v);
-        if ($matches[2][$sk] == 'px') {
-            $new_val = round($matches[1][$sk] / 16, 2);
-        } elseif ($matches[2][$sk] == 'pt') {
+        if ($matches[2][$sk] == 'pt') {
             $new_val = round($matches[1][$sk] / 12, 2);
+        } elseif ($matches[2][$sk] == 'px') {
+            $new_val = round($matches[1][$sk] / 16, 2);
         }
         $v = str_replace($s, "font-size: {$new_val}em", $v);
         $fix_v = str_replace($s, "<span style='color:blue;'>font-size: {$new_val}em</span>", $fix_v);
