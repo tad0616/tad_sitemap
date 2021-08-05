@@ -23,5 +23,10 @@ $adminObject = \Xmf\Module\Admin::getInstance();
 $adminObject->displayNavigation(basename(__FILE__));
 $adminObject->displayIndex();
 
+//判斷是否對該模組有管理權限 $_SESSION['tad_sitemap_adm']
+if (!isset($_SESSION['tad_sitemap_adm'])) {
+    $_SESSION['tad_sitemap_adm'] = true;
+}
+
 require __DIR__ . '/footer.php';
 xoops_cp_footer();

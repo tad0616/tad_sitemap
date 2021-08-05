@@ -176,9 +176,9 @@ function iframe($v, $matches, $table)
     $html_v = $fix_v = htmlspecialchars($v);
     $data = [];
     if (strpos($v, ' title') === false) {
-        $v = str_replace('iframe ', "iframe title=\"iframe\" ", $v);
+        $v = str_replace('iframe ', "iframe title=iframe ", $v);
         $html_v = str_replace('&lt;iframe', "&lt;<span style='color:red;'>iframe</span>", $html_v);
-        $fix_v = str_replace('&lt;iframe ', "&lt;<span style='color:blue;'>iframe title=\"iframe\"</span> ", $fix_v);
+        $fix_v = str_replace('&lt;iframe ', "&lt;<span style='color:blue;'>iframe title=iframe</span> ", $fix_v);
         $data['html_v'] = $html_v;
         $data['fix_v'] = $fix_v;
         $data['save'] = $myts->addSlashes($v);
@@ -195,9 +195,9 @@ function img($v, $matches, $table)
     $html_v = $fix_v = htmlspecialchars($v);
     $data = [];
     if (strpos($v, ' alt') === false) {
-        $v = str_replace('img ', "img alt=\"img\" ", $v);
+        $v = str_replace('img ', "img alt=img ", $v);
         $html_v = str_replace('&lt;img', "&lt;<span style='color:red;'>img</span>", $html_v);
-        $fix_v = str_replace('&lt;img ', "&lt;<span style='color:blue;'>img alt=\"img\"</span> ", $fix_v);
+        $fix_v = str_replace('&lt;img ', "&lt;<span style='color:blue;'>img alt=img</span> ", $fix_v);
         $data['html_v'] = $html_v;
         $data['fix_v'] = $fix_v;
         $data['save'] = $myts->addSlashes($v);
@@ -214,9 +214,9 @@ function blockquote($v, $matches, $table)
     $html_v = $fix_v = htmlspecialchars($v);
     $data = [];
     if (strpos($v, ' xml:lang') === false) {
-        $v = str_replace('<blockquote', "<blockquote xml:lang=\"zh\"", $v);
+        $v = str_replace('<blockquote', "<blockquote xml:lang=zh", $v);
         $html_v = str_replace('&lt;blockquote', "&lt;<span style='color:red;'>blockquote</span>", $html_v);
-        $fix_v = str_replace('&lt;blockquote', "&lt;<span style='color:blue;'>blockquote xml:lang=\"zh\"</span>", $fix_v);
+        $fix_v = str_replace('&lt;blockquote', "&lt;<span style='color:blue;'>blockquote xml:lang=zh</span>", $fix_v);
         $data['html_v'] = $html_v;
         $data['fix_v'] = $fix_v;
         $data['save'] = $myts->addSlashes($v);

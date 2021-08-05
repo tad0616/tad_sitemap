@@ -26,7 +26,7 @@ define('_MA_TADSITEMAP_DB_FIX', '按下方按鈕修正原有資料庫內容，�
 define('_MA_TADSITEMAP_VIEW_FIX', '預覽後自動修正');
 define('_MA_TADSITEMAP_AUTO_FIX', '直接自動修正');
 
-define('_MA_TADSITEMAP_DL_FREEGO', '最後請 <a href="https://www.handicap-free.nat.gov.tw/Download/Detail/1375?Category=52" target="_blank">下載FreeGo 2.0</a>，並以 AA標準檢測「' . XOOPS_URL . '」');
+define('_MA_TADSITEMAP_DL_FREEGO', '最後請 <a href="https://accessibility.ncc.gov.tw/Download/Detail/1743?Category=70" target="_blank">下載FreeGo 110.07</a>，並以 AA標準檢測「' . XOOPS_URL . '」');
 define('_MA_TADSITEMAP_STATEMENT', '本程式僅盡量協助通過未登入網站狀態下的機器檢查，無法保證人工查核可以通過。');
 
 define('_MA_TADSITEMAP_TABLE_COL', '欄位');
