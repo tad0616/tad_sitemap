@@ -24,6 +24,15 @@ function start_check($mode = '')
     $check_items['blockquote'] = '<blockquote';
     $regular['blockquote'] = "/<blockquote(.*)<\/blockquote>/U";
 
+    $check_items['font_face'] = '<font face=';
+    $regular['font_face'] = "/<font face=(.*)<\/font>/U";
+
+    $check_items['font'] = '<font';
+    $regular['font'] = "/<font(.*)<\/font>/U";
+
+    $check_items['center'] = '<center';
+    $regular['center'] = "/<center(.*)<\/center>/U";
+
     // $check_items['colspan'] = 'colspan';
     // $regular['colspan'] = "/colspan/U";
 
@@ -217,6 +226,69 @@ function blockquote($v, $matches, $table)
         $v = str_replace('<blockquote', "<blockquote xml:lang=zh", $v);
         $html_v = str_replace('&lt;blockquote', "&lt;<span style='color:red;'>blockquote</span>", $html_v);
         $fix_v = str_replace('&lt;blockquote', "&lt;<span style='color:blue;'>blockquote xml:lang=zh</span>", $fix_v);
+        $data['html_v'] = $html_v;
+        $data['fix_v'] = $fix_v;
+        $data['save'] = $myts->addSlashes($v);
+        $data_line = round(strlen($v) / 60, 0);
+        $data['line'] = $data_line > 12 ? 12 : $data_line < 6 ? 6 : $data_line;
+    }
+    return $data;
+}
+
+function font_face($v, $matches, $table)
+{
+    $myts = \MyTextSanitizer::getInstance();
+    $html_v = $fix_v = htmlspecialchars($v);
+    $data = [];
+    if (strpos($v, '<font face="') !== false) {
+        $v = str_replace('<font face="', "<span style=\"font-family: ", $v);
+        $v = str_replace('</font>', "</span>", $v);
+        $html_v = str_replace('&lt;font face=&quot;', "&lt;<span style='color:red;'>font face=&quot;</span>", $html_v);
+        $html_v = str_replace('&lt;/font', "&lt;<span style='color:red;'>/font</span>", $html_v);
+        $fix_v = str_replace('&lt;font face=&quot;', "&lt;<span style='color:blue;'>span style=&quot;font-family: </span>", $fix_v);
+        $fix_v = str_replace('&lt;/font', "&lt;<span style='color:blue;'>/span</span>", $fix_v);
+        $data['html_v'] = $html_v;
+        $data['fix_v'] = $fix_v;
+        $data['save'] = $myts->addSlashes($v);
+        $data_line = round(strlen($v) / 60, 0);
+        $data['line'] = $data_line > 12 ? 12 : $data_line < 6 ? 6 : $data_line;
+    }
+    return $data;
+}
+
+function font($v, $matches, $table)
+{
+    $myts = \MyTextSanitizer::getInstance();
+    $html_v = $fix_v = htmlspecialchars($v);
+    $data = [];
+    if (strpos($v, '<font') !== false) {
+        $v = str_replace('<font', "<span", $v);
+        $v = str_replace('</font>', "</span>", $v);
+        $html_v = str_replace('&lt;font', "&lt;<span style='color:red;'>font</span>", $html_v);
+        $html_v = str_replace('&lt;/font', "&lt;<span style='color:red;'>/font</span>", $html_v);
+        $fix_v = str_replace('&lt;font', "&lt;<span style='color:blue;'>span</span>", $fix_v);
+        $fix_v = str_replace('&lt;/font', "&lt;<span style='color:blue;'>/span</span>", $fix_v);
+        $data['html_v'] = $html_v;
+        $data['fix_v'] = $fix_v;
+        $data['save'] = $myts->addSlashes($v);
+        $data_line = round(strlen($v) / 60, 0);
+        $data['line'] = $data_line > 12 ? 12 : $data_line < 6 ? 6 : $data_line;
+    }
+    return $data;
+}
+
+function center($v, $matches, $table)
+{
+    $myts = \MyTextSanitizer::getInstance();
+    $html_v = $fix_v = htmlspecialchars($v);
+    $data = [];
+    if (strpos($v, '<center') !== false) {
+        $v = str_replace('<center>', "<div style=\"text-align: center;\">", $v);
+        $v = str_replace('</center>', "</div>", $v);
+        $html_v = str_replace('&lt;center', "&lt;<span style='color:red;'>center</span>", $html_v);
+        $html_v = str_replace('&lt;/center', "&lt;<span style='color:red;'>/center</span>", $html_v);
+        $fix_v = str_replace('&lt;center', "&lt;<span style='color:blue;'>div style=\"text-align: center;\"</span>", $fix_v);
+        $fix_v = str_replace('&lt;/center', "&lt;<span style='color:blue;'>/div</span>", $fix_v);
         $data['html_v'] = $html_v;
         $data['fix_v'] = $fix_v;
         $data['save'] = $myts->addSlashes($v);
