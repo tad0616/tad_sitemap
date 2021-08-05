@@ -43,7 +43,7 @@ $modversion['tables'][1] = 'tad_sitemap';
 
 //---管理介面設定---//
 $modversion['hasAdmin'] = 1;
-$modversion['adminindex'] = 'admin/main.php';
+$modversion['adminindex'] = 'admin/index.php';
 $modversion['adminmenu'] = 'admin/menu.php';
 
 //---使用者主選單設定---//
