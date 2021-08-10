@@ -12,6 +12,10 @@ if (!isset($_SESSION['tad_sitemap_adm'])) {
 //$interface_menu[_TAD_TO_MOD]="index.php";
 $interface_menu[_MD_TADSITEMA_SMNAME1] = 'index.php';
 $interface_icon[_MD_TADSITEMA_SMNAME1] = 'fa-chevron-right';
+$interface_menu[_MD_TADSITEMA_SMNAME2] = 'privacy_policy.php';
+$interface_icon[_MD_TADSITEMA_SMNAME2] = 'fa-chevron-right';
+$interface_menu[_MD_TADSITEMA_SMNAME3] = 'remove_data.php';
+$interface_icon[_MD_TADSITEMA_SMNAME3] = 'fa-chevron-right';
 
 if ($_SESSION['tad_sitemap_adm']) {
     $interface_menu[_TAD_TO_ADMIN] = 'admin/main.php';

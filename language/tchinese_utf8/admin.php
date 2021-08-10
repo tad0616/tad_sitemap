@@ -21,7 +21,7 @@ define('_MA_TADSITEMAP_PROFILE', '請<a href="' . XOOPS_URL . '/modules/system/a
 define('_MA_TADSITEMAP_NAV_LINK', '導覽列並無「網站地圖」連結，<a href="check.php?op=add2nav">可按此自動加入</a>');
 define('_MA_TADSITEMAP_LINK_ENABLE', '導覽列有「網站地圖」連結，但未啟用，<a href="check.php?op=enable4nav&menuid=%s">可按此自動啟用</a>');
 
-define('_MA_TADSITEMAP_DB_FIX', '按下方按鈕修正原有資料庫內容，目前僅支援 font-size、iframe、blockquote 等自動修正，其他如 table 表格因複雜許多，故無法用程式自動修正，請自行處理（如：用表格圖檔取代HTML表格）：');
+define('_MA_TADSITEMAP_DB_FIX', '按下方按鈕修正原有資料庫內容：');
 
 define('_MA_TADSITEMAP_VIEW_FIX', '預覽後自動修正');
 define('_MA_TADSITEMAP_AUTO_FIX', '直接自動修正');

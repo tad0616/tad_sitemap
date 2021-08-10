@@ -23,7 +23,7 @@ define('_MA_TADSITEMAP_PROFILE', 'Please go to <a href="' . XOOPS_URL . '/module
 define('_MA_TADSITEMAP_NAV_LINK', 'The navigation bar does not have a "Site Map" link. <a href="check.php?op=add2nav"> You can click here to automatically add it </a>');
 define('_MA_TADSITEMAP_LINK_ENABLE', 'The navigation bar has a "Site Map" link, but it is not enabled, <a href="check.php?op=enable4nav&menuid=%s"> Click here to enable it automatically </a>');
 
-define('_MA_TADSITEMAP_DB_FIX', 'Press the button below to correct the original database content. Currently only automatic corrections such as font-size, iframe, blockquote, etc. are supported. Others such as table are much more complex and cannot be automatically corrected by programs. Please handle them yourself (eg, replace them with table image files):');
+define('_MA_TADSITEMAP_DB_FIX', 'Click the following button to correct the original database content.');
 
 define('_MA_TADSITEMAP_VIEW_FIX', 'Automatic correction after preview');
 define('_MA_TADSITEMAP_AUTO_FIX', 'Direct automatic correction');

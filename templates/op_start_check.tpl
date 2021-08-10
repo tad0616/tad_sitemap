@@ -10,8 +10,8 @@
 
                         <div class="alert alert-info">
                             <div class="row">
-                                <div class="col-sm-6"><pre style="height:<{$item.line}>em;overflow: auto;" class="form-control"><{$item.html_v}></pre></div>
-                                <div class="col-sm-6"><pre style="height:<{$item.line}>em;overflow: auto;" class="form-control"><{$item.fix_v}></pre></div>
+                                <div class="col-sm-6"><pre style="height:<{$item.line}>em;overflow: auto;color: #afafaf;" class="form-control"><{$item.html_v}></pre></div>
+                                <div class="col-sm-6"><pre style="height:<{$item.line}>em;overflow: auto;color: #afafaf;" class="form-control"><{$item.fix_v}></pre></div>
                             </div>
                         </div>
                     <{/foreach}>

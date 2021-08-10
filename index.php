@@ -9,7 +9,7 @@ require_once XOOPS_ROOT_PATH . '/header.php';
 /*-----------功能函數區--------------*/
 
 //列出所有tad_sitemap資料
-function list_tad_sitemap()
+function show_sitemap()
 {
     global $xoopsDB, $xoopsTpl, $xoopsModuleConfig;
 
@@ -54,7 +54,6 @@ function list_tad_sitemap()
     //刪除確認的JS
     $xoopsTpl->assign('action', $_SERVER['PHP_SELF']);
     $xoopsTpl->assign('all_content', $all_content);
-    $xoopsTpl->assign('now_op', 'list_tad_sitemap');
     $xoopsTpl->assign('about_site', $xoopsModuleConfig['about_site']);
 }
 
@@ -64,11 +63,13 @@ $op = Request::getString('op');
 switch ($op) {
     /*---判斷動作請貼在下方---*/
     default:
-        list_tad_sitemap();
+        show_sitemap();
+        $op = 'show_sitemap';
         break;
         /*---判斷動作請貼在上方---*/
 }
 
 /*-----------秀出結果區--------------*/
+$xoopsTpl->assign('now_op', $op);
 $xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
 require_once XOOPS_ROOT_PATH . '/footer.php';
