@@ -148,9 +148,6 @@ function list_tad_sitemap()
         $i++;
     }
 
-    //刪除確認的JS
-
-//    $xoopsTpl->assign('bar', $bar);
     $xoopsTpl->assign('action', $_SERVER['PHP_SELF']);
     $xoopsTpl->assign('all_content', $all_content);
 

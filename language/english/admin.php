@@ -26,6 +26,7 @@ define('_MA_TADSITEMAP_LINK_ENABLE', 'The navigation bar has a "Site Map" link, 
 define('_MA_TADSITEMAP_DB_FIX', 'Click the following button to correct the original database content.');
 
 define('_MA_TADSITEMAP_VIEW_FIX', 'Automatic correction after preview');
+define('_MA_TADSITEMAP_VIEW_FIX_AGAIN', 'Preview Correction Again');
 define('_MA_TADSITEMAP_AUTO_FIX', 'Direct automatic correction');
 
 define('_MA_TADSITEMAP_DL_FREEGO', '<a href="https://accessibility.ncc.gov.tw/Download/Detail/1743?Category=70" target="_blank"> Download FreeGo 110.07</a> and detect "' . XOOPS_URL . '" with the AA standard');
@@ -35,3 +36,8 @@ define('_MA_TADSITEMAP_TABLE_COL', 'Column');
 define('_MA_TADSITEMAP_NEED_FIX', 'Field (%s) needs to be modified:');
 define('_MA_TADSITEMAP_FIX_NOW', 'Fix now');
 define('_MA_TADSITEMAP_THATS_ALL', 'All the correction programs can be done, please correct the rest.');
+define('_MA_TADSITEMAP_FIX_THEME_FS', 'Changed %s\'s default font size unit of the layout from %s to %s');
+define('_MA_TADSITEMAP_COMMENT_CLOSED', 'Turned off %s commenting to comply with accessibility standards and to avoid spamming');
+define('_MA_TADSITEMAP_FACEBOOK_CLOSED', 'Turned off %s facebook message box to comply with accessibility standards');
+define('_MA_TADSITEMAP_TAD_WEB_SCHEDULE_FIX', 'Complete revision of tad_web schedule templates to meet accessibility standards');
+define('_MA_TADSITEMAP_TAD_WEB_FB_CLOSED', 'Turned off the Facebook message box in the "%s" feature of "%s" to comply with accessibility standards');

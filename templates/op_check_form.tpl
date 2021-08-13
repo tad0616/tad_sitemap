@@ -11,6 +11,21 @@ ol.wcag li{
 <{if $num > 0}>
     <li><{$smarty.const._MA_TADSITEMAP_XOOPS_CSS|sprintf:$num:$css_path}></li>
 <{/if}>
+<{if $theme_font_size_msg}>
+    <{$theme_font_size_msg}>
+<{/if}>
+<{if $comment_msg}>
+    <{$comment_msg}>
+<{/if}>
+<{if $facebook_msg}>
+    <{$facebook_msg}>
+<{/if}>
+<{if $tad_web_facebook_msg}>
+    <{$tad_web_facebook_msg}>
+<{/if}>
+<{if $schedule_msg}>
+    <{$schedule_msg}>
+<{/if}>
 <{if $allow_register==1}>
     <li><{$smarty.const._MA_TADSITEMAP_PROFILE}></li>
 <{/if}>

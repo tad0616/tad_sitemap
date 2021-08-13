@@ -24,8 +24,8 @@ function start_check($mode = '')
     $check_items['size'] = 'font:';
     $regular['size'] = "/font:\s?(\d*|\d*\.\d*)(px|pt)/Ui";
 
-    $check_items['iframe'] = '<iframe';
-    $regular['iframe'] = "/<iframe (.*)>/Ui";
+    $check_items['iframe'] = '<iframe ';
+    $regular['iframe'] = "/(<iframe[^>]*>.*<\/iframe>)/Uims";
 
     $check_items['object'] = '<object';
     $regular['object'] = "/<object (.*)><\/object>/Ui";
@@ -36,20 +36,22 @@ function start_check($mode = '')
     $check_items['embed'] = '<embed';
     $regular['embed'] = "/<embed (.*)><\/applet>/Ui";
 
-    $check_items['img'] = '<img';
-    $regular['img'] = "/<img (.*)>/Ui";
+    $check_items['img'] = '<img ';
+    $regular['img'] = "/<\s*img\s+(.*)\/?\s?>/i";
+    // $regular['img'] = "/<img\b.*?(?:\>|\/>)/Ui";
+    // $regular['img'] = "/<\s*img\s+[^>]*?src\s*=\s*(\'|\")(.*?)\\1[^>]*?\/?\s*>/Ui";
 
     $check_items['blockquote'] = '<blockquote';
     $regular['blockquote'] = "/<blockquote(.*)<\/blockquote>/Ui";
 
-    $check_items['font_face'] = '<font face=';
-    $regular['font_face'] = "/<font face=(.*)<\/font>/Ui";
+    $check_items['empty_font'] = '<font ';
+    $regular['empty_font'] = "/(<font[^>]*><\/font>)/Uim";
 
-    $check_items['font'] = '<font';
-    $regular['font'] = "/<font(.*)<\/font>/Ui";
+    $check_items['font'] = '<font ';
+    $regular['font'] = "/(<font[^>]*>)|(<\/font>)/Uim";
 
-    $check_items['font_no_end'] = '<font';
-    $regular['font_no_end'] = "/<font(.*)/Ui";
+    // $check_items['font_no_end'] = '<font';
+    // $regular['font_no_end'] = "/<font(.*)/Ui";
 
     $check_items['center'] = '<center>';
     $regular['center'] = "/<center>/Ui";
@@ -59,6 +61,21 @@ function start_check($mode = '')
 
     $check_items['a_blank'] = '<a ';
     $regular['a_blank'] = "/<a (.*)>(.*)<\/a>/Ui";
+
+    $check_items['h1_blank'] = '<h1';
+    $regular['h1_blank'] = "/<h1(.*)>(.*)<\/h1>/Ui";
+
+    $check_items['h2_blank'] = '<h2';
+    $regular['h2_blank'] = "/<h2(.*)>(.*)<\/h2>/Ui";
+
+    $check_items['h3_blank'] = '<h3';
+    $regular['h3_blank'] = "/<h3(.*)>(.*)<\/h3>/Ui";
+
+    $check_items['h4_blank'] = '<h4';
+    $regular['h4_blank'] = "/<h4(.*)>(.*)<\/h4>/Ui";
+
+    $check_items['h5_blank'] = '<h5';
+    $regular['h5_blank'] = "/<h5(.*)>(.*)<\/h5>/Ui";
 
     $data = $need_data = [];
 
@@ -111,7 +128,7 @@ function start_check($mode = '')
                             }
 
                             // 假如有符合規則的欄位就做檢查
-                            if (in_array($col_name, $text_col[$kind]) and strpos($col_val, $chk_item) !== false) {
+                            if (in_array($col_name, $text_col[$kind]) and stripos($col_val, $chk_item) !== false) {
                                 $num = preg_match_all($regular[$kind], $col_val, $matches);
                                 if (!empty($num)) {
                                     $fix_result = call_user_func($kind, $col_val, $matches, $table);
@@ -153,7 +170,7 @@ function auto_fix()
 {
     global $xoopsDB, $xoopsTpl;
     $data = start_check('return');
-    // Utility::dd($data);
+    echo '<a href="check.php?op=start_check" class="btn btn-primary">' . _MA_TADSITEMAP_VIEW_FIX_AGAIN . '</a>';
     foreach ($data as $table => $kind_cols) {
         foreach ($kind_cols as $kind => $cols) {
             foreach ($cols as $i => $items) {
@@ -199,7 +216,7 @@ function fontsize($v, $matches, $table)
     $data['fix_v'] = $fix_v;
     $data['save'] = $myts->addSlashes($v);
     $data_line = round(strlen($v) / 60, 0);
-    $data['line'] = $data_line > 12 ? 12 : $data_line < 6 ? 6 : $data_line;
+    $data['line'] = $data_line > 12 ? 12 : 6;
     return $data;
 }
 
@@ -222,7 +239,7 @@ function fontsize($v, $matches, $table)
 //     $data['fix_v'] = $fix_v;
 //     $data['save'] = $myts->addSlashes($v);
 //     $data_line = round(strlen($v) / 60, 0);
-//     $data['line'] = $data_line > 12 ? 12 : $data_line < 6 ? 6 : $data_line;
+//     $data['line'] = $data_line > 12 ? 12 : 6;
 //     return $data;
 // }
 
@@ -245,7 +262,7 @@ function fontsize($v, $matches, $table)
 //     $data['fix_v'] = $fix_v;
 //     $data['save'] = $myts->addSlashes($v);
 //     $data_line = round(strlen($v) / 60, 0);
-//     $data['line'] = $data_line > 12 ? 12 : $data_line < 6 ? 6 : $data_line;
+//     $data['line'] = $data_line > 12 ? 12 : 6;
 //     return $data;
 // }
 
@@ -268,7 +285,7 @@ function size($v, $matches, $table)
     $data['fix_v'] = $fix_v;
     $data['save'] = $myts->addSlashes($v);
     $data_line = round(strlen($v) / 60, 0);
-    $data['line'] = $data_line > 12 ? 12 : $data_line < 6 ? 6 : $data_line;
+    $data['line'] = $data_line > 12 ? 12 : 6;
     return $data;
 }
 
@@ -277,15 +294,28 @@ function iframe($v, $matches, $table)
     $myts = \MyTextSanitizer::getInstance();
     $html_v = $fix_v = htmlspecialchars($v);
     $data = [];
-    if (strpos($v, ' title') === false) {
-        $v = str_replace('<iframe ', "<iframe title=iframe ", $v);
-        $html_v = str_replace('&lt;iframe', "&lt;<span style='color:red;'>iframe</span>", $html_v);
-        $fix_v = str_replace('&lt;iframe ', "&lt;<span style='color:blue;'>iframe title=iframe</span> ", $fix_v);
+
+    $fix = false;
+    // Utility::dd($matches);
+    foreach ($matches[0] as $old_str) {
+        if (stripos($old_str, ' title=') === false) {
+            // $old_str = str_replace("\r\n", " ", $old_str);
+            $new_str = str_replace('<iframe ', "<iframe title=iframe ", $old_str);
+            $v = str_replace($old_str, $new_str, $v);
+            $old_str_tag = htmlspecialchars($old_str);
+            $new_str_tag = htmlspecialchars($new_str);
+            $html_v = str_replace($old_str_tag, "<span style='color:red;'>$old_str_tag</span>", $html_v);
+            $fix_v = str_replace($old_str_tag, "<span style='color:blue;'>$new_str_tag</span>", $fix_v);
+            $fix = true;
+        }
+    }
+
+    if ($fix) {
         $data['html_v'] = $html_v;
         $data['fix_v'] = $fix_v;
         $data['save'] = $myts->addSlashes($v);
         $data_line = round(strlen($v) / 60, 0);
-        $data['line'] = $data_line > 12 ? 12 : $data_line < 6 ? 6 : $data_line;
+        $data['line'] = $data_line > 12 ? 12 : 6;
     }
 
     return $data;
@@ -296,7 +326,7 @@ function object($v, $matches, $table)
     $myts = \MyTextSanitizer::getInstance();
     $html_v = $fix_v = htmlspecialchars($v);
     $data = [];
-    if (strpos($v, ' title') === false) {
+    if (stripos($v, ' title') === false) {
         $v = str_replace('<object ', "<object title=object ", $v);
         $v = str_replace('</object>', "<span class='sr-only'>some object</span></object>", $v);
 
@@ -309,7 +339,7 @@ function object($v, $matches, $table)
         $data['fix_v'] = $fix_v;
         $data['save'] = $myts->addSlashes($v);
         $data_line = round(strlen($v) / 60, 0);
-        $data['line'] = $data_line > 12 ? 12 : $data_line < 6 ? 6 : $data_line;
+        $data['line'] = $data_line > 12 ? 12 : 6;
     }
 
     return $data;
@@ -320,7 +350,7 @@ function applet($v, $matches, $table)
     $myts = \MyTextSanitizer::getInstance();
     $html_v = $fix_v = htmlspecialchars($v);
     $data = [];
-    if (strpos($v, ' title') === false) {
+    if (stripos($v, ' title') === false) {
         $v = str_replace('<applet ', "<applet title=applet ", $v);
         $v = str_replace('</applet>', "<span class='sr-only'>some applet</span></applet>", $v);
 
@@ -333,7 +363,7 @@ function applet($v, $matches, $table)
         $data['fix_v'] = $fix_v;
         $data['save'] = $myts->addSlashes($v);
         $data_line = round(strlen($v) / 60, 0);
-        $data['line'] = $data_line > 12 ? 12 : $data_line < 6 ? 6 : $data_line;
+        $data['line'] = $data_line > 12 ? 12 : 6;
     }
 
     return $data;
@@ -344,7 +374,7 @@ function embed($v, $matches, $table)
     $myts = \MyTextSanitizer::getInstance();
     $html_v = $fix_v = htmlspecialchars($v);
     $data = [];
-    if (strpos($v, ' title') === false) {
+    if (stripos($v, ' title') === false) {
         $v = str_replace('<embed ', "<embed title=embed ", $v);
         $v = str_replace('</embed>', "<span class='sr-only'>some embed</span></embed>", $v);
 
@@ -357,7 +387,7 @@ function embed($v, $matches, $table)
         $data['fix_v'] = $fix_v;
         $data['save'] = $myts->addSlashes($v);
         $data_line = round(strlen($v) / 60, 0);
-        $data['line'] = $data_line > 12 ? 12 : $data_line < 6 ? 6 : $data_line;
+        $data['line'] = $data_line > 12 ? 12 : 6;
     }
 
     return $data;
@@ -365,17 +395,20 @@ function embed($v, $matches, $table)
 
 function img($v, $matches, $table)
 {
+    if (stripos($table, 'tplsource') !== false) {
+        return;
+    }
     $myts = \MyTextSanitizer::getInstance();
     $html_v = $fix_v = htmlspecialchars($v);
     $data = [];
 
-    preg_match_all('/<\s*img\s+[^>]*?src\s*=\s*(\'|\")(.*?)\\1[^>]*?\/?\s*>/i', $v, $match);
-
     $fix = false;
-    foreach ($match[0] as $old_img) {
-        if (strpos($old_img, ' alt') === false) {
-            $new_img = str_replace('img ', "img alt=img ", $old_img);
-            $new_img = str_replace("img\r\n", "img alt=img\r\n", $new_img);
+
+    foreach ($matches[0] as $old_img) {
+        if (stripos($old_img, 'alt=') === false) {
+            $old_img = str_replace("\r\n", " ", $old_img);
+            $new_img = str_replace('<img ', "<img alt=img ", $old_img);
+            // $new_img = str_replace("<img\r\n", "<img alt=img\r\n", $new_img);
             $v = str_replace($old_img, $new_img, $v);
             $old_img_tag = htmlspecialchars($old_img);
             $new_img_tag = htmlspecialchars($new_img);
@@ -390,12 +423,8 @@ function img($v, $matches, $table)
         $data['fix_v'] = $fix_v;
         $data['save'] = $myts->addSlashes($v);
         $data_line = round(strlen($v) / 60, 0);
-        $data['line'] = $data_line > 12 ? 12 : $data_line < 6 ? 6 : $data_line;
+        $data['line'] = $data_line > 12 ? 12 : 6;
     }
-    // if ($data['save']) {
-    //     Utility::dd($data['save']);
-    // }
-
     return $data;
 }
 
@@ -404,7 +433,7 @@ function blockquote($v, $matches, $table)
     $myts = \MyTextSanitizer::getInstance();
     $html_v = $fix_v = htmlspecialchars($v);
     $data = [];
-    if (strpos($v, ' xml:lang') === false) {
+    if (stripos($v, ' xml:lang') === false) {
         $v = str_replace('<blockquote', "<blockquote xml:lang=zh", $v);
         $html_v = str_replace('&lt;blockquote', "&lt;<span style='color:red;'>blockquote</span>", $html_v);
         $fix_v = str_replace('&lt;blockquote', "&lt;<span style='color:blue;'>blockquote xml:lang=zh</span>", $fix_v);
@@ -412,29 +441,28 @@ function blockquote($v, $matches, $table)
         $data['fix_v'] = $fix_v;
         $data['save'] = $myts->addSlashes($v);
         $data_line = round(strlen($v) / 60, 0);
-        $data['line'] = $data_line > 12 ? 12 : $data_line < 6 ? 6 : $data_line;
+        $data['line'] = $data_line > 12 ? 12 : 6;
     }
     return $data;
 }
 
-function font_face($v, $matches, $table)
+function empty_font($v, $matches, $table)
 {
     $myts = \MyTextSanitizer::getInstance();
     $html_v = $fix_v = htmlspecialchars($v);
     $data = [];
-    if (strpos($v, '<font face="') !== false) {
-        $v = str_replace('<font face="', "<span style=\"font-family: ", $v);
-        $v = str_replace('</font>', "</span>", $v);
-        $html_v = str_replace('&lt;font face=&quot;', "&lt;<span style='color:red;'>font face=&quot;</span>", $html_v);
-        $html_v = str_replace('&lt;/font', "&lt;<span style='color:red;'>/font</span>", $html_v);
-        $fix_v = str_replace('&lt;font face=&quot;', "&lt;<span style='color:blue;'>span style=&quot;font-family: </span>", $fix_v);
-        $fix_v = str_replace('&lt;/font', "&lt;<span style='color:blue;'>/span</span>", $fix_v);
-        $data['html_v'] = $html_v;
-        $data['fix_v'] = $fix_v;
-        $data['save'] = $myts->addSlashes($v);
-        $data_line = round(strlen($v) / 60, 0);
-        $data['line'] = $data_line > 12 ? 12 : $data_line < 6 ? 6 : $data_line;
+
+    foreach ($matches[0] as $empty_str) {
+        $v = str_replace($empty_str, '', $v);
+        $empty_str_html = htmlspecialchars($empty_str);
+        $html_v = str_replace($empty_str_html, "<span style='color:red;'>$empty_str_html</span>", $html_v);
+        $fix_v = str_replace($empty_str_html, "<span style='color:gray; text-decoration: line-through '>$empty_str_html</span>", $fix_v);
     }
+    $data['html_v'] = $html_v;
+    $data['fix_v'] = $fix_v;
+    $data['save'] = $myts->addSlashes($v);
+    $data_line = round(strlen($v) / 60, 0);
+    $data['line'] = $data_line > 12 ? 12 : 6;
     return $data;
 }
 
@@ -443,48 +471,89 @@ function font($v, $matches, $table)
     $myts = \MyTextSanitizer::getInstance();
     $html_v = $fix_v = htmlspecialchars($v);
     $data = [];
-    if (strpos($v, '<font') !== false) {
-        $v = str_replace('<font', "<span", $v);
-        $v = str_replace('</font>', "</span>", $v);
-        $html_v = str_replace('&lt;font', "&lt;<span style='color:red;'>font</span>", $html_v);
-        $html_v = str_replace('&lt;/font', "&lt;<span style='color:red;'>/font</span>", $html_v);
-        $fix_v = str_replace('&lt;font', "&lt;<span style='color:blue;'>span</span>", $fix_v);
-        $fix_v = str_replace('&lt;/font', "&lt;<span style='color:blue;'>/span</span>", $fix_v);
-        $data['html_v'] = $html_v;
-        $data['fix_v'] = $fix_v;
-        $data['save'] = $myts->addSlashes($v);
-        $data_line = round(strlen($v) / 60, 0);
-        $data['line'] = $data_line > 12 ? 12 : $data_line < 6 ? 6 : $data_line;
+
+    foreach ($matches[0] as $old_str) {
+        $q = (stripos($old_str, '"') !== false) ? '"' : "'";
+        $new_str = str_replace("'", '"', $old_str);
+        $style = [];
+        if (stripos($new_str, '<font ') !== false) {
+            $re = '/face=\"(.*)\"/Uims';
+            preg_match($re, $new_str, $face);
+            if ($face[1]) {
+                $style[] = "font-family: {$face[1]};";
+            }
+
+            $re = '/color=\"(.*)\"/Uims';
+            preg_match($re, $new_str, $color);
+            if ($color[1]) {
+                $style[] = "color: {$color[1]};";
+            }
+
+            $re = '/size=\"(.*)\"/Uims';
+            preg_match($re, $new_str, $size);
+            if (strpos($size[1], '+') !== false) {
+                $num = substr($size[1], 1);
+                $new_size = 1 + 0.2 * $num;
+            } elseif (strpos($size[1], '-') !== false) {
+                $num = substr($size[1], 1);
+                $new_size = 1 - 0.2 * $num;
+            } else {
+                $num = $size[1] - 3;
+                $new_size = 1 + 0.2 * $num;
+            }
+            if ($size[1]) {
+                $style[] = "font-size: {$size[1]};";
+            }
+
+            $new_str = strtolower("<span style={$q}" . implode(' ', $style) . "{$q}>");
+        } else {
+            $new_str = str_replace("</font>", "</span>", $new_str);
+        }
+
+        // if (stripos($new_str, '學生的情緒教育') !== false) {
+        //     die($new_str);
+        // }
+
+        $v = str_replace($old_str, $new_str, $v);
+        $old_str_html = htmlspecialchars($old_str);
+        $new_str_html = htmlspecialchars($new_str);
+        $html_v = str_replace($old_str_html, "<span style='color:red;'>$old_str_html</span>", $html_v);
+        $fix_v = str_replace($old_str_html, "<span style='color:blue;'>$new_str_html</span>", $fix_v);
     }
+    $data['html_v'] = $html_v;
+    $data['fix_v'] = $fix_v;
+    $data['save'] = $myts->addSlashes($v);
+    $data_line = round(strlen($v) / 60, 0);
+    $data['line'] = $data_line > 12 ? 12 : 6;
     return $data;
 }
 
-function font_no_end($v, $matches, $table)
-{
-    $myts = \MyTextSanitizer::getInstance();
-    $html_v = $fix_v = htmlspecialchars($v);
-    $data = [];
-    if (strpos($v, '<font') !== false) {
-        $v = str_replace('<font', "<span", $v);
-        $html_v = str_replace('&lt;font', "&lt;<span style='color:red;'>font</span>", $html_v);
-        $html_v = str_replace('&lt;/font', "&lt;<span style='color:red;'>/font</span>", $html_v);
-        $fix_v = str_replace('&lt;font', "&lt;<span style='color:blue;'>span</span>", $fix_v);
-        $fix_v = str_replace('&lt;/font', "&lt;<span style='color:blue;'>/span</span>", $fix_v);
-        $data['html_v'] = $html_v;
-        $data['fix_v'] = $fix_v;
-        $data['save'] = $myts->addSlashes($v);
-        $data_line = round(strlen($v) / 60, 0);
-        $data['line'] = $data_line > 12 ? 12 : $data_line < 6 ? 6 : $data_line;
-    }
-    return $data;
-}
+// function font_no_end($v, $matches, $table)
+// {
+//     $myts = \MyTextSanitizer::getInstance();
+//     $html_v = $fix_v = htmlspecialchars($v);
+//     $data = [];
+//     if (stripos($v, '<font') !== false) {
+//         $v = str_replace('<font', "<span", $v);
+//         $html_v = str_replace('&lt;font', "&lt;<span style='color:red;'>font</span>", $html_v);
+//         $html_v = str_replace('&lt;/font', "&lt;<span style='color:red;'>/font</span>", $html_v);
+//         $fix_v = str_replace('&lt;font', "&lt;<span style='color:blue;'>span</span>", $fix_v);
+//         $fix_v = str_replace('&lt;/font', "&lt;<span style='color:blue;'>/span</span>", $fix_v);
+//         $data['html_v'] = $html_v;
+//         $data['fix_v'] = $fix_v;
+//         $data['save'] = $myts->addSlashes($v);
+//         $data_line = round(strlen($v) / 60, 0);
+//         $data['line'] = $data_line > 12 ? 12 : 6;
+//     }
+//     return $data;
+// }
 
 function center($v, $matches, $table)
 {
     $myts = \MyTextSanitizer::getInstance();
     $html_v = $fix_v = htmlspecialchars($v);
     $data = [];
-    if (strpos($v, '<center') !== false) {
+    if (stripos($v, '<center') !== false) {
         $v = str_replace('<center>', "<div style=\"text-align: center;\">", $v);
         $v = str_replace('</center>', "</div>", $v);
         $html_v = str_replace('&lt;center', "&lt;<span style='color:red;'>center</span>", $html_v);
@@ -495,20 +564,20 @@ function center($v, $matches, $table)
         $data['fix_v'] = $fix_v;
         $data['save'] = $myts->addSlashes($v);
         $data_line = round(strlen($v) / 60, 0);
-        $data['line'] = $data_line > 12 ? 12 : $data_line < 6 ? 6 : $data_line;
+        $data['line'] = $data_line > 12 ? 12 : 6;
     }
     return $data;
 }
 
 function th($v, $matches, $table)
 {
-    if (strpos($table, 'tplsource') !== false) {
+    if (stripos($table, 'tplsource') !== false) {
         return;
     }
     $myts = \MyTextSanitizer::getInstance();
     $html_v = $fix_v = htmlspecialchars($v);
     $data = [];
-    if (strpos($v, '<th scope') === false && (strpos($v, '<th>') !== false || strpos($v, '<th ') !== false)) {
+    if (stripos($v, '<th scope') === false && (stripos($v, '<th>') !== false || stripos($v, '<th ') !== false)) {
         $v = str_replace('<th>', "<td>", $v);
         $v = str_replace('<th ', "<td ", $v);
         $v = str_replace('</th>', "</td>", $v);
@@ -522,7 +591,7 @@ function th($v, $matches, $table)
         $data['fix_v'] = $fix_v;
         $data['save'] = $myts->addSlashes($v);
         $data_line = round(strlen($v) / 60, 0);
-        $data['line'] = $data_line > 12 ? 12 : $data_line < 6 ? 6 : $data_line;
+        $data['line'] = $data_line > 12 ? 12 : 6;
     }
     return $data;
 }
@@ -534,16 +603,16 @@ function a_blank($v, $matches, $table)
     $data = [];
     // Utility::dd($matches);
     $fix = false;
-    foreach ($matches[2] as $key => $content_in_a) {
-        if (strpos($content_in_a, '$smarty') === false and strpos($matches[1][$key], 'href') !== false and empty(trim(strip_tags($content_in_a)))) {
-            $old_a = $matches[0][$key];
+    foreach ($matches[2] as $key => $content_in_tag) {
+        if (stripos($content_in_tag, '<{$') === false and stripos($matches[1][$key], 'href') !== false and empty(trim(strip_tags($content_in_tag)))) {
+            $old = $matches[0][$key];
             $linkto = str_replace(['href=', '"', "'", 'target=', '_blank', '_self'], '', $matches[1][$key]);
-            $new_a = str_replace('</a>', "<span class=sr-only>link to $linkto</span></a>", $old_a);
-            $v = str_replace($old_a, $new_a, $v);
-            $old_a_tag = htmlspecialchars($old_a);
-            $new_a_tag = htmlspecialchars($new_a);
-            $html_v = str_replace($old_a_tag, "<span style='color:red;'>$old_a_tag</span>", $html_v);
-            $fix_v = str_replace($old_a_tag, "<span style='color:blue;'>$new_a_tag</span>", $fix_v);
+            $new = str_replace('</a>', "<span class=sr-only>link to $linkto</span></a>", $old);
+            $v = str_replace($old, $new, $v);
+            $old_tag = htmlspecialchars($old);
+            $new_tag = htmlspecialchars($new);
+            $html_v = str_replace($old_tag, "<span style='color:red;'>$old_tag</span>", $html_v);
+            $fix_v = str_replace($old_tag, "<span style='color:blue;'>$new_tag</span>", $fix_v);
             $fix = true;
         }
     }
@@ -553,7 +622,173 @@ function a_blank($v, $matches, $table)
         $data['fix_v'] = $fix_v;
         $data['save'] = $myts->addSlashes($v);
         $data_line = round(strlen($v) / 60, 0);
-        $data['line'] = $data_line > 12 ? 12 : $data_line < 6 ? 6 : $data_line;
+        $data['line'] = $data_line > 12 ? 12 : 6;
+    }
+    // if ($data['save']) {
+    //     Utility::dd($data['save']);
+    // }
+
+    return $data;
+}
+
+function h1_blank($v, $matches, $table)
+{
+    $myts = \MyTextSanitizer::getInstance();
+    $html_v = $fix_v = htmlspecialchars($v);
+    $data = [];
+    // Utility::dd($matches);
+    $fix = false;
+    foreach ($matches[2] as $key => $content_in_tag) {
+        if (stripos($content_in_tag, '<{$') === false and empty(trim(strip_tags($content_in_tag)))) {
+            $old = $matches[0][$key];
+            $new = str_replace('</h1>', "<span class=sr-only>empty head3</span></h1>", $old);
+            $v = str_replace($old, $new, $v);
+            $old_tag = htmlspecialchars($old);
+            $new_tag = htmlspecialchars($new);
+            $html_v = str_replace($old_tag, "<span style='color:red;'>$old_tag</span>", $html_v);
+            $fix_v = str_replace($old_tag, "<span style='color:blue;'>$new_tag</span>", $fix_v);
+            $fix = true;
+        }
+    }
+
+    if ($fix) {
+        $data['html_v'] = $html_v;
+        $data['fix_v'] = $fix_v;
+        $data['save'] = $myts->addSlashes($v);
+        $data_line = round(strlen($v) / 60, 0);
+        $data['line'] = $data_line > 12 ? 12 : 6;
+    }
+    // if ($data['save']) {
+    //     Utility::dd($data['save']);
+    // }
+
+    return $data;
+}
+function h2_blank($v, $matches, $table)
+{
+    $myts = \MyTextSanitizer::getInstance();
+    $html_v = $fix_v = htmlspecialchars($v);
+    $data = [];
+    // Utility::dd($matches);
+    $fix = false;
+    foreach ($matches[2] as $key => $content_in_tag) {
+        if (stripos($content_in_tag, '<{$') === false and empty(trim(strip_tags($content_in_tag)))) {
+            $old = $matches[0][$key];
+            $new = str_replace('</h2>', "<span class=sr-only>empty head3</span></h2>", $old);
+            $v = str_replace($old, $new, $v);
+            $old_tag = htmlspecialchars($old);
+            $new_tag = htmlspecialchars($new);
+            $html_v = str_replace($old_tag, "<span style='color:red;'>$old_tag</span>", $html_v);
+            $fix_v = str_replace($old_tag, "<span style='color:blue;'>$new_tag</span>", $fix_v);
+            $fix = true;
+        }
+    }
+
+    if ($fix) {
+        $data['html_v'] = $html_v;
+        $data['fix_v'] = $fix_v;
+        $data['save'] = $myts->addSlashes($v);
+        $data_line = round(strlen($v) / 60, 0);
+        $data['line'] = $data_line > 12 ? 12 : 6;
+    }
+    // if ($data['save']) {
+    //     Utility::dd($data['save']);
+    // }
+
+    return $data;
+}
+function h3_blank($v, $matches, $table)
+{
+    $myts = \MyTextSanitizer::getInstance();
+    $html_v = $fix_v = htmlspecialchars($v);
+    $data = [];
+    // Utility::dd($matches);
+    $fix = false;
+    foreach ($matches[2] as $key => $content_in_tag) {
+        if (stripos($content_in_tag, '<{$') === false and empty(trim(strip_tags($content_in_tag)))) {
+            $old = $matches[0][$key];
+            $new = str_replace('</h3>', "<span class=sr-only>empty head3</span></h3>", $old);
+            $v = str_replace($old, $new, $v);
+            $old_tag = htmlspecialchars($old);
+            $new_tag = htmlspecialchars($new);
+            $html_v = str_replace($old_tag, "<span style='color:red;'>$old_tag</span>", $html_v);
+            $fix_v = str_replace($old_tag, "<span style='color:blue;'>$new_tag</span>", $fix_v);
+            $fix = true;
+        }
+    }
+
+    if ($fix) {
+        $data['html_v'] = $html_v;
+        $data['fix_v'] = $fix_v;
+        $data['save'] = $myts->addSlashes($v);
+        $data_line = round(strlen($v) / 60, 0);
+        $data['line'] = $data_line > 12 ? 12 : 6;
+    }
+    // if ($data['save']) {
+    //     Utility::dd($data['save']);
+    // }
+
+    return $data;
+}
+function h4_blank($v, $matches, $table)
+{
+    $myts = \MyTextSanitizer::getInstance();
+    $html_v = $fix_v = htmlspecialchars($v);
+    $data = [];
+    // Utility::dd($matches);
+    $fix = false;
+    foreach ($matches[2] as $key => $content_in_tag) {
+        if (stripos($content_in_tag, '<{$') === false and empty(trim(strip_tags($content_in_tag)))) {
+            $old = $matches[0][$key];
+            $new = str_replace('</h4>', "<span class=sr-only>empty head3</span></h4>", $old);
+            $v = str_replace($old, $new, $v);
+            $old_tag = htmlspecialchars($old);
+            $new_tag = htmlspecialchars($new);
+            $html_v = str_replace($old_tag, "<span style='color:red;'>$old_tag</span>", $html_v);
+            $fix_v = str_replace($old_tag, "<span style='color:blue;'>$new_tag</span>", $fix_v);
+            $fix = true;
+        }
+    }
+
+    if ($fix) {
+        $data['html_v'] = $html_v;
+        $data['fix_v'] = $fix_v;
+        $data['save'] = $myts->addSlashes($v);
+        $data_line = round(strlen($v) / 60, 0);
+        $data['line'] = $data_line > 12 ? 12 : 6;
+    }
+    // if ($data['save']) {
+    //     Utility::dd($data['save']);
+    // }
+
+    return $data;
+}
+function h5_blank($v, $matches, $table)
+{
+    $myts = \MyTextSanitizer::getInstance();
+    $html_v = $fix_v = htmlspecialchars($v);
+    $data = [];
+    // Utility::dd($matches);
+    $fix = false;
+    foreach ($matches[2] as $key => $content_in_tag) {
+        if (stripos($content_in_tag, '<{$') === false and empty(trim(strip_tags($content_in_tag)))) {
+            $old = $matches[0][$key];
+            $new = str_replace('</h5>', "<span class=sr-only>empty head3</span></h5>", $old);
+            $v = str_replace($old, $new, $v);
+            $old_tag = htmlspecialchars($old);
+            $new_tag = htmlspecialchars($new);
+            $html_v = str_replace($old_tag, "<span style='color:red;'>$old_tag</span>", $html_v);
+            $fix_v = str_replace($old_tag, "<span style='color:blue;'>$new_tag</span>", $fix_v);
+            $fix = true;
+        }
+    }
+
+    if ($fix) {
+        $data['html_v'] = $html_v;
+        $data['fix_v'] = $fix_v;
+        $data['save'] = $myts->addSlashes($v);
+        $data_line = round(strlen($v) / 60, 0);
+        $data['line'] = $data_line > 12 ? 12 : 6;
     }
     // if ($data['save']) {
     //     Utility::dd($data['save']);
@@ -582,6 +817,93 @@ function check_form()
 
     $xoopsTpl->assign('menuid', $menuid);
     $xoopsTpl->assign('status', $status);
+
+    // 修正佈景字型
+    $theme_font_size_msg = '';
+    $sql = 'select `theme_id`, `theme_name`, `font_size` from `' . $xoopsDB->prefix('tad_themes') . "`";
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    while (list($theme_id, $theme_name, $font_size) = $xoopsDB->fetchRow($result)) {
+        $new_val = (int) $font_size;
+        if (stripos($font_size, 'pt') !== false) {
+            $new_val = round($new_val / 12, 2);
+            $sql = 'update `' . $xoopsDB->prefix('tad_themes') . "` set `font_size`='{$new_val}rem' where `theme_id`='$theme_id'";
+            $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+            $theme_font_size_msg .= '<li>' . sprintf(_MA_TADSITEMAP_FIX_THEME_FS, $theme_name, $font_size, "{$new_val}rem") . '</li>';
+        } elseif (stripos($font_size, 'px') !== false) {
+            $new_val = round($new_val / 16, 2);
+            $sql = 'update `' . $xoopsDB->prefix('tad_themes') . "` set `font_size`='{$new_val}rem' where `theme_id`='$theme_id'";
+            $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+            $xoopsTpl->assign('status', $status);
+            $theme_font_size_msg .= '<li>' . sprintf(_MA_TADSITEMAP_FIX_THEME_FS, $theme_name, $font_size, "{$new_val}rem") . '</li>';
+        }
+    }
+    $xoopsTpl->assign('theme_font_size_msg', $theme_font_size_msg);
+
+    // 關閉評論
+    $comment_msg = '';
+    $sql = 'select a.`conf_id`, b.`dirname`
+    from `' . $xoopsDB->prefix('config') . '` as a
+    join `' . $xoopsDB->prefix('modules') . "` as b on a.conf_modid = b.mid
+    WHERE a.`conf_name` = 'com_rule' AND a.`conf_value` = '1'";
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    while (list($conf_id, $dirname) = $xoopsDB->fetchRow($result)) {
+        $sql = 'update `' . $xoopsDB->prefix('config') . "` set `conf_value`='0' where `conf_id`='$conf_id'";
+        $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        $comment_msg .= '<li>' . sprintf(_MA_TADSITEMAP_COMMENT_CLOSED, $dirname) . '</li>';
+    }
+    $xoopsTpl->assign('comment_msg', $comment_msg);
+
+    // 關閉facebook評論
+    $facebook_msg = '';
+    $sql = 'select a.`conf_id`, b.`dirname`
+    from `' . $xoopsDB->prefix('config') . '` as a
+    join `' . $xoopsDB->prefix('modules') . "` as b on a.conf_modid = b.mid
+    WHERE a.`conf_name` = 'facebook_comments_width' AND a.`conf_value` = '1'";
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    while (list($conf_id, $dirname) = $xoopsDB->fetchRow($result)) {
+        $sql = 'update `' . $xoopsDB->prefix('config') . "` set `conf_value`='0' where `conf_id`='$conf_id'";
+        $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        $comment_msg .= '<li>' . sprintf(_MA_TADSITEMAP_FACEBOOK_CLOSED, $dirname) . '</li>';
+    }
+    $xoopsTpl->assign('facebook_msg', $facebook_msg);
+
+    // 移除功課表樣板的 id 及 headers
+    $replace_arr = [' id="Tim"', ' id="Sct"', ' id="Mon"', ' id="Tue"', ' id="Wed"', ' id="Thu"', ' id="Fri"', ' headers="Tim"', ' headers="Sct"', ' headers="Mon"', ' headers="Tue"', ' headers="Wed"', ' headers="Thu"', ' headers="Fri"'];
+    $schedule_msg = '';
+    $clear_block_cache = false;
+    $sql = 'select `conf_id`, `conf_value` from `' . $xoopsDB->prefix('config') . "` WHERE `conf_name` = 'schedule_template'";
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    while (list($conf_id, $conf_value) = $xoopsDB->fetchRow($result)) {
+        $new_conf_value = str_replace($replace_arr, '', $conf_value);
+        $sql = 'update `' . $xoopsDB->prefix('config') . "` set `conf_value`='$new_conf_value' where `conf_id`='$conf_id'";
+        $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        $schedule_msg .= '<li>' . _MA_TADSITEMAP_TAD_WEB_SCHEDULE_FIX . '</li>';
+        $clear_block_cache = true;
+    }
+    $xoopsTpl->assign('comment_msg', $comment_msg);
+    // 重新多人網頁產生畫面
+    if ($clear_block_cache) {
+        // 關閉 tad_web facebook評論
+        $tad_web_facebook_msg = '';
+        $sql = 'select a.`WebID`, a.`plugin`, b.`WebName`
+        from `' . $xoopsDB->prefix('tad_web_plugins_setup') . '` as a
+        join `' . $xoopsDB->prefix('tad_web') . "` as b on a.WebID = b.WebID
+        WHERE a.`name` = 'use_fb_comments' AND a.`value` = '1'";
+        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        while (list($WebID, $plugin, $WebName) = $xoopsDB->fetchRow($result)) {
+            $sql = 'update `' . $xoopsDB->prefix('tad_web_plugins_setup') . "` set `value`='0' where `WebID`='$WebID' and `plugin`='$plugin' and `name`='use_fb_comments'";
+            $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+            $comment_msg .= '<li>' . sprintf(_MA_TADSITEMAP_TAD_WEB_FB_CLOSED, $WebName, $plugin) . '</li>';
+        }
+        $xoopsTpl->assign('tad_web_facebook_msg', $tad_web_facebook_msg);
+
+        $sql = 'select `WebID` from `' . $xoopsDB->prefix('tad_web') . "` ";
+        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        while (list($WebID) = $xoopsDB->fetchRow($result)) {
+            unlink(XOOPS_VAR_PATH . "/tad_web/$WebID/web_blocks.json");
+        }
+
+    }
 
     $css = file_get_contents(XOOPS_ROOT_PATH . '/xoops.css');
     $num = preg_match_all("/font-size:\s?(\d*)(px|pt)/U", $css, $matches);

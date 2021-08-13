@@ -24,6 +24,7 @@ define('_MA_TADSITEMAP_LINK_ENABLE', '導覽列有「網站地圖」連結，但
 define('_MA_TADSITEMAP_DB_FIX', '按下方按鈕修正原有資料庫內容：');
 
 define('_MA_TADSITEMAP_VIEW_FIX', '預覽後自動修正');
+define('_MA_TADSITEMAP_VIEW_FIX_AGAIN', '再次預覽修正');
 define('_MA_TADSITEMAP_AUTO_FIX', '直接自動修正');
 
 define('_MA_TADSITEMAP_DL_FREEGO', '最後請 <a href="https://accessibility.ncc.gov.tw/Download/Detail/1743?Category=70" target="_blank">下載FreeGo 110.07</a>，並以 AA標準檢測「' . XOOPS_URL . '」');
@@ -33,3 +34,8 @@ define('_MA_TADSITEMAP_TABLE_COL', '欄位');
 define('_MA_TADSITEMAP_NEED_FIX', '欄位（%s）需修改部份：');
 define('_MA_TADSITEMAP_FIX_NOW', '立即修正');
 define('_MA_TADSITEMAP_THATS_ALL', '修正程式能做的都做了，剩下的就請自行處理。');
+define('_MA_TADSITEMAP_FIX_THEME_FS', '已將 %s 佈景預設字型尺寸單位從 %s 改為 %s');
+define('_MA_TADSITEMAP_COMMENT_CLOSED', '已將 %s 的評論功能關閉，以符合無障礙標準，並避免垃圾訊息入侵');
+define('_MA_TADSITEMAP_FACEBOOK_CLOSED', '已將 %s 的facebook留言框關閉，以符合無障礙標準');
+define('_MA_TADSITEMAP_TAD_WEB_SCHEDULE_FIX', '完成多人網頁功課表樣板的修正，以符合無障礙標準');
+define('_MA_TADSITEMAP_TAD_WEB_FB_CLOSED', '已關閉「%s」的「%s」功能中的facebook留言框關閉，以符合無障礙標準');
