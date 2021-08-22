@@ -1,3 +1,22 @@
+Tad Sitemap 1.9 (Released on 2021-08-22)
+====================================
+1. Fixed for 2021/07 new version of AA accessibility standard
+2. Added <font> accessibility fix detection
+3. Added accessibility correction detection for no text in <a></a>.
+4. Added <center> accessibility correction detection.
+5. Fix the problem that font-size cannot be detected when it is a floating point number.
+6. Add <applet> accessibility correction detection.
+7.New <object> accessibility correction detection
+8. Add <embed> accessibility correction detection.
+9. Fix <img may miss the correction in some cases.
+10.Added <th scope> accessibility correction detection.
+11. Add "Privacy Policy" and "User Data Delete" page.
+12. Add automatic correction of layout default font size unit function
+13. New comment open check
+14.New facebook message box check
+15.New module.textsanitizer.php file check
+
+
 Tad Sitemap 1.8.1 (Released on 2021-08-03)
 ================================================
 1. Solve the problem of PHP class block failure after auto-correction

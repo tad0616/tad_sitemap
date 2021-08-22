@@ -11,6 +11,9 @@ ol.wcag li{
 <{if $num > 0}>
     <li><{$smarty.const._MA_TADSITEMAP_XOOPS_CSS|sprintf:$num:$css_path}></li>
 <{/if}>
+<{if $textsanitizer_path}>
+    <li><{$smarty.const._MA_TADSITEMAP_TEXTSANITIZER_PATH|sprintf:$textsanitizer_path}></li>
+<{/if}>
 <{if $theme_font_size_msg}>
     <{$theme_font_size_msg}>
 <{/if}>
@@ -35,8 +38,7 @@ ol.wcag li{
     <li><{$smarty.const._MA_TADSITEMAP_LINK_ENABLE|sprintf:$menuid}></li>
 <{/if}>
     <li><{$smarty.const._MA_TADSITEMAP_DB_FIX}><br>
-    <a href="check.php?op=start_check" class="btn btn-primary"><{$smarty.const._MA_TADSITEMAP_VIEW_FIX}></a>
-    <a href="check.php?op=auto_fix" class="btn btn-success"><{$smarty.const._MA_TADSITEMAP_AUTO_FIX}></a>
+    <{includeq file="$xoops_rootpath/modules/tad_sitemap/templates/sub_check_form.tpl"}>
     </li>
     <li><{$smarty.const._MA_TADSITEMAP_DL_FREEGO}></li>
     <li><{$smarty.const._MA_TADSITEMAP_STATEMENT}></li>

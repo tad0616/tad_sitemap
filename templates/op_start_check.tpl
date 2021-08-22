@@ -1,5 +1,11 @@
 <form action="check.php" method="post">
     <{if $data}>
+
+        <div class="text-center" style="margin: 30px auto;">
+            <input type="hidden" name="need_check_list" value="<{$need_check_list}>">
+            <button type="submit" name="op" value="auto_fix" class="btn btn-primary"><{$smarty.const._MA_TADSITEMAP_FIX_NOW}></button>
+        </div>
+
         <{foreach from=$data key=table item=kind_cols}>
             <h3><{$table}> <{$smarty.const._MA_TADSITEMAP_TABLE_COL}></h3>
             <{foreach from=$kind_cols key=kind item=cols}>
@@ -24,5 +30,6 @@
         </div>
     <{else}>
         <div class="alert alert-success"><{$smarty.const._MA_TADSITEMAP_THATS_ALL}></div>
+        <{includeq file="$xoops_rootpath/modules/tad_sitemap/templates/sub_check_form.tpl"}>
     <{/if}>
 </form>

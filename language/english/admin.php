@@ -1,8 +1,5 @@
 <?php
 xoops_loadLanguage('admin_common', 'tadtools');
-if (!defined('_TAD_NEED_TADTOOLS')) {
-    define('_TAD_NEED_TADTOOLS', 'This module needs TadTools module. You can download TadTools from <a href="https://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1" target="_blank">XOOPS EasyGO</a>.');
-}
 
 //tad_sitemap-edit
 define('_MA_TADSITEMAP_MID', 'Module ID');
@@ -17,6 +14,8 @@ define('_MA_TADSITEMAP_HOMEPAGE', 'Homepage');
 define('_MA_TADSITEMAP_CLEAN', 'Empty items will not be displayed');
 
 define('_MA_TADSITEMAP_XOOPS_CSS', 'xoops.css has %s places that have not been fixed. If there is no <a href="https://schoolweb.tn.edu.tw/~matrix/xoops.css" target="_blank"> Please download it manually or right click Save xoops.css </a> and overwrite %s');
+
+define('_MA_TADSITEMAP_TEXTSANITIZER_PATH', 'Open <code>%s</code> and search for "<code>$text = $this->makeClickable($text);</code>" (in three places) and change the line to: "<code>$text = XoopsModules\Tadtools\Utility:: linkify($text);</code>" and then save the upload and overwrite');
 
 define('_MA_TADSITEMAP_PROFILE', 'Please go to <a href="' . XOOPS_URL . '/modules/system/admin.php?fct=preferences&op=show&confcat_id=2" target="_blank">your preferences</a> and set "Allow New Member Registration" to "No", because the registration form does not comply with Accessibility 2.0, and it is easy to generate spam accounts.');
 
