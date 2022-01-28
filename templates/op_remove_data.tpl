@@ -1,3 +1,4 @@
+<h2>用戶資料刪除方法</h2>
 <ol>
 	<li>請先登入 <a href="<{$xoops_url}>" target="_blank"><{$xoops_url}></a></li>
 	<li>連到 <a href="<{$xoops_url}>/user.php" target="_blank"><{$xoops_url}>/user.php</a></li>

@@ -52,7 +52,7 @@
     </form>
 
     <{if $smarty.session.tad_sitemap_adm}>
-        <div class="text-right">
+        <div class="text-right text-end">
             <a href="<{$xoops_url}>/modules/tad_sitemap/admin/main.php?op=auto_sitemap" class="btn btn-info"><{$smarty.const._MA_TADSITEMAP_AUTO_IMPORT}></a>
         </div>
     <{/if}>

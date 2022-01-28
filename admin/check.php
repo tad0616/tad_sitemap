@@ -286,13 +286,13 @@ function object($v, $matches, $table)
     $data = [];
     if (stripos($v, ' title') === false) {
         $v = str_replace('<object ', "<object title=object ", $v);
-        $v = str_replace('</object>', "<span class='sr-only'>some object</span></object>", $v);
+        $v = str_replace('</object>', "<span class='sr-only visually-hidden'>some object</span></object>", $v);
 
         $html_v = str_replace('&lt;object', "&lt;<span style='color:red;'>object</span>", $html_v);
         $fix_v = str_replace('&lt;object ', "&lt;<span style='color:blue;'>object title=object</span> ", $fix_v);
 
         $html_v = str_replace('/object', "<span style='color:red;'>/object</span>", $html_v);
-        $fix_v = str_replace('/object', "<span style='color:blue;'>span class=sr-only&gt;some object&lt;/span&gt;&lt;/object</span>", $fix_v);
+        $fix_v = str_replace('/object', "<span style='color:blue;'>span class=sr-only visually-hidden&gt;some object&lt;/span&gt;&lt;/object</span>", $fix_v);
         $data['html_v'] = $html_v;
         $data['fix_v'] = $fix_v;
         $data['save'] = $myts->addSlashes($v);
@@ -310,13 +310,13 @@ function applet($v, $matches, $table)
     $data = [];
     if (stripos($v, ' title') === false) {
         $v = str_replace('<applet ', "<applet title=applet ", $v);
-        $v = str_replace('</applet>', "<span class='sr-only'>some applet</span></applet>", $v);
+        $v = str_replace('</applet>', "<span class='sr-only visually-hidden'>some applet</span></applet>", $v);
 
         $html_v = str_replace('&lt;applet', "&lt;<span style='color:red;'>applet</span>", $html_v);
         $fix_v = str_replace('&lt;applet ', "&lt;<span style='color:blue;'>applet title=applet</span> ", $fix_v);
 
         $html_v = str_replace('/applet', "<span style='color:red;'>/applet</span>", $html_v);
-        $fix_v = str_replace('/applet', "<span style='color:blue;'>span class=sr-only&gt;some applet&lt;/span&gt;&lt;/applet</span>", $fix_v);
+        $fix_v = str_replace('/applet', "<span style='color:blue;'>span class=sr-only visually-hidden&gt;some applet&lt;/span&gt;&lt;/applet</span>", $fix_v);
         $data['html_v'] = $html_v;
         $data['fix_v'] = $fix_v;
         $data['save'] = $myts->addSlashes($v);
@@ -335,13 +335,13 @@ function embed($v, $matches, $table)
     $fix = false;
     if (stripos($v, ' title') === false) {
         $v = str_replace('<embed ', "<embed title=embed ", $v);
-        $v = str_replace('</embed>', "<span class='sr-only'>some embed</span></embed>", $v);
+        $v = str_replace('</embed>', "<span class='sr-only visually-hidden'>some embed</span></embed>", $v);
 
         $html_v = str_replace('&lt;embed', "&lt;<span style='color:red;'>embed</span>", $html_v);
         $fix_v = str_replace('&lt;embed ', "&lt;<span style='color:blue;'>embed title=embed</span> ", $fix_v);
 
         $html_v = str_replace('/embed', "<span style='color:red;'>&lt;/embed&gt;</span>", $html_v);
-        $fix_v = str_replace('/embed', "<span style='color:blue;'>&lt;span class=sr-only&gt;some embed&lt;/span&gt;&lt;/embed&gt;</span>", $fix_v);
+        $fix_v = str_replace('/embed', "<span style='color:blue;'>&lt;span class=sr-only visually-hidden&gt;some embed&lt;/span&gt;&lt;/embed&gt;</span>", $fix_v);
         $fix = true;
     }
 
@@ -691,7 +691,7 @@ function a_blank($v, $matches, $table)
         if (stripos($content_in_tag, '<{$') === false and stripos($matches[1][$key], 'href') !== false and empty(trim(strip_tags($content_in_tag)))) {
             $old = $matches[0][$key];
             $linkto = str_ireplace(['href=', '"', "'", 'target=', '_blank', '_self'], '', $matches[1][$key]);
-            $new = str_ireplace('</a>', "<span class=sr-only>link to $linkto</span></a>", $old);
+            $new = str_ireplace('</a>', "<span class=sr-only visually-hidden>link to $linkto</span></a>", $old);
             $v = str_ireplace($old, $new, $v);
             $old_tag = htmlspecialchars($old);
             $new_tag = htmlspecialchars($new);
@@ -755,7 +755,7 @@ function head_blank($v, $matches, $table)
     foreach ($matches[1] as $key => $content_in_tag) {
         if (stripos($content_in_tag, '<{$') === false and empty(trim(strip_tags($content_in_tag)))) {
             $old = $matches[0][$key];
-            $new = str_replace('</h', "<span class=sr-only>empty head</span></h", $old);
+            $new = str_replace('</h', "<span class=sr-only visually-hidden>empty head</span></h", $old);
             $v = str_replace($old, $new, $v);
             $old_tag = htmlspecialchars($old);
             $new_tag = htmlspecialchars($new);
