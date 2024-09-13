@@ -3,7 +3,8 @@ $modversion = [];
 
 //---模組基本資訊---//
 $modversion['name'] = _MI_TADSITEMA_NAME;
-$modversion['version'] = '2.0';
+// $modversion['version'] = '2.0';
+$modversion['version'] = $_SESSION['xoops_version'] >= 20511 ? '3.0.0-Stable' : '3.0';
 $modversion['description'] = _MI_TADSITEMA_DESC;
 $modversion['author'] = _MI_TADSITEMA_AUTHOR;
 $modversion['credits'] = _MI_TADSITEMA_CREDITS;

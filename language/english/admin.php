@@ -28,7 +28,7 @@ define('_MA_TADSITEMAP_VIEW_FIX', 'Automatic correction after preview');
 define('_MA_TADSITEMAP_VIEW_FIX_AGAIN', 'Preview Correction Again');
 define('_MA_TADSITEMAP_AUTO_FIX', 'Direct automatic correction');
 
-define('_MA_TADSITEMAP_DL_FREEGO', '<a href="https://accessibility.ncc.gov.tw/Download/Detail/1743?Category=70" target="_blank"> Download FreeGo 110.07</a> and detect "' . XOOPS_URL . '" with the AA standard');
+define('_MA_TADSITEMAP_DL_FREEGO', '<a href="https://accessibility.moda.gov.tw/Download/Detail/2763?Category=70" target="_blank"> Download FreeGo 110.07</a> and detect "' . XOOPS_URL . '" with the AA standard');
 define('_MA_TADSITEMAP_STATEMENT', 'This program only helps to pass the machine check when not logged in to the website. It cannot guarantee that the manual check can pass.');
 
 define('_MA_TADSITEMAP_TABLE_COL', 'Column');

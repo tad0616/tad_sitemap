@@ -30,6 +30,6 @@
         </div>
     <{else}>
         <div class="alert alert-success"><{$smarty.const._MA_TADSITEMAP_THATS_ALL}></div>
-        <{includeq file="$xoops_rootpath/modules/tad_sitemap/templates/sub_check_form.tpl"}>
+        <{include file="$xoops_rootpath/modules/tad_sitemap/templates/sub_check_form.tpl"}>
     <{/if}>
 </form>

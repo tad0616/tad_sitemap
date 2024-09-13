@@ -38,7 +38,7 @@ ol.wcag li{
     <li><{$smarty.const._MA_TADSITEMAP_LINK_ENABLE|sprintf:$menuid}></li>
 <{/if}>
     <li><{$smarty.const._MA_TADSITEMAP_DB_FIX}><br>
-    <{includeq file="$xoops_rootpath/modules/tad_sitemap/templates/sub_check_form.tpl"}>
+    <{include file="$xoops_rootpath/modules/tad_sitemap/templates/sub_check_form.tpl"}>
     </li>
     <li><{$smarty.const._MA_TADSITEMAP_DL_FREEGO}></li>
     <li><{$smarty.const._MA_TADSITEMAP_STATEMENT}></li>

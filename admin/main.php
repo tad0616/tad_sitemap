@@ -49,10 +49,9 @@ function insert_tad_sitemap()
         redirect_header($_SERVER['PHP_SELF'], 3, $error);
     }
 
-    $myts = \MyTextSanitizer::getInstance();
-    $_POST['name'] = $myts->addSlashes($_POST['name']);
-    $_POST['url'] = $myts->addSlashes($_POST['url']);
-    $_POST['description'] = $myts->addSlashes($_POST['description']);
+    $_POST['name'] = $xoopsDB->escape($_POST['name']);
+    $_POST['url'] = $xoopsDB->escape($_POST['url']);
+    $_POST['description'] = $xoopsDB->escape($_POST['description']);
 
     $sql = 'insert into `' . $xoopsDB->prefix('tad_sitemap') . "`
   (`mid` , `name` , `url` , `description` , `last_update` , `sort`)
@@ -73,11 +72,10 @@ function update_tad_sitemap($mid_name = '')
         redirect_header($_SERVER['PHP_SELF'], 3, _TAD_PERMISSION_DENIED);
     }
 
-    $myts = \MyTextSanitizer::getInstance();
     foreach ($_POST['name'] as $mid => $item) {
         foreach ($item as $sort => $name) {
-            $name = $myts->addSlashes($name);
-            $description = $myts->addSlashes($_POST['description'][$mid][$sort]);
+            $name = $xoopsDB->escape($name);
+            $description = $xoopsDB->escape($_POST['description'][$mid][$sort]);
 
             $sql = 'update `' . $xoopsDB->prefix('tad_sitemap') . "` set
        `name` = '{$name}' ,
@@ -188,7 +186,6 @@ function get_submenu($dirname = '', $mid = '')
 {
     global $xoopsDB;
 
-    $myts = \MyTextSanitizer::getInstance();
     $moduleHandler = xoops_getHandler('module');
     $xoopsModule = $moduleHandler->getByDirname($dirname);
     //$mod_id=$xoopsModule->getVar('mid');
@@ -199,8 +196,8 @@ function get_submenu($dirname = '', $mid = '')
         $name = $menu['name'];
         $url = $menu['url'];
 
-        $name = $myts->addSlashes($name);
-        $url = $myts->addSlashes($url);
+        $name = $xoopsDB->escape($name);
+        $url = $xoopsDB->escape($url);
 
         $sql = 'replace into `' . $xoopsDB->prefix('tad_sitemap') . "`  (`mid`, `name` , `url` , `description` , `last_update` , `sort`)  values('{$mid}' , '{$name}' , '{$url}' , '' , '{$now}', '{$i}')";
         $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
@@ -212,10 +209,9 @@ function get_submenu($dirname = '', $mid = '')
 
 function get_tadmenu($dirname = '', $mid = '', $i = 0, $mod_name = '')
 {
-    global $xoopsDB, $xoopsModule, $xoopsUser;
+    global $xoopsDB;
     $filename = XOOPS_ROOT_PATH . "/uploads/menu_{$dirname}.txt";
 
-    $myts = \MyTextSanitizer::getInstance();
     if (!file_exists($filename)) {
         file(XOOPS_URL . "/modules/{$dirname}/index.php");
     }
@@ -228,8 +224,8 @@ function get_tadmenu($dirname = '', $mid = '', $i = 0, $mod_name = '')
             if (_TAD_TO_MOD == $name) {
                 $name = $mod_name . _MA_TADSITEMAP_HOMEPAGE;
             }
-            $name = $myts->addSlashes($name);
-            $url = $myts->addSlashes($url);
+            $name = $xoopsDB->escape($name);
+            $url = $xoopsDB->escape($url);
             $sql = 'replace into `' . $xoopsDB->prefix('tad_sitemap') . "`  (`mid`, `name` , `url` , `description` , `last_update` , `sort`)  values('{$mid}' , '{$name}' , '{$url}' , '' , '{$now}', '{$i}')";
             $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
             $i++;
