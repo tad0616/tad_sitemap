@@ -14,7 +14,7 @@
                 <{if $sub.name}>
                     <{assign var="j" value=$j+1}>
                     <div>
-                    <span class="badge badge-info"><{$i}>-<{$j}></span>
+                    <span class="badge badge-info bg-info"><{$i}>-<{$j}></span>
                     <a href="<{$xoops_url}>/modules/<{$map.dirname}>/<{$sub.url}>"><{$sub.name}></a>
                     <{if $sub.description}>  : <{$sub.description}><{/if}>
                     </div>
@@ -28,7 +28,7 @@
 
 <{else}>
     <{if $smarty.session.tad_sitemap_adm}>
-        <div class="jumbotron text-center">
+        <div class="jumbotron bg-light p-5 rounded-lg m-3 text-center">
             <a href="<{$xoops_url}>/modules/tad_sitemap/admin/main.php" class="btn btn-info"><{$smarty.const._TAD_ADD}></a>
         </div>
     <{/if}>
