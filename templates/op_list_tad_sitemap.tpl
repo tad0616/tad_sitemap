@@ -1,5 +1,5 @@
-<{if $all_content}>
-    <{if $smarty.session.tad_sitemap_adm}>
+<{if $all_content|default:false}>
+    <{if $smarty.session.tad_sitemap_adm|default:false}>
         <{$tad_sitemap_jquery_ui}>
         <script type="text/javascript">
             $(document).ready(function(){
@@ -25,7 +25,7 @@
             <tr>
             <th><{$i}>.<{$map.name}></th>
             <td>
-                <{if $map.item}>
+                <{if $map.item|default:false}>
                 <{foreach from=$map.item item=sub}>
                     <{assign var="j" value=$j+1}>
                     <div class="row">
@@ -51,7 +51,7 @@
         </div>
     </form>
 
-    <{if $smarty.session.tad_sitemap_adm}>
+    <{if $smarty.session.tad_sitemap_adm|default:false}>
         <div class="text-right text-end">
             <a href="<{$xoops_url}>/modules/tad_sitemap/admin/main.php?op=auto_sitemap" class="btn btn-info"><{$smarty.const._MA_TADSITEMAP_AUTO_IMPORT}></a>
         </div>
@@ -59,7 +59,7 @@
 
     <{$bar}>
 <{else}>
-    <{if $smarty.session.tad_sitemap_adm}>
+    <{if $smarty.session.tad_sitemap_adm|default:false}>
     <div class="jumbotron bg-light p-5 rounded-lg m-3 text-center">
         <a href="<{$xoops_url}>/modules/tad_sitemap/admin/main.php?op=auto_sitemap" class="btn btn-info"><{$smarty.const._MA_TADSITEMAP_AUTO_IMPORT}></a>
     </div>

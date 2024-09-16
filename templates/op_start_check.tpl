@@ -1,5 +1,5 @@
 <form action="check.php" method="post">
-    <{if $data}>
+    <{if $data|default:false}>
 
         <div class="text-center" style="margin: 30px auto;">
             <input type="hidden" name="need_check_list" value="<{$need_check_list}>">

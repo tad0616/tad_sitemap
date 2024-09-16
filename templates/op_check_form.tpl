@@ -11,25 +11,25 @@ ol.wcag li{
 <{if $num > 0}>
     <li><{$smarty.const._MA_TADSITEMAP_XOOPS_CSS|sprintf:$num:$css_path}></li>
 <{/if}>
-<{if $textsanitizer_path}>
+<{if $textsanitizer_path|default:false}>
     <li><{$smarty.const._MA_TADSITEMAP_TEXTSANITIZER_PATH|sprintf:$textsanitizer_path}></li>
 <{/if}>
-<{if $theme_font_size_msg}>
+<{if $theme_font_size_msg|default:false}>
     <{$theme_font_size_msg}>
 <{/if}>
-<{if $comment_msg}>
+<{if $comment_msg|default:false}>
     <{$comment_msg}>
 <{/if}>
-<{if $facebook_msg}>
+<{if $facebook_msg|default:false}>
     <{$facebook_msg}>
 <{/if}>
-<{if $tad_web_facebook_msg}>
+<{if $tad_web_facebook_msg|default:false}>
     <{$tad_web_facebook_msg}>
 <{/if}>
-<{if $schedule_msg}>
+<{if $schedule_msg|default:false}>
     <{$schedule_msg}>
 <{/if}>
-<{if $allow_register==1}>
+<{if $allow_register|default:false}>
     <li><{$smarty.const._MA_TADSITEMAP_PROFILE}></li>
 <{/if}>
 <{if !$menuid}>
