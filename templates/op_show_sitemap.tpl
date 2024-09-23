@@ -1,5 +1,5 @@
 <h1><{$smarty.const._MD_TADSITEMA_SMNAME1}></h1>
-<{$about_site}>
+<{$about_site|default:''}>
 <{if $all_content|default:false}>
     <{assign var="i" value=0}>
     <table class="table">
@@ -7,14 +7,14 @@
         <{assign var="i" value=$i+1}>
         <{assign var="j" value=0}>
         <tr>
-            <th id="wcag_item_<{$i}>"><{$i}>.<{$map.name}></th>
-            <td headers="wcag_item_<{$i}>">
+            <th id="wcag_item_<{$i|default:''}>"><{$i|default:''}>.<{$map.name}></th>
+            <td headers="wcag_item_<{$i|default:''}>">
             <{if $map.item|default:false}>
                 <{foreach from=$map.item item=sub}>
                 <{if $sub.name|default:false}>
                     <{assign var="j" value=$j+1}>
                     <div>
-                    <span class="badge badge-info bg-info"><{$i}>-<{$j}></span>
+                    <span class="badge badge-info bg-info"><{$i|default:''}>-<{$j|default:''}></span>
                     <a href="<{$xoops_url}>/modules/<{$map.dirname}>/<{$sub.url}>"><{$sub.name}></a>
                     <{if $sub.description|default:false}>  : <{$sub.description}><{/if}>
                     </div>

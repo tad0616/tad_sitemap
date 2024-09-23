@@ -1,6 +1,6 @@
 <{if $all_content|default:false}>
     <{if $smarty.session.tad_sitemap_adm|default:false}>
-        <{$tad_sitemap_jquery_ui}>
+        <{$tad_sitemap_jquery_ui|default:''}>
         <script type="text/javascript">
             $(document).ready(function(){
                 $("#tad_sitemap_sort").sortable({ opacity: 0.6, cursor: "move", update: function() {
@@ -23,7 +23,7 @@
             <{assign var="i" value=$i+1}>
             <{assign var="j" value=0}>
             <tr>
-            <th><{$i}>.<{$map.name}></th>
+            <th><{$i|default:''}>.<{$map.name}></th>
             <td>
                 <{if $map.item|default:false}>
                 <{foreach from=$map.item item=sub}>
@@ -57,7 +57,7 @@
         </div>
     <{/if}>
 
-    <{$bar}>
+    <{$bar|default:''}>
 <{else}>
     <{if $smarty.session.tad_sitemap_adm|default:false}>
     <div class="jumbotron bg-light p-5 rounded-lg m-3 text-center">

@@ -15,19 +15,19 @@ ol.wcag li{
     <li><{$smarty.const._MA_TADSITEMAP_TEXTSANITIZER_PATH|sprintf:$textsanitizer_path}></li>
 <{/if}>
 <{if $theme_font_size_msg|default:false}>
-    <{$theme_font_size_msg}>
+    <{$theme_font_size_msg|default:''}>
 <{/if}>
 <{if $comment_msg|default:false}>
-    <{$comment_msg}>
+    <{$comment_msg|default:''}>
 <{/if}>
 <{if $facebook_msg|default:false}>
-    <{$facebook_msg}>
+    <{$facebook_msg|default:''}>
 <{/if}>
 <{if $tad_web_facebook_msg|default:false}>
-    <{$tad_web_facebook_msg}>
+    <{$tad_web_facebook_msg|default:''}>
 <{/if}>
 <{if $schedule_msg|default:false}>
-    <{$schedule_msg}>
+    <{$schedule_msg|default:''}>
 <{/if}>
 <{if $allow_register|default:false}>
     <li><{$smarty.const._MA_TADSITEMAP_PROFILE}></li>
