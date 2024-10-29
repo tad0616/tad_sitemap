@@ -4,9 +4,50 @@ use XoopsModules\Tadtools\Utility;
 use XoopsModules\Tadtools\Wcag;
 
 /*-----------引入檔案區--------------*/
-$xoopsOption['template_main'] = 'tad_sitemap_adm_main.tpl';
+$xoopsOption['template_main'] = 'tad_sitemap_admin.tpl';
 require_once __DIR__ . '/header.php';
-require_once dirname(__DIR__) . '/function.php';
+
+/*-----------執行動作判斷區----------*/
+$op = Request::getString('op');
+$menuid = Request::getInt('menuid');
+$need_check = Request::getArray('need_check');
+$need_check_list = Request::getString('need_check_list');
+
+switch ($op) {
+
+    case 'start_check':
+        if ($need_check_list) {
+            $need_check = explode(';', $need_check_list);
+        }
+        start_check('', $need_check);
+        break;
+
+    case 'auto_fix':
+        auto_fix($need_check_list);
+        // header("location: {$_SERVER['PHP_SELF']}");
+        break;
+
+    case 'add2nav':
+        add2nav();
+        header("location: {$_SERVER['PHP_SELF']}");
+        exit;
+
+    case 'enable4nav':
+        enable4nav($menuid);
+        header("location: {$_SERVER['PHP_SELF']}");
+        exit;
+
+    default:
+        $op = 'check_form';
+        check_form();
+        break;
+
+}
+
+/*-----------秀出結果區--------------*/
+$xoopsTpl->assign('now_op', $op);
+require_once __DIR__ . '/footer.php';
+
 /*-----------功能函數區--------------*/
 
 $check_items = Wcag::getVar('check_items');
@@ -29,8 +70,9 @@ function start_check($mode = '', $need_check = [])
         $need_check = array_keys($check_items);
     }
 
-    $sql = 'show tables';
-    $result = $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'SHOW TABLES';
+    $result = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+
     $total = 0;
     while (list($table) = $xoopsDB->fetchRow($result)) {
         if (in_array(str_replace(XOOPS_DB_PREFIX, '', $table), $pass_tables)) {
@@ -42,8 +84,9 @@ function start_check($mode = '', $need_check = [])
             }
         }
 
-        $sql2 = "SHOW COLUMNS FROM `$table`";
-        $result2 = $xoopsDB->queryF($sql2) or Utility::web_error($sql2, __FILE__, __LINE__);
+        $sql2 = 'SHOW COLUMNS FROM `' . $table . '`';
+        $result2 = Utility::query($sql2) or Utility::web_error($sql2, __FILE__, __LINE__);
+
         $col_arr = $sql_arr = $text_col = $pri_col = $idx_col = [];
         // 找出該表中的文字欄位以及主索引
         while ($field = $xoopsDB->fetchArray($result2)) {
@@ -142,7 +185,7 @@ function start_check($mode = '', $need_check = [])
 
 function auto_fix($need_check_list = '')
 {
-    global $xoopsDB, $xoopsTpl, $check_items, $regular;
+    global $xoopsDB;
     $need_check = explode(';', $need_check_list);
     $data = start_check('return', $need_check);
     echo '<a href="check.php?op=start_check&need_check_list=' . $need_check_list . '" class="btn btn-primary">' . _MA_TADSITEMAP_VIEW_FIX_AGAIN . '</a>';
@@ -804,21 +847,24 @@ function lang_zh_tw($v, $matches, $table)
     return $data;
 }
 
-function check_form($need_check = [])
+function check_form()
 {
-    global $xoopsTpl, $xoopsDB, $check_items, $check_title;
-    $sql = 'select conf_value from `' . $xoopsDB->prefix('config') . "` where `conf_name` = 'allow_register'";
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    global $xoopsTpl, $xoopsDB, $check_title;
+    $sql = 'SELECT `conf_value` FROM `' . $xoopsDB->prefix('config') . '` WHERE `conf_name` =?';
+    $result = Utility::query($sql, 's', ['allow_register']) or Utility::web_error($sql, __FILE__, __LINE__);
+
     list($allow_register) = $xoopsDB->fetchRow($result);
     $xoopsTpl->assign('allow_register', $allow_register);
 
-    $sql = 'select menuid, status, of_level from `' . $xoopsDB->prefix('tad_themes_menu') . "` where `itemurl` like '%/modules/tad_sitemap%'";
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'SELECT `menuid`, `status`, `of_level` FROM `' . $xoopsDB->prefix('tad_themes_menu') . '` WHERE `itemurl` LIKE "%/modules/tad_sitemap%"';
+    $result = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+
     list($menuid, $status, $of_level) = $xoopsDB->fetchRow($result);
 
     if ($status == 1 and $of_level != 0) {
-        $sql = 'select status, of_level from `' . $xoopsDB->prefix('tad_themes_menu') . "` where `menuid`='$of_level'";
-        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        $sql = 'SELECT `status`, `of_level` FROM `' . $xoopsDB->prefix('tad_themes_menu') . '` WHERE `menuid` =?';
+        $result = Utility::query($sql, 'i', [$of_level]) or Utility::web_error($sql, __FILE__, __LINE__);
+
         list($status) = $xoopsDB->fetchRow($result);
     }
 
@@ -830,19 +876,22 @@ function check_form($need_check = [])
 
     // 修正佈景字型
     $theme_font_size_msg = '';
-    $sql = 'select `theme_id`, `theme_name`, `font_size` from `' . $xoopsDB->prefix('tad_themes') . "`";
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'SELECT `theme_id`, `theme_name`, `font_size` FROM `' . $xoopsDB->prefix('tad_themes') . '`';
+    $result = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+
     while (list($theme_id, $theme_name, $font_size) = $xoopsDB->fetchRow($result)) {
         $new_val = (int) $font_size;
         if (stripos($font_size, 'pt') !== false) {
             $new_val = round($new_val / 12, 2);
-            $sql = 'update `' . $xoopsDB->prefix('tad_themes') . "` set `font_size`='{$new_val}rem' where `theme_id`='$theme_id'";
-            $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+            $sql = 'UPDATE `' . $xoopsDB->prefix('tad_themes') . '` SET `font_size`=? WHERE `theme_id`=?';
+            Utility::query($sql, 'si', [$new_val, $theme_id]) or Utility::web_error($sql, __FILE__, __LINE__);
+
             $theme_font_size_msg .= '<li>' . sprintf(_MA_TADSITEMAP_FIX_THEME_FS, $theme_name, $font_size, "{$new_val}rem") . '</li>';
         } elseif (stripos($font_size, 'px') !== false) {
             $new_val = round($new_val / 16, 2);
-            $sql = 'update `' . $xoopsDB->prefix('tad_themes') . "` set `font_size`='{$new_val}rem' where `theme_id`='$theme_id'";
-            $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+            $sql = 'UPDATE `' . $xoopsDB->prefix('tad_themes') . '` SET `font_size`=? WHERE `theme_id`=?';
+            Utility::query($sql, 'si', [$new_val . 'rem', $theme_id]) or Utility::web_error($sql, __FILE__, __LINE__);
+
             $xoopsTpl->assign('status', $status);
             $theme_font_size_msg .= '<li>' . sprintf(_MA_TADSITEMAP_FIX_THEME_FS, $theme_name, $font_size, "{$new_val}rem") . '</li>';
         }
@@ -851,28 +900,32 @@ function check_form($need_check = [])
 
     // 關閉評論
     $comment_msg = '';
-    $sql = 'select a.`conf_id`, b.`dirname`
-    from `' . $xoopsDB->prefix('config') . '` as a
-    join `' . $xoopsDB->prefix('modules') . "` as b on a.conf_modid = b.mid
-    WHERE a.`conf_name` = 'com_rule' AND a.`conf_value` = '1'";
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'SELECT a.`conf_id`, b.`dirname`
+    FROM `' . $xoopsDB->prefix('config') . '` AS a
+    JOIN `' . $xoopsDB->prefix('modules') . '` AS b ON a.`conf_modid` = b.`mid`
+    WHERE a.`conf_name` = ? AND a.`conf_value` = ?';
+    $result = Utility::query($sql, 'ss', ['com_rule', '1']) or Utility::web_error($sql, __FILE__, __LINE__);
+
     while (list($conf_id, $dirname) = $xoopsDB->fetchRow($result)) {
-        $sql = 'update `' . $xoopsDB->prefix('config') . "` set `conf_value`='0' where `conf_id`='$conf_id'";
-        $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        $sql = 'UPDATE `' . $xoopsDB->prefix('config') . '` SET `conf_value`= ? WHERE `conf_id`=?';
+        Utility::query($sql, 'si', ['0', $conf_id]) or Utility::web_error($sql, __FILE__, __LINE__);
+
         $comment_msg .= '<li>' . sprintf(_MA_TADSITEMAP_COMMENT_CLOSED, $dirname) . '</li>';
     }
     $xoopsTpl->assign('comment_msg', $comment_msg);
 
     // 關閉facebook評論
     $facebook_msg = '';
-    $sql = 'select a.`conf_id`, b.`dirname`
-    from `' . $xoopsDB->prefix('config') . '` as a
-    join `' . $xoopsDB->prefix('modules') . "` as b on a.conf_modid = b.mid
-    WHERE a.`conf_name` = 'facebook_comments_width' AND a.`conf_value` = '1'";
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'SELECT a.`conf_id`, b.`dirname`
+    FROM `' . $xoopsDB->prefix('config') . '` AS a
+    JOIN `' . $xoopsDB->prefix('modules') . '` AS b ON a.`conf_modid` = b.`mid`
+    WHERE a.`conf_name` = ? AND a.`conf_value` = ?';
+    $result = Utility::query($sql, 'ss', ['facebook_comments_width', '1']) or Utility::web_error($sql, __FILE__, __LINE__);
+
     while (list($conf_id, $dirname) = $xoopsDB->fetchRow($result)) {
-        $sql = 'update `' . $xoopsDB->prefix('config') . "` set `conf_value`='0' where `conf_id`='$conf_id'";
-        $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        $sql = 'UPDATE `' . $xoopsDB->prefix('config') . '` SET `conf_value`=? WHERE `conf_id`=?';
+        Utility::query($sql, 'si', ['0', $conf_id]) or Utility::web_error($sql, __FILE__, __LINE__);
+
         $comment_msg .= '<li>' . sprintf(_MA_TADSITEMAP_FACEBOOK_CLOSED, $dirname) . '</li>';
     }
     $xoopsTpl->assign('facebook_msg', $facebook_msg);
@@ -881,12 +934,14 @@ function check_form($need_check = [])
     $replace_arr = [' id="Tim"', ' id="Sct"', ' id="Mon"', ' id="Tue"', ' id="Wed"', ' id="Thu"', ' id="Fri"', ' headers="Tim"', ' headers="Sct"', ' headers="Mon"', ' headers="Tue"', ' headers="Wed"', ' headers="Thu"', ' headers="Fri"'];
     $schedule_msg = '';
     $clear_block_cache = false;
-    $sql = 'select `conf_id`, `conf_value` from `' . $xoopsDB->prefix('config') . "` WHERE `conf_name` = 'schedule_template'";
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'SELECT `conf_id`, `conf_value` FROM `' . $xoopsDB->prefix('config') . '` WHERE `conf_name` = ?';
+    $result = Utility::query($sql, 's', ['schedule_template']) or Utility::web_error($sql, __FILE__, __LINE__);
+
     while (list($conf_id, $conf_value) = $xoopsDB->fetchRow($result)) {
         $new_conf_value = str_replace($replace_arr, '', $conf_value);
-        $sql = 'update `' . $xoopsDB->prefix('config') . "` set `conf_value`='$new_conf_value' where `conf_id`='$conf_id'";
-        $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        $sql = 'UPDATE `' . $xoopsDB->prefix('config') . '` SET `conf_value`=? WHERE `conf_id`=?';
+        Utility::query($sql, 'si', [$new_conf_value, $conf_id]) or Utility::web_error($sql, __FILE__, __LINE__);
+
         $schedule_msg .= '<li>' . _MA_TADSITEMAP_TAD_WEB_SCHEDULE_FIX . '</li>';
         $clear_block_cache = true;
     }
@@ -895,20 +950,23 @@ function check_form($need_check = [])
     if ($clear_block_cache) {
         // 關閉 tad_web facebook評論
         $tad_web_facebook_msg = '';
-        $sql = 'select a.`WebID`, a.`plugin`, b.`WebName`
-        from `' . $xoopsDB->prefix('tad_web_plugins_setup') . '` as a
-        join `' . $xoopsDB->prefix('tad_web') . "` as b on a.WebID = b.WebID
-        WHERE a.`name` = 'use_fb_comments' AND a.`value` = '1'";
-        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        $sql = 'SELECT a.`WebID`, a.`plugin`, b.`WebName`
+        FROM `' . $xoopsDB->prefix('tad_web_plugins_setup') . '` as a
+        JOIN `' . $xoopsDB->prefix('tad_web') . '` as b ON a.`WebID` = b.`WebID`
+        WHERE a.`name` = ? AND a.`value` = ?';
+        $result = Utility::query($sql, 'ss', ['use_fb_comments', '1']) or Utility::web_error($sql, __FILE__, __LINE__);
+
         while (list($WebID, $plugin, $WebName) = $xoopsDB->fetchRow($result)) {
-            $sql = 'update `' . $xoopsDB->prefix('tad_web_plugins_setup') . "` set `value`='0' where `WebID`='$WebID' and `plugin`='$plugin' and `name`='use_fb_comments'";
-            $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+            $sql = 'UPDATE `' . $xoopsDB->prefix('tad_web_plugins_setup') . '` SET `value`=0 WHERE `WebID`=? AND `plugin`=? AND `name`=?';
+            Utility::query($sql, 'iss', [$WebID, $plugin, 'use_fb_comments']) or Utility::web_error($sql, __FILE__, __LINE__);
+
             $comment_msg .= '<li>' . sprintf(_MA_TADSITEMAP_TAD_WEB_FB_CLOSED, $WebName, $plugin) . '</li>';
         }
         $xoopsTpl->assign('tad_web_facebook_msg', $tad_web_facebook_msg);
 
-        $sql = 'select `WebID` from `' . $xoopsDB->prefix('tad_web') . "` ";
-        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        $sql = 'SELECT `WebID` FROM `' . $xoopsDB->prefix('tad_web') . '` ';
+        $result = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+
         while (list($WebID) = $xoopsDB->fetchRow($result)) {
             unlink(XOOPS_VAR_PATH . "/tad_web/$WebID/web_blocks.json");
         }
@@ -937,58 +995,18 @@ function add2nav()
 {
     global $xoopsDB;
 
-    $sql = 'insert into `' . $xoopsDB->prefix('tad_themes_menu') . "` (`of_level`, `position`, `itemname`, `itemurl`, `status`, `target`, `icon`, `link_cate_name`, `link_cate_sn`, `read_group`) VALUES
-    (0,	1,	'網站地圖',	'/modules/tad_sitemap/',	'1',	'_blank',	'fa-code-fork',	'',	0,	'1,2,3')";
-    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = "INSERT INTO `" . $xoopsDB->prefix('tad_themes_menu') . "` (`of_level`, `position`, `itemname`, `itemurl`, `status`, `target`, `icon`, `link_cate_name`, `link_cate_sn`, `read_group`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $params = [0, 1, '網站地圖', '/modules/tad_sitemap/', 1, '_blank', 'fa-code-fork', '', 0, '1,2,3'];
+
+    $result = Utility::query($sql, 'iissssssis', $params) or Utility::web_error($sql, __FILE__, __LINE__);
+
 }
 
 function enable4nav($menuid)
 {
     global $xoopsDB;
 
-    $sql = 'update `' . $xoopsDB->prefix('tad_themes_menu') . "` set `status`= 1 , `of_level`= 0 , `read_group`='1,2,3' where menuid='$menuid'";
-    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'UPDATE `' . $xoopsDB->prefix('tad_themes_menu') . '` SET `status`= ? , `of_level`= 0 , `read_group`=? WHERE `menuid`=?';
+    Utility::query($sql, 'ssi', ['1', '1,2,3', $menuid]) or Utility::web_error($sql, __FILE__, __LINE__);
+
 }
-
-/*-----------執行動作判斷區----------*/
-$op = Request::getString('op');
-$menuid = Request::getInt('menuid');
-$need_check = Request::getArray('need_check');
-$need_check_list = Request::getString('need_check_list');
-
-switch ($op) {
-    /*---判斷動作請貼在下方---*/
-
-    case 'start_check':
-        if ($need_check_list) {
-            $need_check = explode(';', $need_check_list);
-        }
-        start_check('', $need_check);
-        break;
-
-    case 'auto_fix':
-        auto_fix($need_check_list);
-        // header("location: {$_SERVER['PHP_SELF']}");
-        break;
-
-    case 'add2nav':
-        add2nav();
-        header("location: {$_SERVER['PHP_SELF']}");
-        exit;
-
-    case 'enable4nav':
-        enable4nav($menuid);
-        header("location: {$_SERVER['PHP_SELF']}");
-        exit;
-
-    default:
-        $op = 'check_form';
-        check_form($need_check);
-        break;
-        /*---判斷動作請貼在上方---*/
-}
-
-/*-----------秀出結果區--------------*/
-$xoopsTpl->assign('now_op', $op);
-$xoTheme->addStylesheet(XOOPS_URL . '/modules/tadtools/css/xoops_adm4.css');
-require_once __DIR__ . '/footer.php';

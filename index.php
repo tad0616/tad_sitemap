@@ -6,6 +6,23 @@ $GLOBALS['xoopsOption']['template_main'] = 'tad_sitemap_index.tpl';
 require __DIR__ . '/header.php';
 require_once XOOPS_ROOT_PATH . '/header.php';
 
+/*-----------執行動作判斷區----------*/
+$op = Request::getString('op');
+
+switch ($op) {
+
+    default:
+        show_sitemap();
+        $op = 'show_sitemap';
+        break;
+
+}
+
+/*-----------秀出結果區--------------*/
+$xoopsTpl->assign('now_op', $op);
+$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu, false, $interface_icon));
+require_once XOOPS_ROOT_PATH . '/footer.php';
+
 /*-----------功能函數區--------------*/
 
 //列出所有tad_sitemap資料
@@ -15,14 +32,14 @@ function show_sitemap()
 
     $myts = \MyTextSanitizer::getInstance();
 
-    $sql = 'SELECT * FROM ' . $xoopsDB->prefix('modules') . " WHERE isactive='1' AND hasmain='1' AND weight!='0' ORDER BY weight,last_update";
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'SELECT * FROM `' . $xoopsDB->prefix('modules') . '` WHERE `isactive`=1 AND `hasmain`=1 AND `weight`!=0 ORDER BY `weight`,`last_update`';
+    $result = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $all_content = [];
     $i = 0;
     while (false !== ($all = $xoopsDB->fetchArray($result))) {
-        $sql2 = 'select * from ' . $xoopsDB->prefix('tad_sitemap') . " where mid='{$all['mid']}' order by `sort`";
-        $result2 = $xoopsDB->query($sql2) or Utility::web_error($sql, __FILE__, __LINE__);
+        $sql2 = 'SELECT * FROM `' . $xoopsDB->prefix('tad_sitemap') . '` WHERE `mid`=? ORDER BY `sort`';
+        $result2 = Utility::query($sql2, 'i', [$all['mid']]) or Utility::web_error($sql2, __FILE__, __LINE__);
 
         $j = 0;
         $item = [];
@@ -56,20 +73,3 @@ function show_sitemap()
     $xoopsTpl->assign('all_content', $all_content);
     $xoopsTpl->assign('about_site', $xoopsModuleConfig['about_site']);
 }
-
-/*-----------執行動作判斷區----------*/
-$op = Request::getString('op');
-
-switch ($op) {
-    /*---判斷動作請貼在下方---*/
-    default:
-        show_sitemap();
-        $op = 'show_sitemap';
-        break;
-        /*---判斷動作請貼在上方---*/
-}
-
-/*-----------秀出結果區--------------*/
-$xoopsTpl->assign('now_op', $op);
-$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
-require_once XOOPS_ROOT_PATH . '/footer.php';

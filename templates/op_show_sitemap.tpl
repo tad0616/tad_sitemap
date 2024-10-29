@@ -29,7 +29,7 @@
 <{else}>
     <{if $smarty.session.tad_sitemap_adm|default:false}>
         <div class="jumbotron bg-light p-5 rounded-lg m-3 text-center">
-            <a href="<{$xoops_url}>/modules/tad_sitemap/admin/main.php" class="btn btn-info"><{$smarty.const._TAD_ADD}></a>
+            <a href="<{$xoops_url}>/modules/tad_sitemap/admin/main.php" class="btn btn-info"><i class="fa fa-plus-square" aria-hidden="true"></i>  <{$smarty.const._TAD_ADD}></a>
         </div>
     <{/if}>
 <{/if}>
