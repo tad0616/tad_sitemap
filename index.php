@@ -36,7 +36,6 @@ function show_sitemap()
     $result = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $all_content = [];
-    $i = 0;
     while (false !== ($all = $xoopsDB->fetchArray($result))) {
         $sql2 = 'SELECT * FROM `' . $xoopsDB->prefix('tad_sitemap') . '` WHERE `mid`=? ORDER BY `sort`';
         $result2 = Utility::query($sql2, 'i', [$all['mid']]) or Utility::web_error($sql2, __FILE__, __LINE__);
@@ -64,8 +63,8 @@ function show_sitemap()
         }
         $all['item'] = $item;
 
-        $all_content[$i] = $all;
-        $i++;
+        $all_content[] = $all;
+
     }
 
     //刪除確認的JS

@@ -23,25 +23,25 @@
             <{assign var="i" value=$i+1}>
             <{assign var="j" value=0}>
             <tr>
-            <th><{$i|default:''}>.<{$map.name}></th>
-            <td>
-                <{if $map.item|default:false}>
-                <{foreach from=$map.item item=sub}>
-                    <{assign var="j" value=$j+1}>
-                    <div class="row">
-                    <div class="col-sm-3">
-                        <input type="text" name="name[<{$sub.mid}>][<{$sub.sort}>]" value="<{$sub.name}>" class="form-control" placeholder="<{$smarty.const._MA_TADSITEMAP_CLEAN}>" >
-                    </div>
-                    <div class="col-sm-6">
-                        <input type="text" name="description[<{$sub.mid}>][<{$sub.sort}>]" value="<{$sub.description}>" class="form-control" placeholder="<{$smarty.const._MA_TADSITEMAP_INPUT_DESC}>">
-                    </div>
-                    <div class="col-sm-3">
-                        <{$sub.url}>
-                    </div>
-                    </div>
-                <{/foreach}>
-                <{/if}>
-            </td>
+                <th><{$i|default:''}>.<{$map.name}></th>
+                <td>
+                    <{if $map.item|default:false}>
+                        <{foreach from=$map.item item=sub}>
+                            <{assign var="j" value=$j+1}>
+                            <div class="row my-1">
+                                <div class="col-sm-3">
+                                    <input type="text" name="name[<{$sub.mid}>][<{$sub.sort}>]" value="<{$sub.name}>" class="form-control form-control-sm" placeholder="<{$smarty.const._MA_TADSITEMAP_CLEAN}>" >
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="text" name="description[<{$sub.mid}>][<{$sub.sort}>]" value="<{$sub.description}>" class="form-control form-control-sm" placeholder="<{$smarty.const._MA_TADSITEMAP_INPUT_DESC}>">
+                                </div>
+                                <div class="col-sm-3">
+                                    <{$sub.url}>
+                                </div>
+                            </div>
+                        <{/foreach}>
+                    <{/if}>
+                </td>
             </tr>
         <{/foreach}>
         </table>

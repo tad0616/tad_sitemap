@@ -172,7 +172,7 @@ function list_tad_sitemap()
             $url = $myts->htmlSpecialChars($url);
             $description = $myts->htmlSpecialChars($description);
 
-            $item[$j]['mod_name'] = $mod_name;
+            $item[$j]['mod_name'] = $all['name'];
             $item[$j]['mid'] = $mid;
             $item[$j]['name'] = $name;
             $item[$j]['url'] = $url;
@@ -219,7 +219,7 @@ function auto_sitemap()
 
     while (false !== ($all = $xoopsDB->fetchArray($result))) {
         $i = get_submenu($all['dirname'], $all['mid']);
-        get_tadmenu($all['dirname'], $all['mid'], $i, $all['name']);
+        get_tad_menu($all['dirname'], $all['mid'], $i);
     }
 }
 
@@ -246,23 +246,23 @@ function get_submenu($dirname = '', $mid = '')
     return $i;
 }
 
-function get_tadmenu($dirname = '', $mid = '', $i = 0, $mod_name = '')
+function get_tad_menu($dirname = '', $mid = '', $i = 0)
 {
-    global $xoopsDB;
-    $filename = XOOPS_ROOT_PATH . "/uploads/menu_{$dirname}.txt";
+    global $xoopsDB, $xoopsConfig;
+    $language_file = XOOPS_ROOT_PATH . "/modules/{$dirname}/language/{$xoopsConfig['language']}/main.php";
+    $interface_file = XOOPS_ROOT_PATH . "/modules/{$dirname}/interface.php";
+    $interface_menu_file = XOOPS_ROOT_PATH . "/modules/{$dirname}/interface_menu.php";
 
-    if (!file_exists($filename)) {
-        file(XOOPS_URL . "/modules/{$dirname}/index.php");
-    }
+    if (file_exists($interface_file) or file_exists($interface_menu_file)) {
+        require_once $language_file;
+        if (file_exists($interface_file)) {
+            require_once $interface_file;
+        } elseif (file_exists($interface_menu_file)) {
+            require_once $interface_menu_file;
+        }
 
-    if (file_exists($filename)) {
         $now = date('Y-m-d H:i:s');
-        $json = file_get_contents($filename);
-        $interface_menu = json_decode($json, true);
         foreach ($interface_menu as $name => $url) {
-            if (_TAD_TO_MOD == $name) {
-                $name = $mod_name . _MA_TADSITEMAP_HOMEPAGE;
-            }
             $sql = 'REPLACE INTO `' . $xoopsDB->prefix('tad_sitemap') . '` (`mid`, `name`, `url`, `description`, `last_update`, `sort`) VALUES (?, ?, ?, ?, ?, ?)';
             Utility::query($sql, 'issssi', [$mid, $name, $url, '', $now, $i]) or Utility::web_error($sql, __FILE__, __LINE__);
 

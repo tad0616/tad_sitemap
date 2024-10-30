@@ -13,6 +13,15 @@ $menuid = Request::getInt('menuid');
 $need_check = Request::getArray('need_check');
 $need_check_list = Request::getString('need_check_list');
 
+$check_items = Wcag::getVar('check_items');
+$check_title = Wcag::getVar('check_title');
+$regular = Wcag::getVar('regular');
+
+// 不用處理的資料表
+$pass_tables = ['club_choice', 'groups_users_link', 'jill_booking', 'jill_booking_date', 'jill_booking_week', 'jill_query_col_value', 'jill_query_sn', 'logcounterx_log', 'tad_form_value', 'tad_form_fill', 'tad_uploader_dl_log', 'users', 'group_permission', 'sign_data', 'tad_gallery', 'tad_gphotos_images', 'tad_repair', 'tad_web_power', 'tad_web_video', 'tad_web_tags', 'tad_web_schedule_data'];
+$pass_tables2 = ['copy_', 'scs_', '_files_center'];
+// $pass_tables = $pass_tables2 = [];
+
 switch ($op) {
 
     case 'start_check':
@@ -50,20 +59,11 @@ require_once __DIR__ . '/footer.php';
 
 /*-----------功能函數區--------------*/
 
-$check_items = Wcag::getVar('check_items');
-$check_title = Wcag::getVar('check_title');
-$regular = Wcag::getVar('regular');
-
-// 不用處理的資料表
-$pass_tables = ['club_choice', 'groups_users_link', 'jill_booking', 'jill_booking_date', 'jill_booking_week', 'jill_query_col_value', 'jill_query_sn', 'logcounterx_log', 'tad_form_value', 'tad_form_fill', 'tad_uploader_dl_log', 'users', 'group_permission', 'sign_data', 'tad_gallery', 'tad_gphotos_images', 'tad_repair', 'tad_web_power', 'tad_web_video', 'tad_web_tags', 'tad_web_schedule_data'];
-$pass_tables2 = ['copy_', 'scs_', '_files_center'];
-// $pass_tables = $pass_tables2 = [];
-
 //開始檢查無障礙
 function start_check($mode = '', $need_check = [])
 {
     global $xoopsDB, $xoopsTpl, $pass_tables, $pass_tables2, $check_title, $check_items, $regular;
-    $data = $need_data = [];
+    $data = $need_data = $pass_tables = [];
     $xoopsTpl->assign('check_title', $check_title);
 
     if (empty($need_check)) {
@@ -127,13 +127,13 @@ function start_check($mode = '', $need_check = [])
                     $pri = [];
                     foreach ($all as $col_name => $col_val) {
 
-                        if (in_array($col_name, $pri_col[$kind])) {
+                        if (is_array($pri_col[$kind]) and in_array($col_name, $pri_col[$kind])) {
                             $pri[] = "`$col_name`='{$col_val}'";
                         }
 
                         // 假如有符合規則的欄位就做檢查
                         foreach ($chk_item_arr as $chk_item) {
-                            if (in_array($col_name, $text_col[$kind]) and stripos($col_val, $chk_item) !== false) {
+                            if (is_array($text_col[$kind]) and in_array($col_name, $text_col[$kind]) and stripos($col_val, $chk_item) !== false) {
                                 foreach ($regular[$kind] as $kind_title => $regular_rule) {
                                     $num = preg_match_all($regular_rule, $col_val, $matches);
                                     if (!empty($num)) {
@@ -186,6 +186,7 @@ function start_check($mode = '', $need_check = [])
 function auto_fix($need_check_list = '')
 {
     global $xoopsDB;
+    set_time_limit(0);
     $need_check = explode(';', $need_check_list);
     $data = start_check('return', $need_check);
     echo '<a href="check.php?op=start_check&need_check_list=' . $need_check_list . '" class="btn btn-primary">' . _MA_TADSITEMAP_VIEW_FIX_AGAIN . '</a>';
@@ -193,12 +194,12 @@ function auto_fix($need_check_list = '')
         foreach ($kind_cols as $kind => $cols) {
             foreach ($cols as $i => $items) {
                 foreach ($items['col'] as $col => $item) {
-                    $sql = "update `{$table}` set `{$col}`='{$item['save']}' where {$items['primary']}";
+                    $sql = "UPDATE `{$table}` SET `{$col}`=? WHERE {$items['primary']}";
 
                     $save = htmlspecialchars($item['save']);
                     $sql_demo = "update `<span style='color: green;'>{$table}</span>` set `<span style='color: red;'>{$col}</span>`='<span style='color: gray;'>{$save}</span>' where <span style='color: blue;'>{$items['primary']}</span>";
 
-                    if ($xoopsDB->queryF($sql)) {
+                    if (Utility::query($sql, 's', [$item['save']])) {
                         $ok = 'check';
                         $color = 'success';
                         $error = '';
@@ -762,9 +763,17 @@ function same_alt($v, $matches, $table)
     $fix = false;
     foreach ($matches[1] as $key => $content_in_tag) {
         preg_match_all("/(.*)<img.*alt=[\"|\'](.*?)[\"|\'].*?[\"|\']?>(.*)/is", $content_in_tag, $match);
-        $alt = strip_tags(str_replace('&nbsp;', '', $match[2][0]));
-        $txt1 = strip_tags(str_replace('&nbsp;', '', $match[1][0]));
-        $txt2 = strip_tags(str_replace('&nbsp;', '', $match[3][0]));
+        $alt = $txt1 = $txt2 = '';
+        if (isset($match[2][0]) and $match[2][0]) {
+            $alt = strip_tags(str_replace('&nbsp;', '', $match[2][0]));
+        }
+        if (isset($match[1][0]) and $match[1][0]) {
+            $txt1 = strip_tags(str_replace('&nbsp;', '', $match[1][0]));
+        }
+        if (isset($match[3][0]) and $match[3][0]) {
+            $txt2 = strip_tags(str_replace('&nbsp;', '', $match[3][0]));
+        }
+
         if (!empty($match[2][0]) and stripos($match[2][0], '<{$') === false and ($alt == $txt1 or $alt == $txt2)) {
             $old = $matches[0][$key];
             // $replaceTo = str_replace(['alt=', '"', "'", 'target=', '_blank', '_self'], '', $matches[1][$key]);
@@ -968,9 +977,10 @@ function check_form()
         $result = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
         while (list($WebID) = $xoopsDB->fetchRow($result)) {
-            unlink(XOOPS_VAR_PATH . "/tad_web/$WebID/web_blocks.json");
+            if (file_exists(XOOPS_VAR_PATH . "/tad_web/$WebID/web_blocks.json")) {
+                unlink(XOOPS_VAR_PATH . "/tad_web/$WebID/web_blocks.json");
+            }
         }
-
     }
 
     // 檢查 xoops.css
