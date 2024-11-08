@@ -1,78 +1,83 @@
-Tad Sitemap 2.0 (Released on 2022-01-28)
-================================================
-1.Support BootStrap5
-
-Tad Sitemap 1.9 (Released on 2021-08-22)
+Tad Sitemap 3.0 (released on 2024-11-11)
 ====================================
-1. Fixed for 2021/07 new version of AA accessibility standard
-2. Added <font> accessibility fix detection
-3. Added accessibility correction detection for no text in <a></a>.
-4. Added <center> accessibility correction detection.
-5. Fix the problem that font-size cannot be detected when it is a floating point number.
-6. Add <applet> accessibility correction detection.
-7.New <object> accessibility correction detection
-8. Add <embed> accessibility correction detection.
-9. Fix <img may miss the correction in some cases.
-10.Added <th scope> accessibility correction detection.
-11. Add "Privacy Policy" and "User Data Delete" page.
-12. Add automatic correction of layout default font size unit function
-13. New comment open check
-14.New facebook message box check
-15.New module.textsanitizer.php file check
+1. Support XOOPS 2.5.11
+2. Support PHP8.1.x
+3. Use $xoopsDB->escape() instead of $myts->addSlashes()
+4. Database syntax parameterization
 
-
-Tad Sitemap 1.8.1 (Released on 2021-08-03)
+Tad Sitemap 2.0 (released on 2022-01-28)
 ================================================
-1. Solve the problem of PHP class block failure after auto-correction
-2. Fix FreeGo download address
-3. Fix the problem that the backend may appear without authority
+1. Support BootStrap5
 
+Tad Sitemap 1.9 (released on 2021-08-22)
+====================================
+1. Amended for the 2021/07 new version of the AA standard for accessibility
+2. Added <font> accessibility correction detection
+3. Added accessibility correction detection for no text in <a></a>
+4. Added <center> accessibility correction detection
+5. Fixed the problem that font-size cannot be detected when it is a floating point number.
+6. Added <applet> accessibility correction detection
+7. Added <object> accessibility correction detection
+8. Added <embed> accessibility correction detection
+9. Correction <img In some cases, correction may be missed.
+10. Added <th scope> accessibility correction detection
+11. Add "Privacy Terms" and "User Data Deletion" pages
+12. Added the function of automatically correcting the scene default font size unit
+13. Add comments and enable checking
+14. Added facebook message box check
+15. Added module.textsanitizer.php file check
 
-Tad Sitemap 1.8 (Released on 2021-07-30)
+Tad Sitemap 1.8.1 (released on 2021-08-05)
+================================================
+1. Solve the problem that PHP blocks may become invalid after automatic correction.
+2. Correct FreeGo download address
+3. Fix the problem that there may be no permission in the background
+
+Tad Sitemap 1.8 (released on 2021-07-30)
 ================================================
 1. Support XOOPS 2.5.11
-2. Solve the problem that auto-correction tool may change the wrong data
+2. Solve the problem that the automatic correction tool may correct the wrong data
 
-Tad Sitemap 1.7 (2020-04-11 released)
-====================================================
-1. New <img> Testing Tools
+Tad Sitemap 1.7 (released on 2020-04-11)
+================================================
+1. Added <img> accessibility correction detection
 
-Tad Sitemap 1.6 (2020-03-18 released)
-====================================================
-1. Correction for accessibility 2.0 AA standard
-2. Added automatic access correction tool
+Tad Sitemap 1.6 (released on 2020-03-18)
+================================================
+1. Revised for Accessibility 2.0 AA standards
+2. Added barrier-free automatic correction tool
 
-Tad Sitemap 1.5 (2019-05-10 released)
-=========================================================
+Tad Sitemap 1.5 (released on 2019-05-10)
+================================================
 1. Support XOOPS 2.5.10
-2. No longer supports PHP 5.3
+2. PHP 5.3 is no longer supported
 
-Tad Sitemap 1.4 (2019-01-01 released)
+Tad Sitemap 1.4 (released on 2019-01-01)
 ==================================================
-1.Support BootStrap4
-2.Support PHP7.3
+1. Support BootStrap4
+2. Support PHP7.3
 
-Tad Sitemap 1.3 (2018-05-21 released)
+Tad Sitemap 1.3 (released on 2018-05-21)
 ==================================================
-1. Support PHP 7.2
+1. Support PHP7.2
 2. Support database strict mode
-3. Remove the tchinese Big5 language
+3. Remove the tchinese Big5 language family
 
-Tad Sitemap 1.2 (2017-01-08 released)
+Tad Sitemap 1.2 (released on 2017-01-08)
 ==================================================
-1.Change the col-md of boootstrap to col-sm
-2.The compatibility of XOOPS 2.5.8
+1. Adjust RWD to 1024 before operation
+2. Support XOOPS 2.5.8
 
-Tad Sitemap 1.1 (2016-05-18 released)
- =================================================
+Tad Sitemap 1.1 (released on 2016-05-18)
+==================================================
 1. Support PHP7
 2. Remove BootStrap2
-3. Fixed sitemap link
-4. Fixed PHP syntax specification to conform PSR2
+3.Fix the link problem
+4. Amend PHP syntax to make it comply with PSR2 specification
 
-Tad Sitemap 1.0 (2015-05-05 released)
-=================================================
-1. The official release (to be with the latest version tadtools 2.67)
-2. please go to Admin homepage "auto-detect"
-3. Modify the situation automatically detect visual site map content and storage
-4. Go to Preferences, set navigation caption
+Tad Sitemap 1.0 (released on 2015-05-05)
+==================================================
+1. Officially released (requires the latest version of tadtools 2.67)
+2. Please go to the backend management homepage to perform "automatic detection"
+3. After automatic detection, the content of the site map can be modified and saved according to the situation.
+4. Go to preferences and set navigation description text
