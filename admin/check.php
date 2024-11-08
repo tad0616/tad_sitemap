@@ -724,7 +724,7 @@ function th($v, $matches, $table)
     return $data;
 }
 
-function a_blank($v, $matches, $table)
+function a_empty($v, $matches, $table)
 {
     $myts = \MyTextSanitizer::getInstance();
     $html_v = $fix_v = htmlspecialchars($v);
@@ -797,7 +797,7 @@ function same_alt($v, $matches, $table)
     return $data;
 }
 
-function head_blank($v, $matches, $table)
+function head_empty($v, $matches, $table)
 {
     $myts = \MyTextSanitizer::getInstance();
     $html_v = $fix_v = htmlspecialchars($v);
