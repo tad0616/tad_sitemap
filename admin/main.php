@@ -114,7 +114,7 @@ function update_tad_sitemap($mid_name = '')
 
     foreach ($_POST['name'] as $mid => $item) {
         foreach ($item as $sort => $name) {
-            $description = $_POST['description'][$mid][$sort];
+            $description = (string) $_POST['description'][$mid][$sort];
 
             $sql = 'UPDATE `' . $xoopsDB->prefix('tad_sitemap') . '` SET
             `name` = ?,

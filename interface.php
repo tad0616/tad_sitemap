@@ -5,7 +5,7 @@ if (!isset($_SESSION['tad_sitemap_adm'])) {
 }
 
 $interface_menu[_MD_TADSITEMA_SMNAME1] = 'index.php';
-$interface_icon[_MD_TADSITEMA_SMNAME1] = 'fa-map-o';
+$interface_icon[_MD_TADSITEMA_SMNAME1] = 'fa-map';
 
 $interface_menu[_MD_TADSITEMA_SMNAME2] = 'privacy_policy.php';
 $interface_icon[_MD_TADSITEMA_SMNAME2] = 'fa-user-secret';
