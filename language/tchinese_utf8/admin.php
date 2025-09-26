@@ -28,6 +28,7 @@ define('_MA_TADSITEMAP_VIEW_FIX_AGAIN', '再次預覽修正');
 define('_MA_TADSITEMAP_AUTO_FIX', '直接自動修正');
 
 define('_MA_TADSITEMAP_DL_FREEGO', '最後請 <a href="https://accessibility.moda.gov.tw/Download/Detail/2763?Category=70" target="_blank">下載FreeGo 110.07</a>，並以 AA標準檢測「' . XOOPS_URL . '」');
+// define('_MA_TADSITEMAP_DL_FREEGO', '最後請 <a href="https://accessibility.moda.gov.tw/Download/Detail/2763?Category=70" target="_blank">下載FreeGo 110.07</a>，網址輸入「' . XOOPS_URL . '」，並設定「全網站」以「AA」標準進行檢測，<span class="text-danger">需於「排除網頁」加入「' . XOOPS_URL . '/modules/tadtools/download.php」</span>以避免檔案下載部份無法通過檢測');
 define('_MA_TADSITEMAP_STATEMENT', '本程式僅盡量協助通過未登入網站狀態下的機器檢查，無法保證人工查核可以通過。');
 
 define('_MA_TADSITEMAP_TABLE_COL', '欄位');

@@ -2,14 +2,14 @@
 
     <div class="form-check-inline checkbox-inline">
         <label class="form-check-label">
-            <input class="form-check-input" id="clickAll" type="checkbox" name="need_check[]" value="<{$type|default:''}>" <{if !empty|$need_check && $type|in_array:$need_check}>>checked<{/if}>>
+            <input class="form-check-input" id="clickAll" type="checkbox" name="need_check[]" value="<{$type|default:''}>" <{if $need_check|is_array && $type|in_array:$need_check}>>checked<{/if}>>
             <{$smarty.const._ALL}>
         </label>
     </div>
     <{foreach from=$check_title key=type item=title}>
         <div class="form-check-inline checkbox-inline">
             <label class="form-check-label">
-                <input class="form-check-input chkItem" type="checkbox" name="need_check[]" value="<{$type|default:''}>" <{if !empty|$need_check && $type|in_array:$need_check}>>checked<{/if}>>
+                <input class="form-check-input chkItem" type="checkbox" name="need_check[]" value="<{$type|default:''}>" <{if $need_check|is_array && $type|in_array:$need_check}>>checked<{/if}>>
                 <{$title|default:''}>
             </label>
         </div>

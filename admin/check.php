@@ -244,7 +244,7 @@ function fontsize($v, $matches, $table)
     }
     $data['html_v'] = $html_v;
     $data['fix_v'] = $fix_v;
-    $data['save'] = $myts->addSlashes($v);
+    $data['save'] = addslashes($v);
     $data_line = round(strlen($v) / 60, 0);
     $data['line'] = $data_line > 12 ? 12 : 6;
     return $data;
@@ -262,7 +262,7 @@ function font_size_adjust($v, $matches, $table)
     }
     $data['html_v'] = $html_v;
     $data['fix_v'] = $fix_v;
-    $data['save'] = $myts->addSlashes($v);
+    $data['save'] = addslashes($v);
     $data_line = round(strlen($v) / 60, 0);
     $data['line'] = $data_line > 12 ? 12 : 6;
     return $data;
@@ -285,7 +285,7 @@ function size($v, $matches, $table)
     }
     $data['html_v'] = $html_v;
     $data['fix_v'] = $fix_v;
-    $data['save'] = $myts->addSlashes($v);
+    $data['save'] = addslashes($v);
     $data_line = round(strlen($v) / 60, 0);
     $data['line'] = $data_line > 12 ? 12 : 6;
     return $data;
@@ -315,7 +315,7 @@ function iframe($v, $matches, $table)
     if ($fix) {
         $data['html_v'] = $html_v;
         $data['fix_v'] = $fix_v;
-        $data['save'] = $myts->addSlashes($v);
+        $data['save'] = addslashes($v);
         $data_line = round(strlen($v) / 60, 0);
         $data['line'] = $data_line > 12 ? 12 : 6;
     }
@@ -339,7 +339,7 @@ function object($v, $matches, $table)
         $fix_v = str_replace('/object', "<span style='color:blue;'>span class=sr-only visually-hidden&gt;some object&lt;/span&gt;&lt;/object</span>", $fix_v);
         $data['html_v'] = $html_v;
         $data['fix_v'] = $fix_v;
-        $data['save'] = $myts->addSlashes($v);
+        $data['save'] = addslashes($v);
         $data_line = round(strlen($v) / 60, 0);
         $data['line'] = $data_line > 12 ? 12 : 6;
     }
@@ -363,7 +363,7 @@ function applet($v, $matches, $table)
         $fix_v = str_replace('/applet', "<span style='color:blue;'>span class=sr-only visually-hidden&gt;some applet&lt;/span&gt;&lt;/applet</span>", $fix_v);
         $data['html_v'] = $html_v;
         $data['fix_v'] = $fix_v;
-        $data['save'] = $myts->addSlashes($v);
+        $data['save'] = addslashes($v);
         $data_line = round(strlen($v) / 60, 0);
         $data['line'] = $data_line > 12 ? 12 : 6;
     }
@@ -399,7 +399,7 @@ function embed($v, $matches, $table)
     if ($fix) {
         $data['html_v'] = $html_v;
         $data['fix_v'] = $fix_v;
-        $data['save'] = $myts->addSlashes($v);
+        $data['save'] = addslashes($v);
         $data_line = round(strlen($v) / 60, 0);
         $data['line'] = $data_line > 12 ? 12 : 6;
     }
@@ -428,7 +428,7 @@ function input($v, $matches, $table)
     if ($fix) {
         $data['html_v'] = $html_v;
         $data['fix_v'] = $fix_v;
-        $data['save'] = $myts->addSlashes($v);
+        $data['save'] = addslashes($v);
         $data_line = round(strlen($v) / 60, 0);
         $data['line'] = $data_line > 12 ? 12 : 6;
     }
@@ -458,7 +458,7 @@ function select($v, $matches, $table)
     if ($fix) {
         $data['html_v'] = $html_v;
         $data['fix_v'] = $fix_v;
-        $data['save'] = $myts->addSlashes($v);
+        $data['save'] = addslashes($v);
         $data_line = round(strlen($v) / 60, 0);
         $data['line'] = $data_line > 12 ? 12 : 6;
     }
@@ -488,7 +488,7 @@ function textarea($v, $matches, $table)
     if ($fix) {
         $data['html_v'] = $html_v;
         $data['fix_v'] = $fix_v;
-        $data['save'] = $myts->addSlashes($v);
+        $data['save'] = addslashes($v);
         $data_line = round(strlen($v) / 60, 0);
         $data['line'] = $data_line > 12 ? 12 : 6;
     }
@@ -524,7 +524,7 @@ function img($v, $matches, $table)
     if ($fix) {
         $data['html_v'] = $html_v;
         $data['fix_v'] = $fix_v;
-        $data['save'] = $myts->addSlashes($v);
+        $data['save'] = addslashes($v);
         $data_line = round(strlen($v) / 60, 0);
         $data['line'] = $data_line > 12 ? 12 : 6;
     }
@@ -542,7 +542,7 @@ function blockquote($v, $matches, $table)
         $fix_v = str_replace('&lt;blockquote', "&lt;<span style='color:blue;'>blockquote xml:lang=zh</span>", $fix_v);
         $data['html_v'] = $html_v;
         $data['fix_v'] = $fix_v;
-        $data['save'] = $myts->addSlashes($v);
+        $data['save'] = addslashes($v);
         $data_line = round(strlen($v) / 60, 0);
         $data['line'] = $data_line > 12 ? 12 : 6;
     }
@@ -563,7 +563,7 @@ function empty_font($v, $matches, $table)
     }
     $data['html_v'] = $html_v;
     $data['fix_v'] = $fix_v;
-    $data['save'] = $myts->addSlashes($v);
+    $data['save'] = addslashes($v);
     $data_line = round(strlen($v) / 60, 0);
     $data['line'] = $data_line > 12 ? 12 : 6;
     return $data;
@@ -629,7 +629,7 @@ function font($v, $matches, $table)
     }
     $data['html_v'] = $html_v;
     $data['fix_v'] = $fix_v;
-    $data['save'] = $myts->addSlashes($v);
+    $data['save'] = addslashes($v);
     $data_line = round(strlen($v) / 60, 0);
     $data['line'] = $data_line > 12 ? 12 : 6;
     return $data;
@@ -648,7 +648,7 @@ function font($v, $matches, $table)
 //         $fix_v = str_replace('&lt;/font', "&lt;<span style='color:blue;'>/span</span>", $fix_v);
 //         $data['html_v'] = $html_v;
 //         $data['fix_v'] = $fix_v;
-//         $data['save'] = $myts->addSlashes($v);
+//         $data['save'] = addslashes($v);
 //         $data_line = round(strlen($v) / 60, 0);
 //         $data['line'] = $data_line > 12 ? 12 : 6;
 //     }
@@ -669,7 +669,7 @@ function center($v, $matches, $table)
         $fix_v = str_replace('&lt;/center', "&lt;<span style='color:blue;'>/div</span>", $fix_v);
         $data['html_v'] = $html_v;
         $data['fix_v'] = $fix_v;
-        $data['save'] = $myts->addSlashes($v);
+        $data['save'] = addslashes($v);
         $data_line = round(strlen($v) / 60, 0);
         $data['line'] = $data_line > 12 ? 12 : 6;
     }
@@ -690,7 +690,7 @@ function big($v, $matches, $table)
         $fix_v = str_replace('&lt;/big', "&lt;<span style='color:blue;'>/span</span>", $fix_v);
         $data['html_v'] = $html_v;
         $data['fix_v'] = $fix_v;
-        $data['save'] = $myts->addSlashes($v);
+        $data['save'] = addslashes($v);
         $data_line = round(strlen($v) / 60, 0);
         $data['line'] = $data_line > 12 ? 12 : 6;
     }
@@ -717,7 +717,7 @@ function th($v, $matches, $table)
         $fix_v = str_replace('&lt;/th', "&lt;<span style='color:blue;'>/td</span>", $fix_v);
         $data['html_v'] = $html_v;
         $data['fix_v'] = $fix_v;
-        $data['save'] = $myts->addSlashes($v);
+        $data['save'] = addslashes($v);
         $data_line = round(strlen($v) / 60, 0);
         $data['line'] = $data_line > 12 ? 12 : 6;
     }
@@ -748,7 +748,7 @@ function a_empty($v, $matches, $table)
     if ($fix) {
         $data['html_v'] = $html_v;
         $data['fix_v'] = $fix_v;
-        $data['save'] = $myts->addSlashes($v);
+        $data['save'] = addslashes($v);
         $data_line = round(strlen($v) / 60, 0);
         $data['line'] = $data_line > 12 ? 12 : 6;
     }
@@ -790,7 +790,7 @@ function same_alt($v, $matches, $table)
     if ($fix) {
         $data['html_v'] = $html_v;
         $data['fix_v'] = $fix_v;
-        $data['save'] = $myts->addSlashes($v);
+        $data['save'] = addslashes($v);
         $data_line = round(strlen($v) / 60, 0);
         $data['line'] = $data_line > 12 ? 12 : 6;
     }
@@ -820,7 +820,7 @@ function head_empty($v, $matches, $table)
     if ($fix) {
         $data['html_v'] = $html_v;
         $data['fix_v'] = $fix_v;
-        $data['save'] = $myts->addSlashes($v);
+        $data['save'] = addslashes($v);
         $data_line = round(strlen($v) / 60, 0);
         $data['line'] = $data_line > 12 ? 12 : 6;
     }
@@ -849,7 +849,7 @@ function lang_zh_tw($v, $matches, $table)
     if ($fix) {
         $data['html_v'] = $html_v;
         $data['fix_v'] = $fix_v;
-        $data['save'] = $myts->addSlashes($v);
+        $data['save'] = addslashes($v);
         $data_line = round(strlen($v) / 60, 0);
         $data['line'] = $data_line > 12 ? 12 : 6;
     }
